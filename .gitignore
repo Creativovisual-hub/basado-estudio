@@ -21,3 +21,6 @@ Thumbs.db
 # archivos ajenos al proyecto que viven en esta carpeta
 10k-websites-skill.zip
 preview-terreno.svg
+
+# Originales sin optimizar: se conservan en local, no en el repositorio
+public/img/base/*-original.*
