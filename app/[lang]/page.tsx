@@ -32,16 +32,14 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
             <p className="t-body max-w-[38ch] text-balance">{t.home.support}</p>
           </Reveal>
 
-          <Reveal on="mount" delay={0.6} className="t-meta md:col-span-3 md:col-start-8 md:pb-1">
-            <p className="opacity-55">{site.location}</p>
-          </Reveal>
-
+          {/* Sin el contador, la ubicación se va al borde derecho para que
+              la fila no quede con un elemento suelto a medio camino. */}
           <Reveal
             on="mount"
-            delay={0.68}
-            className="t-meta md:col-span-2 md:col-start-11 md:pb-1 md:text-right"
+            delay={0.6}
+            className="t-meta md:col-span-4 md:col-start-9 md:pb-1 md:text-right"
           >
-            <span className="opacity-55">{t.home.indexCount(projects.length)}</span>
+            <p className="opacity-55">{site.location}</p>
           </Reveal>
         </div>
       </section>

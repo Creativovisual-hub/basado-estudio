@@ -44,7 +44,6 @@ type Dict = {
   home: {
     heroLines: string[];
     support: string;
-    indexCount: (n: number) => string;
     projectsHeading: string;
     studioTag: string;
     studioLines: string[];
@@ -124,7 +123,6 @@ const es: Dict = {
   home: {
     heroLines: ["BASADO", "EN ALGO REAL."],
     support: "Estudio creativo especializado en identidad visual y branding.",
-    indexCount: (n) => `Índice — ${n} proyectos`,
     projectsHeading: "Proyectos seleccionados",
     studioTag: "(Estudio)",
     studioLines: ["Diseñamos marcas", "basadas en algo real."],
@@ -258,7 +256,6 @@ const en: Dict = {
   home: {
     heroLines: ["BASED ON", "SOMETHING REAL."],
     support: "Creative studio specialising in visual identity and branding.",
-    indexCount: (n) => `Index — ${n} projects`,
     projectsHeading: "Selected projects",
     studioTag: "(Studio)",
     studioLines: ["We design brands", "based on something real."],
