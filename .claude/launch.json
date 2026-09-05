@@ -1,6 +1,23 @@
 {
   "version": "0.0.1",
   "configurations": [
-    { "name": "basado", "runtimeExecutable": "npm", "runtimeArgs": ["run", "dev"], "port": 3210 }
+    {
+      "name": "basado",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
+      "port": 3210
+    },
+    {
+      "name": "basado-prod",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "start"
+      ],
+      "port": 3210
+    }
   ]
 }

@@ -59,6 +59,12 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es-CL" className={display.variable}>
+      <head>
+        {/* Sin JavaScript el contenido se muestra igual, sin animación. */}
+        <noscript>
+          <style>{".rv,.rv-line>*,.rv-img{opacity:1!important;transform:none!important}"}</style>
+        </noscript>
+      </head>
       <body className="bg-bone text-ink antialiased">
         <a
           href="#contenido"

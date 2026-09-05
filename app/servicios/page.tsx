@@ -35,9 +35,9 @@ export default function ServiciosPage() {
         className="gutter pb-[10vh]"
         style={{ paddingTop: "calc(var(--header-h) + 18vh)" }}
       >
-        <p className="t-meta mb-14 opacity-45">(Servicios)</p>
+        <Reveal on="mount" className="t-meta mb-14 opacity-45"><p>(Servicios)</p></Reveal>
         <h1 className="t-head max-w-[14ch]">
-          <RevealLines lines={["Lo que", "hacemos."]} stagger={0.09} />
+          <RevealLines lines={["Lo que", "hacemos."]} stagger={0.09} on="mount" />
         </h1>
       </section>
 

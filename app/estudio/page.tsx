@@ -27,18 +27,18 @@ export default function EstudioPage() {
         className="gutter pb-[14vh]"
         style={{ paddingTop: "calc(var(--header-h) + 18vh)" }}
       >
-        <p className="t-meta mb-14 opacity-45">(Estudio)</p>
+        <Reveal on="mount" className="t-meta mb-14 opacity-45"><p>(Estudio)</p></Reveal>
 
         <h1 className="t-head">
-          <RevealLines lines={["Todo parte", "de algo."]} stagger={0.09} />
+          <RevealLines lines={["Todo parte", "de algo."]} stagger={0.09} on="mount" />
         </h1>
 
         <div className="mt-[10vh] grid grid-cols-1 gap-10 md:grid-cols-12">
           <div className="md:col-span-7 md:col-start-6">
             <p className="text-[clamp(1.5rem,3.4vw,2.75rem)] font-medium leading-[1.12] tracking-[-0.035em]">
-              <RevealLines lines={manifiesto} stagger={0.075} />
+              <RevealLines lines={manifiesto} stagger={0.075} on="mount" delay={0.35} />
             </p>
-            <Reveal delay={0.45}>
+            <Reveal on="mount" delay={0.85}>
               <p className="t-head mt-14 max-w-[14ch]">Diseñamos marcas basadas en algo real.</p>
             </Reveal>
           </div>

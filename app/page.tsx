@@ -15,21 +15,21 @@ export default function Home() {
         style={{ paddingTop: "calc(var(--header-h) + 8vh)" }}
       >
         <h1 className="t-display">
-          <RevealLines lines={["BASADO", "EN ALGO REAL."]} delay={0.15} stagger={0.1} />
+          <RevealLines lines={["BASADO", "EN ALGO REAL."]} delay={0.15} stagger={0.1} on="mount" />
         </h1>
 
         <div className="mt-[9vh] grid grid-cols-1 gap-8 md:mt-[7vh] md:grid-cols-12 md:items-end">
-          <Reveal delay={0.5} className="md:col-span-6 md:col-start-1">
+          <Reveal on="mount" delay={0.5} className="md:col-span-6 md:col-start-1">
             <p className="t-body max-w-[38ch] text-balance">
               Estudio creativo especializado en identidad visual y branding.
             </p>
           </Reveal>
 
-          <Reveal delay={0.6} className="t-meta md:col-span-3 md:col-start-8 md:pb-1">
+          <Reveal on="mount" delay={0.6} className="t-meta md:col-span-3 md:col-start-8 md:pb-1">
             <p className="opacity-55">{site.location}</p>
           </Reveal>
 
-          <Reveal delay={0.65} className="t-meta md:col-span-2 md:col-start-11 md:pb-1 md:text-right">
+          <Reveal on="mount" delay={0.68} className="t-meta md:col-span-2 md:col-start-11 md:pb-1 md:text-right">
             <span className="opacity-55">Índice — {projects.length} proyectos</span>
           </Reveal>
         </div>

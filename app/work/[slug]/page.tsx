@@ -63,19 +63,21 @@ export default async function CaseStudy({ params }: Params) {
         className="gutter pb-[8vh]"
         style={{ paddingTop: "calc(var(--header-h) + 16vh)" }}
       >
-        <p className="t-meta mb-8 opacity-45">
-          <Link href="/work" className="link-underline">
-            Work
-          </Link>
-          <span className="mx-2">/</span>
-          {p.category}
-        </p>
+        <Reveal on="mount" className="t-meta mb-8 opacity-45">
+          <p>
+            <Link href="/work" className="link-underline">
+              Work
+            </Link>
+            <span className="mx-2">/</span>
+            {p.category}
+          </p>
+        </Reveal>
 
         <h1 className={`t-display ${p.name.length > 14 ? "is-long" : ""}`}>
-          <RevealLines lines={[p.name]} delay={0.1} />
+          <RevealLines lines={[p.name]} delay={0.1} on="mount" />
         </h1>
 
-        <Reveal delay={0.35}>
+        <Reveal on="mount" delay={0.45}>
           <dl className="t-meta mt-12 grid grid-cols-2 gap-y-6 border-t border-line pt-6 md:grid-cols-4">
             <div>
               <dt className="opacity-40">Cliente</dt>
@@ -105,7 +107,7 @@ export default async function CaseStudy({ params }: Params) {
         </Reveal>
       </header>
 
-      <Reveal delay={0.15} className="gutter pb-[10vh]">
+      <Reveal on="mount" delay={0.6} className="gutter pb-[10vh]">
         <p className="t-body mx-auto max-w-[62ch] text-balance md:text-center">
           {p.intro}
         </p>

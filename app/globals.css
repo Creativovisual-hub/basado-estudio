@@ -145,6 +145,68 @@ body {
   transform-origin: left;
 }
 
+/* ---------------------------------------------------------------
+   Revelados de entrada (ver components/Reveal.tsx).
+   Transiciones CSS: el estado final se aplica con la clase .is-in,
+   así una animación nunca puede quedarse a medias y dejar el
+   contenido invisible.
+----------------------------------------------------------------*/
+.rv {
+  opacity: 0;
+  transform: translateY(var(--rv-y, 24px));
+}
+.rv.is-in {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.9s var(--ease) var(--rv-d, 0s),
+    transform 0.9s var(--ease) var(--rv-d, 0s);
+}
+
+.rv-line {
+  display: block;
+  overflow: hidden;
+}
+.rv-line > * {
+  display: block;
+  transform: translateY(110%);
+}
+.rv-line.is-in > * {
+  transform: translateY(0);
+  transition: transform 1s var(--ease) var(--rv-d, 0s);
+}
+
+.rv-img {
+  opacity: 0;
+  transform: scale(1.06);
+}
+.rv-img.is-in {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 1.1s var(--ease),
+    transform 1.25s var(--ease);
+}
+
+/*
+ * Velo de transición entre páginas. En reposo es invisible (scaleY 0):
+ * si la animación no corre, no tapa nada.
+ */
+@keyframes veil-out {
+  from { transform: scaleY(1); }
+  to   { transform: scaleY(0); }
+}
+.page-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  background: var(--color-ink);
+  transform-origin: bottom;
+  transform: scaleY(0);
+  pointer-events: none;
+  animation: veil-out 0.7s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
 /* Marquesina continua del pie de home */
 @keyframes marquee {
   from { transform: translate3d(0, 0, 0); }
@@ -169,4 +231,13 @@ body {
     transition-duration: 0.001ms !important;
   }
   .marquee-track { animation: none; }
+  .page-veil { display: none; }
+
+  /* Sin movimiento, pero el contenido siempre presente. */
+  .rv,
+  .rv-line > *,
+  .rv-img {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

@@ -21,18 +21,19 @@ export default function ContactoPage() {
       style={{ paddingTop: "calc(var(--header-h) + 18vh)" }}
     >
       <div>
-        <p className="t-meta mb-14 opacity-45">(Contacto)</p>
+        <Reveal on="mount" className="t-meta mb-14 opacity-45"><p>(Contacto)</p></Reveal>
         <h1 className="t-head max-w-[16ch]">
           <RevealLines
             lines={["¿Tienes algo", "en mente?", "Hablemos."]}
             stagger={0.09}
+            on="mount"
           />
         </h1>
       </div>
 
       <ul className="mt-[14vh] grid grid-cols-1 gap-10 md:grid-cols-3">
         {canales.map((c, i) => (
-          <Reveal as="li" key={c.label} delay={0.3 + i * 0.08}>
+          <Reveal as="li" key={c.label} on="mount" delay={0.55 + i * 0.09}>
             <p className="t-meta opacity-40">{c.label}</p>
             <a
               href={c.href}
@@ -47,7 +48,7 @@ export default function ContactoPage() {
         ))}
       </ul>
 
-      <Reveal delay={0.6} className="t-meta mt-16 opacity-45">
+      <Reveal on="mount" delay={0.9} className="t-meta mt-16 opacity-45">
         <p>{site.location} — Respondemos en 48 horas hábiles.</p>
       </Reveal>
     </section>

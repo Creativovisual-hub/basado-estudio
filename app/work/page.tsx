@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { projects } from "@/lib/projects";
 import ProjectGrid from "@/components/ProjectGrid";
-import { RevealLines } from "@/components/Reveal";
+import { Reveal, RevealLines } from "@/components/Reveal";
 
 export const metadata: Metadata = {
   title: "Work",
@@ -18,11 +18,11 @@ export default function WorkPage() {
         style={{ paddingTop: "calc(var(--header-h) + 18vh)" }}
       >
         <h1 className="t-head">
-          <RevealLines lines={["Trabajo", "seleccionado."]} stagger={0.09} />
+          <RevealLines lines={["Trabajo", "seleccionado."]} stagger={0.09} on="mount" />
         </h1>
-        <p className="t-meta mt-10 opacity-45">
-          {projects.length} proyectos — Identidad visual y branding
-        </p>
+        <Reveal on="mount" delay={0.35} className="t-meta mt-10 opacity-45">
+          <p>{projects.length} proyectos — Identidad visual y branding</p>
+        </Reveal>
       </section>
 
       <ProjectGrid items={projects} />
