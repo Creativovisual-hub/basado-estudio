@@ -1,0 +1,22 @@
+# dependencias
+node_modules/
+
+# build
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# entorno
+.env*
+!.env.example
+
+# despliegue
+.vercel/
+
+# sistema
+.DS_Store
+Thumbs.db
+
+# archivos ajenos al proyecto que viven en esta carpeta
+10k-websites-skill.zip

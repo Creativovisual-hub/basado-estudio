@@ -1,0 +1,212 @@
+# BASADO ESTUDIO
+
+Sitio del estudio: portfolio editorial, minimalista y premium.
+Next.js 15 (App Router) · React 19 · Tailwind CSS v4 · Motion · Lenis.
+
+```bash
+npm install
+npm run dev     # http://localhost:3210
+npm run build   # build de producción (17 páginas estáticas)
+npm run sync    # re-lee los proyectos desde Adobe Portfolio
+npm run assets  # regenera las visuales SVG de la página Estudio
+```
+
+> No ejecutes `npm run build` con el servidor de desarrollo encendido: sobrescribe
+> los artefactos de `.next` y el dev deja de servir CSS hasta reiniciarlo.
+
+## Sistema de diseño
+
+Las proporciones salen de un análisis de layout de la referencia de UX indicada
+para el proyecto, reinterpretadas con identidad y contenido propios.
+
+| Medida | Valor | Dónde |
+|---|---|---|
+| Gutter maestro | `--pad`, `clamp(1.125rem, 3vw, 2.75rem)` | `.gutter`, todo el layout |
+| Alto del header | `--header-h`, 72px móvil / 80px desktop | fijo, transparente |
+| Gutter del grid | `--gutter`, 2px | portfolio y duplas |
+| Grid de portfolio | 1 col móvil / 2 col desktop, tiles 1:1, a sangre | `components/ProjectGrid.tsx` |
+| Nombre en hover | `clamp(2rem, 6.2vw, 5.625rem)`, peso 600, tracking −0.045em | `.t-project` |
+| Case study | láminas a sangre apiladas en orden, textos intercalados | `app/work/[slug]` |
+| Meta y navegación | 12px, uppercase, tracking 0.075em | `.t-meta` |
+
+Tipografía única: **Inter Tight** (400/500/600) vía `next/font`, autoalojada.
+Paleta: hueso `#f4f3f1`, tinta `#0e0e0e`, ceniza `#6f6d69`. Sin degradados,
+sin sombras, sin radios salvo la píldora del cursor.
+
+## Motion
+
+- **Scroll suave** con Lenis (`components/SmoothScroll.tsx`).
+- **Reveal al entrar al viewport**: fade + translate (`Reveal`) y aparición
+  progresiva de texto línea a línea con máscara (`RevealLines`).
+- **Imágenes**: revelado con sobre-escalado de 1.07 → 1 (`CaseImage`).
+- **Hover de proyecto**: escala 1.035 en 1100ms y el nombre entra desde abajo.
+- **Transición entre páginas**: velo de tinta que se retira (`PageTransition`).
+- **Cursor contextual**: sólo aparece con la etiqueta "Ver proyecto" sobre
+  elementos con `data-cursor`; desactivado en punteros gruesos.
+
+Todo respeta `prefers-reduced-motion`: Lenis no se inicializa, las animaciones
+se anulan y la composición se conserva intacta.
+
+## Contenido: conectado con Adobe Portfolio
+
+Los 7 proyectos y sus 61 imágenes salen de
+[creativovisualchile.myportfolio.com](https://creativovisualchile.myportfolio.com/).
+Las imágenes **no se descargan**: se enlazan al CDN de Adobe, aprovechando las
+variantes por anchura que ese CDN ya publica (640w a 5120w) vía `srcSet`, así
+que el navegador elige el tamaño y no hace falta optimizador propio. Por eso
+`CaseImage` y `ProjectGrid` usan `<img>` y no `next/image`, y `next.config.ts`
+no necesita `remotePatterns`.
+
+```bash
+npm run sync    # re-lee el portfolio → lib/portfolio-data.json
+```
+
+Ejecútalo cada vez que publiques cambios en Adobe Portfolio. El script lee
+títulos, textos, portadas del índice y las imágenes en orden. Para saber la
+proporción de cada imagen —el HTML de Adobe no la publica, y sin ella el layout
+salta al cargar— pide sólo los primeros 32 KB de cada archivo y lee las
+dimensiones de la cabecera PNG, GIF o JPEG.
+
+La ficha editorial de cada proyecto (nombre corto, categoría, año, cliente,
+servicios e introducción) se edita a mano en el bloque `EDITORIAL` de
+`lib/projects.ts`. Es lo único que hay que mantener: ver **Subir y editar
+proyectos** más abajo.
+
+### Consecuencias de enlazar al CDN
+
+- Si la cuenta de Adobe Portfolio se cierra o se despublica un proyecto, esas
+  imágenes dejan de cargar aquí.
+- Las URL del CDN llevan un hash: si reemplazas una imagen en Adobe, cambia la
+  URL y hay que volver a ejecutar el scraper.
+
+### Revisar antes de publicar
+
+- **Años**: el portfolio de origen no publica ninguno. Sólo Latin Wok tiene año
+  (2020, tomado de su pie de página). El resto está en `null` y la ficha oculta
+  el campo hasta que lo rellenes.
+- **Introducciones**: sólo Latin Wok trae texto propio; los otros seis
+  proyectos son series de láminas sin copy. Sus introducciones en `EDITORIAL`
+  son un borrador de estudio, no información verificada del cliente.
+- **Arte Floral** incluye un módulo de vídeo en el original que aquí no se
+  reproduce; sólo se traen sus imágenes.
+
+Las dos visuales ambientales de la página Estudio siguen siendo SVG propios
+generados por `scripts/gen-assets.mjs` (16 KB).
+
+## SEO y accesibilidad
+
+`metadata` por ruta con canónicas y Open Graph, `sitemap.xml`, `robots.txt` y
+JSON-LD de `Organization`. Un solo `<h1>` por página y jerarquía de encabezados
+correcta, enlace de salto al contenido, `aria-current` en la navegación,
+`aria-expanded` en el menú móvil, cierre con Escape, foco visible en todo
+elemento interactivo e imágenes decorativas con `alt=""` y etiqueta accesible
+en el enlace contenedor.
+
+## Configuración
+
+Todo lo que cambia entre "esto es una maqueta" y "esto es la web real" vive en
+**un solo archivo**: [`lib/site.ts`](lib/site.ts). Dominio, correo, redes y
+ubicación. Los metadatos, el sitemap, el robots.txt, el JSON-LD, el pie, la
+cabecera y la página de contacto leen de ahí.
+
+## Publicar en internet
+
+### 1. Antes de subir
+
+- Poner el dominio real en `lib/site.ts` (`url`, sin barra final), junto con el
+  correo y las redes.
+- Añadir la imagen de Open Graph: un PNG de 1200×630 en `app/opengraph-image.png`
+  (Next lo detecta por el nombre, sin configurar nada).
+
+### 2. Subir el código a GitHub
+
+```bash
+git init
+git add .
+git commit -m "Web de Basado Estudio"
+git branch -M main
+git remote add origin https://github.com/TU-USUARIO/basado-estudio.git
+git push -u origin main
+```
+
+### 3. Desplegar en Vercel
+
+Vercel es de los mismos que hacen Next.js, detecta el proyecto sin configurar
+nada y el plan gratuito cubre de sobra un sitio de estudio.
+
+1. Entrar en [vercel.com](https://vercel.com) con la cuenta de GitHub.
+2. **Add New → Project** e importar el repositorio. No hay que tocar ningún
+   ajuste: framework, comando de build y directorio de salida se detectan solos.
+3. **Deploy**. En un par de minutos hay una URL `.vercel.app` funcionando.
+
+### 4. Conectar el dominio
+
+1. En el proyecto de Vercel: **Settings → Domains → Add**, y escribir el
+   dominio (por ejemplo `basadoestudio.cl` y `www.basadoestudio.cl`).
+2. Vercel indica qué registros DNS crear. En el panel del registrador donde se
+   compró el dominio:
+   - dominio raíz → registro **A** apuntando a la IP que indique Vercel;
+   - `www` → registro **CNAME** apuntando a `cname.vercel-dns.com`.
+3. La propagación tarda de minutos a unas horas. El certificado HTTPS lo emite
+   y renueva Vercel automáticamente.
+
+A partir de ahí, **cada `git push` a `main` republica la web sola**.
+
+## Subir y editar proyectos
+
+Adobe Portfolio sigue siendo el gestor de contenidos: los proyectos se suben
+allí como siempre, y esta web los lee.
+
+### Añadir un proyecto nuevo
+
+1. Publicarlo en Adobe Portfolio, como de costumbre.
+2. En este proyecto:
+
+   ```bash
+   npm run sync
+   git commit -am "Nuevo proyecto"
+   git push
+   ```
+
+El script **descubre solo** los proyectos publicados leyendo el índice de
+Adobe: no hay ninguna lista que actualizar a mano. El proyecto nuevo aparece en
+la web con su nombre y categoría deducidos del título, y avisa por consola de
+que le falta ficha propia.
+
+### Afinar la ficha de un proyecto
+
+Nombre corto, categoría, año, cliente, servicios e introducción se editan en el
+bloque `EDITORIAL` de [`lib/projects.ts`](lib/projects.ts). Es texto plano:
+
+```ts
+{
+  source: "logo-ilisto",      // slug en Adobe Portfolio (no tocar)
+  slug: "ilisto",             // slug en esta web → /work/ilisto
+  name: "I.LISTO",
+  category: "Identidad Visual",
+  year: "2021",               // null mientras no se sepa: el campo se oculta
+  client: "I.Listo",
+  services: ["Identidad Visual", "Aplicaciones de Marca"],
+  intro: "…",
+}
+```
+
+El orden de `EDITORIAL` es el orden en que salen los proyectos en la web.
+
+### Cambiar o reordenar imágenes
+
+Se hace en Adobe Portfolio y luego `npm run sync`. Las URL del CDN llevan un
+hash, así que reemplazar una imagen allí obliga a volver a sincronizar aquí.
+
+### Sincronización automática
+
+Hay un flujo de trabajo en `.github/workflows/sync-portfolio.yml` que hace el
+`npm run sync` cada lunes y sube los cambios si los hay, con lo que Vercel
+republica sola. También se puede lanzar a mano desde la pestaña **Actions** de
+GitHub. Si prefieres controlarlo tú, borra ese archivo y usa sólo `npm run sync`.
+
+### Si algún día quieres dejar Adobe Portfolio
+
+`lib/portfolio-data.json` es un archivo normal: se puede editar a mano o
+sustituir por otra fuente. Lo único que la web espera de cada proyecto es
+`slug`, `title`, `paragraphs`, `cover` e `images` con su `ratio`.

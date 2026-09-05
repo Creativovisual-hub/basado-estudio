@@ -1,0 +1,13 @@
+# Normaliza los saltos de línea a LF en el repositorio.
+# Sin esto, Git guarda CRLF desde Windows y el script del workflow de GitHub
+# Actions falla al ejecutarse en Linux (los \r se cuelan en los comandos bash).
+* text=auto eol=lf
+
+# Binarios: no tocar.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.woff binary
+*.woff2 binary
+*.zip binary

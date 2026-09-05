@@ -1,0 +1,172 @@
+@import "tailwindcss";
+
+/* =========================================================================
+   BASADO ESTUDIO — sistema de diseño
+   Proporciones derivadas del análisis de layout de referencia:
+   header fijo 80px · gutter 3vw (≈43px @1440) · grid full-bleed 2col 1:1
+   con gutter de 2px · case study de imágenes apiladas a sangre completa.
+   ========================================================================= */
+
+@theme {
+  --color-bone: #f4f3f1;
+  --color-ink: #0e0e0e;
+  --color-ash: #6f6d69;
+  --color-line: rgba(14, 14, 14, 0.12);
+
+  --font-sans: var(--font-display), "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  /* Ritmo vertical: bloques de sección */
+  --spacing-section: clamp(6rem, 14vh, 11rem);
+}
+
+:root {
+  /* Gutter maestro. Todo el layout se alinea a esta medida. */
+  --pad: clamp(1.125rem, 3vw, 2.75rem);
+  --header-h: 4.5rem; /* 72px mobile */
+  --gutter: 2px;      /* separación del grid de portfolio */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (min-width: 768px) {
+  :root { --header-h: 5rem; } /* 80px, igual que la referencia */
+}
+
+* { -webkit-tap-highlight-color: transparent; }
+
+html {
+  background: var(--color-bone);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Lenis controla el scroll; sin él, scroll nativo suave. */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+html:not(.lenis) { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-synthesis-weight: none;
+  overflow-x: hidden;
+}
+
+::selection { background: var(--color-ink); color: var(--color-bone); }
+
+/* Foco visible y consistente: accesibilidad sin ruido visual. */
+:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+/* ---------------------------------------------------------------
+   Escalas tipográficas
+----------------------------------------------------------------*/
+
+/* Display gigante del hero */
+.t-display {
+  font-size: clamp(3.25rem, 12.6vw, 15rem);
+  line-height: 0.86;
+  letter-spacing: -0.045em;
+  font-weight: 600;
+  margin: 0;
+}
+
+/*
+ * Nombres largos (EL NEGRO DE LAS CARNES, OPEN WEB LEARNING) parten en dos
+ * líneas a tamaño display y el corte queda tosco: bajan un escalón.
+ */
+.t-display.is-long {
+  font-size: clamp(2.5rem, 8.4vw, 8.5rem);
+  line-height: 0.92;
+}
+
+/* Titular de sección / composición editorial */
+.t-head {
+  font-size: clamp(2rem, 6.4vw, 6rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Nombre de proyecto sobre la imagen (referencia: 90px @1440) */
+.t-project {
+  font-size: clamp(2rem, 6.2vw, 5.625rem);
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+  font-weight: 600;
+}
+
+/* Párrafo editorial */
+.t-body {
+  font-size: clamp(1rem, 1.35vw, 1.375rem);
+  line-height: 1.45;
+  letter-spacing: -0.011em;
+  font-weight: 400;
+}
+
+/* Etiqueta / meta / navegación (referencia: 12px) */
+.t-meta {
+  font-size: 0.75rem;
+  line-height: 1;
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.gutter { padding-inline: var(--pad); }
+
+/* Subrayado que crece desde la izquierda */
+.link-underline {
+  position: relative;
+  display: inline-block;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -0.18em;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s var(--ease);
+}
+.link-underline:hover::after,
+.link-underline:focus-visible::after,
+.link-underline[data-active="true"]::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Marquesina continua del pie de home */
+@keyframes marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
+/* ---------------------------------------------------------------
+   Reduced motion: se conserva la composición, se apaga el motion.
+----------------------------------------------------------------*/
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .marquee-track { animation: none; }
+}

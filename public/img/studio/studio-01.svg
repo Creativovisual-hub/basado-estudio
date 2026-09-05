@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1013" width="1800" height="1013" role="img">
+<defs>
+<filter id="n" x="0" y="0" width="128" height="128" filterUnits="userSpaceOnUse">
+<feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/>
+<feColorMatrix type="saturate" values="0"/>
+<feComponentTransfer><feFuncA type="linear" slope="0.22"/></feComponentTransfer>
+</filter>
+<pattern id="grain" width="128" height="128" patternUnits="userSpaceOnUse">
+<rect width="128" height="128" filter="url(#n)"/>
+</pattern></defs>
+<rect width="1800" height="1013" fill="#111111"/>
+<text x="108" y="466.71999999999997"
+      font-family="'Inter Tight','Helvetica Neue',Helvetica,Arial,sans-serif" font-size="234" font-weight="600" letter-spacing="-10.53"
+      fill="#F2F1EE">TODO PARTE</text><text x="108" y="705.4000000000001"
+      font-family="'Inter Tight','Helvetica Neue',Helvetica,Arial,sans-serif" font-size="234" font-weight="600" letter-spacing="-10.53"
+      fill="#F2F1EE">DE ALGO.</text>
+<rect width="1800" height="1013" fill="url(#grain)" opacity=".5" style="mix-blend-mode:multiply"/>
+</svg>
