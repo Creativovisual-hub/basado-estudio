@@ -16,8 +16,15 @@ import { useEffect, useRef, useState } from "react";
    la pantalla no llega a dibujarse: no hay parpadeo.
    =========================================================================== */
 
-const SUELO_MS = 1400; // lo mínimo que se ve, aunque todo esté listo
-const TECHO_MS = 6000; // rendición: se abre igualmente
+/*
+ * El recorrido tiene que poder leerse: con un suelo demasiado corto la cifra
+ * salta de golpe y no se ve contar. 2,6 s deja pasar los cien números a un
+ * ritmo que se sigue con la vista sin llegar a impacientar.
+ */
+const SUELO_MS = 2600; // lo mínimo que dura el recorrido, aunque todo esté listo
+const TECHO_MS = 7000; // rendición: se abre igualmente
+const PASO_MS = 55; // cada cuánto se refresca la cifra
+const REMATE_MS = 420; // el 100% se sostiene un momento antes de abrir
 
 export type MedioIntro = { src: string; tipo: "video" | "imagen" } | null;
 
@@ -94,12 +101,12 @@ export default function Preloader({
 
       if (visto >= 1) {
         window.clearInterval(temporizador);
-        window.setTimeout(cerrar, 260);
+        window.setTimeout(cerrar, REMATE_MS);
       }
     };
 
     latido();
-    temporizador = window.setInterval(latido, 90);
+    temporizador = window.setInterval(latido, PASO_MS);
 
     return () => {
       window.clearInterval(temporizador);

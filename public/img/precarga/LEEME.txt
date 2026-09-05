@@ -1,13 +1,13 @@
 Pieza de introducción de la pantalla de carga.
 
-Guarda aquí el archivo con el nombre "intro" y una de estas extensiones,
-por orden de preferencia:
+Guarda aquí el archivo con el nombre "preloader" o "intro" y una de
+estas extensiones, por orden de preferencia:
 
-    intro.webm    <- lo más ligero, si puedes convertirlo
-    intro.mp4
-    intro.gif
-    intro.webp
-    intro.png
+    preloader.webm    <- lo más ligero, si puedes convertirlo
+    preloader.mp4
+    preloader.gif
+    preloader.webp
+    preloader.png
 
 En cuanto el archivo esté, la pantalla de carga lo usa automaticamente.
 Si no esta, sale igual: contador y barra sobre negro, sin imagen rota.

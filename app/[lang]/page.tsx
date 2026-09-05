@@ -27,10 +27,15 @@ const INTRO: { ext: string; tipo: "video" | "imagen" }[] = [
   { ext: "png", tipo: "imagen" },
 ];
 
+/** Vale cualquiera de los dos nombres, para no depender de acertar uno. */
+const INTRO_NOMBRES = ["preloader", "intro"];
+
 function buscarIntro(): MedioIntro {
-  for (const { ext, tipo } of INTRO) {
-    if (fs.existsSync(path.join(INTRO_DIR, `intro.${ext}`))) {
-      return { src: `/img/precarga/intro.${ext}`, tipo };
+  for (const nombre of INTRO_NOMBRES) {
+    for (const { ext, tipo } of INTRO) {
+      if (fs.existsSync(path.join(INTRO_DIR, `${nombre}.${ext}`))) {
+        return { src: `/img/precarga/${nombre}.${ext}`, tipo };
+      }
     }
   }
   return null;

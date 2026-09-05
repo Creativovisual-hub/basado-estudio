@@ -23,4 +23,4 @@ Thumbs.db
 preview-terreno.svg
 
 # Originales sin optimizar: se conservan en local, no en el repositorio
-public/img/base/*-original.*
+public/img/**/*-original.*
