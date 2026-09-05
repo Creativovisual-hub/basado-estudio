@@ -180,6 +180,28 @@ Todo lo que cambia entre "esto es una maqueta" y "esto es la web real" vive en
 ubicación. Los metadatos, el sitemap, el robots.txt, el JSON-LD, el pie, la
 cabecera y la página de contacto leen de ahí.
 
+## Analítica
+
+Google Analytics 4 está montado pero **apagado**: el interruptor es
+`analyticsId` en [`lib/site.ts`](lib/site.ts). Vacío significa que no se carga
+ningún script de Google ni se pone ninguna cookie.
+
+Para encenderlo, pega ahí tu identificador de medición:
+
+```ts
+analyticsId: "G-XXXXXXXXXX",
+```
+
+Se usa el componente oficial `@next/third-parties/google`, que carga el script
+cuando la página ya es interactiva —para que la medición no compita con el
+primer pintado— y cuenta las navegaciones internas, que en esta web no recargan
+la página y de otro modo no se registrarían.
+
+> **Cookies.** GA pone cookies de terceros. En Chile no hay obligación de
+> pedir consentimiento, pero si te visitan desde Europa el RGPD sí lo exige.
+> Si eso te importa, hay que añadir un aviso de cookies que retrase la carga
+> hasta la aceptación; hoy el sitio no lo lleva.
+
 ## Publicar en internet
 
 ### 1. Antes de subir

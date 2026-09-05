@@ -1,6 +1,8 @@
 import type { Viewport } from "next";
 import { Inter_Tight } from "next/font/google";
 import "./globals.css";
+import { GoogleAnalytics } from "@next/third-parties/google";
+import { site } from "@/lib/site";
 
 /*
  * Sin lista de pesos: se carga la versión variable de la familia. Además de
@@ -48,7 +50,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </style>
         </noscript>
       </head>
-      <body className="bg-bg text-fg antialiased">{children}</body>
+      <body className="bg-bg text-fg antialiased">
+        {children}
+        {/*
+          Solo si hay ID. El componente oficial de Next carga el script
+          después de que la página sea interactiva, de modo que la medición
+          no compite con el primer pintado, y cuenta por su cuenta las
+          navegaciones internas, que en una web como ésta no recargan la página.
+        */}
+        {site.analyticsId && <GoogleAnalytics gaId={site.analyticsId} />}
+      </body>
     </html>
   );
 }

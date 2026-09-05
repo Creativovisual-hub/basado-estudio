@@ -23,6 +23,13 @@ export const site = {
     behance: "https://www.behance.net/basadoestudio",
   },
 
+  /**
+   * Medición de Google Analytics 4 (formato G-XXXXXXXXXX). Vacío = apagado:
+   * sin ID no se carga ningún script ni se pone ninguna cookie, así que el
+   * sitio funciona igual mientras no lo rellenes.
+   */
+  analyticsId: "",
+
   /** Portfolio de origen del que se leen los proyectos. */
   portfolioOrigin: "https://creativovisualchile.myportfolio.com",
 } as const;
