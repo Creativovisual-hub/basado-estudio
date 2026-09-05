@@ -1,0 +1,21 @@
+Pieza de introducción de la pantalla de carga.
+
+Guarda aquí el archivo con el nombre "intro" y una de estas extensiones,
+por orden de preferencia:
+
+    intro.webm    <- lo más ligero, si puedes convertirlo
+    intro.mp4
+    intro.gif
+    intro.webp
+    intro.png
+
+En cuanto el archivo esté, la pantalla de carga lo usa automaticamente.
+Si no esta, sale igual: contador y barra sobre negro, sin imagen rota.
+
+SOBRE EL PESO: esto es lo primero que ve el visitante, y mientras se
+descarga está mirando una pantalla negra. Un GIF de varios megas
+retrasa justo el momento que quieres lucir. Si tienes el original en
+vídeo, convertirlo a WebM o MP4 suele dejarlo en la décima parte.
+
+La pieza se muestra centrada y contenida, hasta 62% del alto de la
+pantalla. Viene bien que ya traiga el fondo negro, como la referencia.

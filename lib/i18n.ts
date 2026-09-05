@@ -98,7 +98,7 @@ type Dict = {
   };
   header: { menu: string; close: string; nav: string; navMobile: string; brandHome: string };
   footer: { worldwide: string; backToTop: string; social: string };
-  common: { skipToContent: string; themeToggle: string; langSwitch: string };
+  common: { skipToContent: string; themeToggle: string; langSwitch: string; loading: string };
   notFound: { tag: string; title: string; link: string };
 };
 
@@ -226,6 +226,7 @@ const es: Dict = {
     skipToContent: "Saltar al contenido",
     themeToggle: "Cambiar entre modo claro y oscuro",
     langSwitch: "Cambiar idioma",
+    loading: "Cargando el sitio",
   },
   notFound: {
     tag: "(404)",
@@ -353,6 +354,7 @@ const en: Dict = {
     skipToContent: "Skip to content",
     themeToggle: "Switch between light and dark mode",
     langSwitch: "Change language",
+    loading: "Loading the site",
   },
   notFound: {
     tag: "(404)",

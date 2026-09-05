@@ -14,11 +14,15 @@ const display = Inter_Tight({
 });
 
 /*
- * El tema guardado se aplica ANTES del primer pintado. Como efecto de React
- * llegaría tarde: la página se vería un instante en claro antes de pasar a
- * oscuro, el parpadeo blanco clásico.
+ * Dos cosas que tienen que resolverse ANTES del primer pintado, porque como
+ * efecto de React llegarían tarde y se verían como un parpadeo:
+ *
+ * · el tema guardado, o la página aparecería un instante en claro antes de
+ *   pasar a oscuro;
+ * · si la pantalla de carga ya se vio en esta sesión, o en la segunda visita
+ *   habría un fogonazo negro antes de que React la retire.
  */
-const themeScript = `(function(){try{var t=localStorage.getItem("tema");if(t==="dark"||t==="light"){document.documentElement.dataset.theme=t}}catch(e){}})()`;
+const themeScript = `(function(){try{var t=localStorage.getItem("tema");if(t==="dark"||t==="light"){document.documentElement.dataset.theme=t}}catch(e){}try{if(sessionStorage.getItem("precarga")){document.documentElement.classList.add("sin-precarga")}}catch(e){}})()`;
 
 export const viewport: Viewport = {
   themeColor: [
@@ -33,9 +37,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html suppressHydrationWarning className={display.variable}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-        {/* Sin JavaScript el contenido se muestra igual, sin animación. */}
+        {/*
+          Sin JavaScript: el contenido se muestra igual, sin animación, y la
+          pantalla de carga ni se dibuja, porque no habría contador que la
+          retirase y dejaría la web tapada.
+        */}
         <noscript>
-          <style>{".rv,.rv-line>*,.rv-img{opacity:1!important;transform:none!important}"}</style>
+          <style>
+            {".rv,.rv-line>*,.rv-img{opacity:1!important;transform:none!important}.precarga{display:none!important}"}
+          </style>
         </noscript>
       </head>
       <body className="bg-bg text-fg antialiased">{children}</body>
