@@ -45,7 +45,6 @@ type Dict = {
     heroLines: string[];
     support: string;
     projectsHeading: string;
-    showreelHeading: string;
     studioTag: string;
     studioLines: string[];
     studioBody: string;
@@ -125,7 +124,6 @@ const es: Dict = {
     heroLines: ["BASADO", "EN ALGO REAL."],
     support: "Estudio creativo especializado en identidad visual y branding.",
     projectsHeading: "Proyectos seleccionados",
-    showreelHeading: "Secuencia visual de los proyectos",
     studioTag: "(Estudio)",
     studioLines: ["Diseñamos marcas", "basadas en algo real."],
     studioBody:
@@ -259,7 +257,6 @@ const en: Dict = {
     heroLines: ["BASED ON", "SOMETHING REAL."],
     support: "Creative studio specialising in visual identity and branding.",
     projectsHeading: "Selected projects",
-    showreelHeading: "Visual sequence of the projects",
     studioTag: "(Studio)",
     studioLines: ["We design brands", "based on something real."],
     studioBody:

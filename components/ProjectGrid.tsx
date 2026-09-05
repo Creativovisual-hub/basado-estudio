@@ -2,7 +2,6 @@ import Link from "next/link";
 import type { Project } from "@/lib/projects";
 import { getDict, localePath, type Locale } from "@/lib/i18n";
 import { Reveal } from "./Reveal";
-import Parallax from "./Parallax";
 
 /**
  * Índice de portfolio: rejilla a sangre completa, sin contenedor ni tarjetas.
@@ -46,21 +45,16 @@ function ProjectTile({
       aria-label={`${p.name} — ${p.category}${p.year ? `, ${p.year}` : ""}`}
     >
       <div className="relative aspect-square overflow-hidden bg-shade">
-        {/* La imagen sigue al cursor con inercia dentro de su propio marco. */}
-        <div className="absolute inset-0">
-          <Parallax amp={18} zoom={1.05}>
-            <img
-              src={p.cover.src}
-              srcSet={p.cover.srcSet}
-              sizes="(min-width: 768px) 50vw, 100vw"
-              alt=""
-              loading={index < 2 ? "eager" : "lazy"}
-              fetchPriority={index === 0 ? "high" : "auto"}
-              decoding="async"
-              className="h-full w-full object-cover"
-            />
-          </Parallax>
-        </div>
+        <img
+          src={p.cover.src}
+          srcSet={p.cover.srcSet}
+          sizes="(min-width: 768px) 50vw, 100vw"
+          alt=""
+          loading={index < 2 ? "eager" : "lazy"}
+          fetchPriority={index === 0 ? "high" : "auto"}
+          decoding="async"
+          className="h-full w-full object-cover transition-transform duration-[1100ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.035]"
+        />
 
         {/* Sobreimpresión de escritorio: el nombre entra desde abajo en hover.
             Va sobre un velo oscuro porque las portadas reales traen
