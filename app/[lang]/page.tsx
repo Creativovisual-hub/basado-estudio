@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getProjects } from "@/lib/projects";
 import { getDict, isLocale, localePath } from "@/lib/i18n";
 import ProjectGrid from "@/components/ProjectGrid";
+import BaseSection from "@/components/BaseSection";
 import { Reveal, RevealLines } from "@/components/Reveal";
 import { site } from "@/lib/site";
 
@@ -54,6 +55,12 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         </h2>
         <ProjectGrid items={projects} locale={lang} />
       </section>
+
+      {/* ---------------------------------------------------------------
+          Manifiesto: pieza oscura con relieve. Corta el ritmo claro del
+          portfolio antes de volver al texto editorial.
+      ----------------------------------------------------------------*/}
+      <BaseSection locale={lang} />
 
       {/* ---------------------------------------------------------------
           Bloque estudio, corto. La página completa vive en /studio.

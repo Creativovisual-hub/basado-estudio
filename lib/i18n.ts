@@ -53,6 +53,15 @@ type Dict = {
     ctaLines: string[];
     ctaLink: string;
   };
+  base: {
+    line1: string;
+    line2Pre: string;
+    line2Hi: string;
+    subPre: string;
+    subHi: string;
+    subPost: string;
+    tags: string[];
+  };
   work: { titleLines: string[]; count: (n: number) => string };
   studio: {
     tag: string;
@@ -123,6 +132,15 @@ const es: Dict = {
     studioLink: "Conocer el estudio",
     ctaLines: ["¿Tienes algo", "en mente?"],
     ctaLink: "Hablemos.",
+  },
+  base: {
+    line1: "Tu marca necesita más",
+    line2Pre: "que un ",
+    line2Hi: "logo.",
+    subPre: "Necesita una ",
+    subHi: "base",
+    subPost: " que la sostenga.",
+    tags: ["Branding", "Identidad Visual", "Estrategia"],
   },
   work: {
     titleLines: ["Trabajo", "seleccionado."],
@@ -247,6 +265,15 @@ const en: Dict = {
     studioLink: "About the studio",
     ctaLines: ["Got something", "in mind?"],
     ctaLink: "Let's talk.",
+  },
+  base: {
+    line1: "Your brand needs more",
+    line2Pre: "than a ",
+    line2Hi: "logo.",
+    subPre: "It needs a ",
+    subHi: "foundation",
+    subPost: " to stand on.",
+    tags: ["Branding", "Visual Identity", "Strategy"],
   },
   work: {
     titleLines: ["Selected", "work."],
