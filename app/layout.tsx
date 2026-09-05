@@ -5,6 +5,20 @@ import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import { site } from "@/lib/site";
 
 /*
+ * La medición sólo se activa en el despliegue de producción.
+ *
+ * Sin esto, cada vez que se levanta el sitio en local para trabajar, esas
+ * visitas se envían a la propiedad real y ensucian las estadísticas: páginas
+ * recargadas cien veces, sesiones de horas, un país que no es. Vercel expone
+ * VERCEL_ENV en la construcción, y vale "production" sólo en el despliegue
+ * definitivo, no en local ni en las vistas previas de cada rama.
+ *
+ * Si algún día el sitio se despliega fuera de Vercel, esta variable no
+ * existirá y la medición quedaría apagada: habría que ajustar esta condición.
+ */
+const enProduccion = process.env.VERCEL_ENV === "production";
+
+/*
  * Sin lista de pesos: se carga la versión variable de la familia. Además de
  * pesar menos que tres instancias estáticas, permite pesos intermedios, que
  * es lo que usa el efecto del titular.
@@ -58,8 +72,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           no compite con el primer pintado, y cuenta por su cuenta las
           navegaciones internas, que en una web como ésta no recargan la página.
         */}
-        {site.analyticsId && <GoogleAnalytics gaId={site.analyticsId} />}
-        {site.gtmId && <GoogleTagManager gtmId={site.gtmId} />}
+        {enProduccion && site.analyticsId && <GoogleAnalytics gaId={site.analyticsId} />}
+        {enProduccion && site.gtmId && <GoogleTagManager gtmId={site.gtmId} />}
       </body>
     </html>
   );

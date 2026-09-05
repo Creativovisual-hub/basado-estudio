@@ -198,6 +198,13 @@ Hay dos interruptores, y son **alternativos**, no complementarios:
 > ID `G-XXXXXXXXXX`, con activador *Initialization - All Pages*, y **publicar
 > el contenedor**. Sin eso no se registra ni una visita.
 
+**Sólo mide en el despliegue de producción.** El trabajo en local y las vistas
+previas de rama no envían nada: sin ese corte, cada sesión de desarrollo
+ensuciaría las estadísticas con páginas recargadas cien veces y sesiones de
+horas. El interruptor es `VERCEL_ENV === "production"` en `app/layout.tsx`; si
+algún día el sitio se despliega fuera de Vercel, esa variable no existirá y
+habría que ajustar la condición.
+
 Se usa el componente oficial `@next/third-parties/google`, que carga el script
 cuando la página ya es interactiva —para que la medición no compita con el
 primer pintado— y cuenta las navegaciones internas, que en esta web no recargan
