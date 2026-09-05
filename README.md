@@ -75,10 +75,11 @@ para el proyecto, reinterpretadas con identidad y contenido propios.
 | Gutter del grid | `--gutter`, 2px | portfolio y duplas |
 | Grid de portfolio | 1 col móvil / 2 col desktop, tiles 1:1, a sangre | `components/ProjectGrid.tsx` |
 | Nombre en hover | `clamp(2rem, 6.2vw, 5.625rem)`, peso 600, tracking −0.045em | `.t-project` |
-| Case study | láminas a sangre apiladas en orden, textos intercalados | `app/work/[slug]` |
+| Case study | láminas a sangre apiladas en orden, textos intercalados | `app/[lang]/work/[slug]` |
 | Meta y navegación | 12px, uppercase, tracking 0.075em | `.t-meta` |
 
-Tipografía única: **Inter Tight** (400/500/600) vía `next/font`, autoalojada.
+Tipografía única: **Inter Tight variable** (100–900) vía `next/font`,
+autoalojada. El titular del hero usa los pesos intermedios.
 Paleta: hueso `#f4f3f1`, tinta `#0e0e0e`, ceniza `#6f6d69`. Sin degradados,
 sin sombras, sin radios salvo la píldora del cursor.
 
@@ -92,6 +93,11 @@ sin sombras, sin radios salvo la píldora del cursor.
 - **Transición entre páginas**: velo de tinta que se retira (`PageTransition`).
 - **Cursor contextual**: sólo aparece con la etiqueta "Ver proyecto" sobre
   elementos con `data-cursor`; desactivado en punteros gruesos.
+- **Titular del hero**: cada letra engorda al acercarse el cursor, de peso 600
+  a 900 (`HeroType`). Se escribe con `font-variation-settings`, no con
+  `font-weight`, que el navegador redondearía a saltos.
+- **Pantalla de carga**: contador de 0 a 100 antes de la home, una vez por
+  sesión (`Preloader`).
 
 Todo respeta `prefers-reduced-motion`: Lenis no se inicializa, las animaciones
 se anulan y la composición se conserva intacta.
@@ -241,22 +247,45 @@ que le falta ficha propia.
 ### Afinar la ficha de un proyecto
 
 Nombre corto, categoría, año, cliente, servicios e introducción se editan en el
-bloque `EDITORIAL` de [`lib/projects.ts`](lib/projects.ts). Es texto plano:
+bloque `EDITORIAL` de [`lib/projects.ts`](lib/projects.ts). Los campos con
+texto llevan las dos versiones, `{ es, en }`, y TypeScript avisa si falta una:
 
 ```ts
 {
-  source: "logo-ilisto",      // slug en Adobe Portfolio (no tocar)
-  slug: "ilisto",             // slug en esta web → /work/ilisto
-  name: "I.LISTO",
-  category: "Identidad Visual",
-  year: "2021",               // null mientras no se sepa: el campo se oculta
+  source: "logo-ilisto",   // slug en Adobe Portfolio (no tocar)
+  slug: "ilisto",          // slug en esta web → /es/work/ilisto y /en/work/ilisto
+  name: "I.LISTO",         // igual en los dos idiomas
+  category: IDENTITY,      // atajo; o { es: "…", en: "…" } para uno propio
+  year: "2021",            // null mientras no se sepa: el campo se oculta
   client: "I.Listo",
-  services: ["Identidad Visual", "Aplicaciones de Marca"],
-  intro: "…",
+  services: services("identity", "applications"),
+  intro: {
+    es: "Diseño de marca para I.Listo: logotipo, sistema cromático y aplicaciones.",
+    en: "Brand design for I.Listo: logotype, colour system and applications.",
+  },
 }
 ```
 
+Atajos disponibles arriba del bloque, para no repetir traducciones:
+
+| Atajo | Español | Inglés |
+|---|---|---|
+| `IDENTITY` | Identidad Visual | Visual Identity |
+| `BRANDING` | Branding | Branding |
+| `services("identity")` | Identidad Visual | Visual Identity |
+| `services("applications")` | Aplicaciones de Marca | Brand Applications |
+| `services("artDirection")` | Dirección de Arte | Art Direction |
+| `services("branding")` | Branding | Branding |
+
+`services()` acepta varios: `services("identity", "applications")`.
+
 El orden de `EDITORIAL` es el orden en que salen los proyectos en la web.
+
+### Los textos largos del case study
+
+El cuerpo en español sale del scraper, tal como lo escribiste en Adobe. El
+inglés es manual: se pone en `notesEn` dentro de la misma ficha. Si no está,
+la versión inglesa del proyecto muestra sólo la introducción.
 
 ### Cambiar o reordenar imágenes
 
