@@ -186,11 +186,17 @@ Google Analytics 4 está montado pero **apagado**: el interruptor es
 `analyticsId` en [`lib/site.ts`](lib/site.ts). Vacío significa que no se carga
 ningún script de Google ni se pone ninguna cookie.
 
-Para encenderlo, pega ahí tu identificador de medición:
+Hay dos interruptores, y son **alternativos**, no complementarios:
 
-```ts
-analyticsId: "G-XXXXXXXXXX",
-```
+| Campo | Formato | Qué hace |
+|---|---|---|
+| `analyticsId` | `G-XXXXXXXXXX` | Google Analytics 4 directo. Mide desde el minuto uno. |
+| `gtmId` | `GTM-XXXXXXX` | Contenedor de Tag Manager. **Por sí solo no mide nada.** |
+
+> Si usas Tag Manager, el contenedor es sólo el envase: hay que entrar en GTM,
+> crear una etiqueta *Google Analytics: configuración de GA4* apuntando a un
+> ID `G-XXXXXXXXXX`, con activador *Initialization - All Pages*, y **publicar
+> el contenedor**. Sin eso no se registra ni una visita.
 
 Se usa el componente oficial `@next/third-parties/google`, que carga el script
 cuando la página ya es interactiva —para que la medición no compita con el

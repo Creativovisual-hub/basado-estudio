@@ -1,7 +1,7 @@
 import type { Viewport } from "next";
 import { Inter_Tight } from "next/font/google";
 import "./globals.css";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import { site } from "@/lib/site";
 
 /*
@@ -59,6 +59,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           navegaciones internas, que en una web como ésta no recargan la página.
         */}
         {site.analyticsId && <GoogleAnalytics gaId={site.analyticsId} />}
+        {site.gtmId && <GoogleTagManager gtmId={site.gtmId} />}
       </body>
     </html>
   );

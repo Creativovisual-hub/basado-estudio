@@ -30,6 +30,16 @@ export const site = {
    */
   analyticsId: "",
 
+  /**
+   * Contenedor de Google Tag Manager (formato GTM-XXXXXXX). Es una
+   * alternativa a lo anterior, no un complemento: usa uno u otro.
+   *
+   * Cuidado: el contenedor por sí solo NO mide nada. Hay que crear dentro
+   * una etiqueta de configuración de GA4 apuntando a un ID G-XXXXXXXXXX y
+   * publicar el contenedor. Si sólo se pega este ID, no habrá datos.
+   */
+  gtmId: "GTM-TZ5GJVBN",
+
   /** Portfolio de origen del que se leen los proyectos. */
   portfolioOrigin: "https://creativovisualchile.myportfolio.com",
 } as const;
