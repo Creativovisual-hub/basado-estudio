@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
 import PageTransition from "@/components/PageTransition";
 import Cursor from "@/components/Cursor";
+import BackToTop from "@/components/BackToTop";
 import HtmlLang from "@/components/HtmlLang";
 
 type Params = { params: Promise<{ lang: string }> };
@@ -85,6 +86,8 @@ export default async function LangLayout({
       </main>
 
       <Footer locale={locale} />
+
+      <BackToTop etiqueta={t.common.toTop} />
 
       <script
         type="application/ld+json"

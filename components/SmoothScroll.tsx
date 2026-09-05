@@ -3,6 +3,7 @@
 import { useEffect, useLayoutEffect, useRef } from "react";
 import Lenis from "lenis";
 import { usePathname } from "next/navigation";
+import { registrarLenis } from "@/lib/scroll";
 
 /** Scroll suave global. Se desactiva solo si el usuario pide menos motion. */
 export default function SmoothScroll() {
@@ -18,6 +19,8 @@ export default function SmoothScroll() {
       touchMultiplier: 1.6,
     });
     lenis.current = instance;
+    // El botón de subir necesita esta misma instancia.
+    registrarLenis(instance);
 
     let frame = 0;
     const raf = (time: number) => {
@@ -30,6 +33,7 @@ export default function SmoothScroll() {
       cancelAnimationFrame(frame);
       instance.destroy();
       lenis.current = null;
+      registrarLenis(null);
     };
   }, []);
 

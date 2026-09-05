@@ -433,6 +433,44 @@ html.sin-precarga .precarga { display: none; }
   .precarga { transition: none; }
 }
 
+/* ---------------------------------------------------------------
+   Botón de volver arriba. Ver components/BackToTop.tsx.
+   Por debajo del menú móvil (z-40) para que éste lo tape al abrirse.
+----------------------------------------------------------------*/
+.subir {
+  position: fixed;
+  right: var(--pad);
+  bottom: var(--pad);
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  height: 2.75rem;
+  width: 2.75rem;
+  border: 1px solid var(--c-line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--c-bg) 88%, transparent);
+  color: var(--c-fg);
+
+  /* Oculto: fuera de alcance del ratón y del tabulador. */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(0.75rem);
+  transition:
+    opacity 0.45s var(--ease),
+    transform 0.45s var(--ease),
+    visibility 0.45s,
+    background-color 0.3s var(--ease);
+}
+.subir.is-in {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+.subir:hover {
+  background: var(--c-inv);
+  color: var(--c-inv-fg);
+}
+
 /* Marquesina continua del pie de home */
 @keyframes marquee {
   from { transform: translate3d(0, 0, 0); }
