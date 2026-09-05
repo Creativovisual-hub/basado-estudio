@@ -18,10 +18,25 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const reduce = useReducedMotion();
 
   // Cerrar el menú al navegar.
   useEffect(() => setOpen(false), [pathname]);
+
+  /*
+   * Al salir del inicio de la página, el header se apoya en una banda hueso.
+   * Antes esto se resolvía con mix-blend-difference, que se veía bien pero
+   * obliga al navegador a fusionar la cabecera fija contra todo el fondo:
+   * en los case studies (12.000 px de scroll) Chrome dejaba de pintar el
+   * contenido hasta que se forzaba un repintado recargando.
+   */
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // Bloquear el scroll del documento mientras el menú está abierto.
   useEffect(() => {
@@ -47,14 +62,20 @@ export default function Header() {
   return (
     <>
       <header
-        className="fixed inset-x-0 top-0 z-50 mix-blend-difference"
+        className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ease-[cubic-bezier(.22,1,.36,1)] ${
+          open
+            ? "text-bone"
+            : scrolled
+              ? "border-b border-line bg-bone/95 text-ink"
+              : "text-ink"
+        }`}
         style={{ height: "var(--header-h)" }}
       >
         <div className="gutter flex h-full items-center justify-between">
           <Link
             href="/"
             aria-label="BASADO ESTUDIO — inicio"
-            className="t-meta text-bone"
+            className="t-meta"
             style={{ letterSpacing: "0.09em" }}
           >
             {site.name}
@@ -69,7 +90,7 @@ export default function Header() {
                     href={item.href}
                     data-active={isActive(item.href)}
                     aria-current={isActive(item.href) ? "page" : undefined}
-                    className="t-meta link-underline text-bone"
+                    className="t-meta link-underline"
                   >
                     {item.label}
                   </Link>
@@ -84,7 +105,7 @@ export default function Header() {
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls="menu-movil"
-            className="t-meta text-bone md:hidden"
+            className="t-meta md:hidden"
           >
             {open ? "Cerrar" : "Menú"}
           </button>
