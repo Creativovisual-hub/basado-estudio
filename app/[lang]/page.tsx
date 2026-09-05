@@ -24,7 +24,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         className="gutter flex min-h-[100svh] flex-col justify-end pb-[var(--pad)]"
         style={{ paddingTop: "calc(var(--header-h) + 8vh)" }}
       >
-        <h1 className="t-display">
+        <h1 className="t-display" aria-label={t.home.heroLines.join(" ")}>
           <HeroType lines={t.home.heroLines} delay={0.15} stagger={0.1} />
         </h1>
 

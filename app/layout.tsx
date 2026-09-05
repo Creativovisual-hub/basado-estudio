@@ -2,9 +2,13 @@ import type { Viewport } from "next";
 import { Inter_Tight } from "next/font/google";
 import "./globals.css";
 
+/*
+ * Sin lista de pesos: se carga la versión variable de la familia. Además de
+ * pesar menos que tres instancias estáticas, permite pesos intermedios, que
+ * es lo que usa el efecto del titular.
+ */
 const display = Inter_Tight({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
   variable: "--font-display",
   display: "swap",
 });
