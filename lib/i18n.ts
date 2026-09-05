@@ -61,6 +61,7 @@ type Dict = {
     subHi: string;
     subPost: string;
     tags: string[];
+    rockAlt: string;
   };
   work: { titleLines: string[]; count: (n: number) => string };
   studio: {
@@ -141,6 +142,7 @@ const es: Dict = {
     subHi: "base",
     subPost: " que la sostenga.",
     tags: ["Branding", "Identidad Visual", "Estrategia"],
+    rockAlt: "Roca oscura iluminada de canto",
   },
   work: {
     titleLines: ["Trabajo", "seleccionado."],
@@ -274,6 +276,7 @@ const en: Dict = {
     subHi: "foundation",
     subPost: " to stand on.",
     tags: ["Branding", "Visual Identity", "Strategy"],
+    rockAlt: "Dark rock lit along its edge",
   },
   work: {
     titleLines: ["Selected", "work."],

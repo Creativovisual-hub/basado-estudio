@@ -39,10 +39,10 @@ export default function ThemeToggle({ label }: { label: string }) {
       onClick={toggle}
       aria-label={label}
       title={label}
-      className="t-meta grid h-6 w-6 place-items-center"
+      className="grid h-9 w-9 place-items-center rounded-[10px] border border-line text-fg transition-colors duration-300 hover:bg-fg/[0.07] focus-visible:outline-offset-2"
     >
       {/* Un solo glifo que gira: sol en claro, luna en oscuro. */}
-      <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none">
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none">
         {theme === "dark" ? (
           <path
             d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"

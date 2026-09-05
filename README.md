@@ -142,6 +142,21 @@ proyectos** más abajo.
 Las dos visuales ambientales de la página Estudio siguen siendo SVG propios
 generados por `scripts/gen-assets.mjs` (16 KB).
 
+## Bloque manifiesto de la home
+
+Sección oscura entre el portfolio y el bloque de estudio, con dirección de
+arte propia: es oscura en los dos temas porque su contraste depende de la
+imagen que lleva detrás.
+
+**El fondo se elige al construir el sitio.** Si existe se usa esa fotografía; si no, se dibuja un relieve generado por código
+([](components/TerrainCanvas.tsx), canvas 2D sin librerías
+de 3D). Nunca queda una imagen rota.
+
+Con la fotografía puesta, la luz sigue al cursor: dos copias de la misma
+imagen, la de abajo en penumbra y la de arriba sobreexpuesta y recortada por
+una máscara radial centrada en el puntero. No hace falta preparar ninguna
+versión iluminada. Se desactiva en táctil.
+
 ## SEO y accesibilidad
 
 `metadata` por ruta con canónicas y Open Graph, `sitemap.xml`, `robots.txt` y

@@ -1,0 +1,15 @@
+Fondo del bloque manifiesto de la home.
+
+Guarda aquí la fotografía de la piedra con el nombre:
+
+    roca.jpg      (o roca.webp / roca.png / roca.avif)
+
+En cuanto el archivo esté, el bloque la usa automaticamente. Si no esta,
+se dibuja en su lugar un relieve generado por código, así que la web
+nunca queda con una imagen rota.
+
+Recomendado: 2400 px de ancho o mas, y comprimida. Es una imagen muy
+oscura, así que JPEG de calidad 80 suele bastar y pesa poco.
+
+La luz que sigue al cursor se genera sola: no hace falta preparar
+ninguna versión iluminada de la foto.

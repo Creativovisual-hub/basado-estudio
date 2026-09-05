@@ -254,6 +254,55 @@ body {
   animation: veil-out 0.7s cubic-bezier(0.76, 0, 0.24, 1);
 }
 
+/* ---------------------------------------------------------------
+   Piedra del banner, con luz que sigue al cursor.
+   Ver components/RockLight.tsx.
+----------------------------------------------------------------*/
+.rock {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  --mx: 70%;
+  --my: 40%;
+}
+.rock img {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center right;
+}
+/* Capa base: la piedra en penumbra. */
+.rock__base {
+  filter: brightness(0.72) contrast(1.06);
+}
+/*
+ * Capa iluminada: la misma piedra sobreexpuesta, recortada por una máscara
+ * radial en el puntero. Sin hover queda una luz suave fija, para que la
+ * pieza tenga forma también en táctil y en la primera carga.
+ */
+.rock__lit {
+  filter: brightness(1.9) contrast(1.12);
+  opacity: 0.55;
+  -webkit-mask-image: radial-gradient(
+    38% 46% at var(--mx) var(--my),
+    #000 0%,
+    rgba(0, 0, 0, 0.55) 38%,
+    transparent 72%
+  );
+  mask-image: radial-gradient(
+    38% 46% at var(--mx) var(--my),
+    #000 0%,
+    rgba(0, 0, 0, 0.55) 38%,
+    transparent 72%
+  );
+  transition: opacity 0.5s var(--ease);
+}
+.rock.is-lit .rock__lit {
+  opacity: 1;
+}
+
 /* Marquesina continua del pie de home */
 @keyframes marquee {
   from { transform: translate3d(0, 0, 0); }
@@ -279,6 +328,7 @@ body {
   }
   .marquee-track { animation: none; }
   .page-veil { display: none; }
+  .rock__lit { transition: none; }
 
   /* Sin movimiento, pero el contenido siempre presente. */
   .rv,
