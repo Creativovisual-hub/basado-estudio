@@ -144,6 +144,19 @@ const EDITORIAL: Editorial[] = [
     },
   },
   {
+    source: "zelect-logo-clothing-brand",
+    slug: "zelect",
+    name: "ZELECT",
+    category: IDENTITY,
+    year: null,
+    client: "Zelect",
+    services: services("identity", "applications"),
+    intro: {
+      es: "Identidad para Zelect, una marca de ropa. Logotipo, sistema gráfico y las aplicaciones donde la marca se ve todos los días.",
+      en: "Identity for Zelect, a clothing brand. Logotype, graphic system and the applications where the brand shows up every day.",
+    },
+  },
+  {
     source: "logo-open-web-learning",
     slug: "open-web-learning",
     name: "OPEN WEB LEARNING",

@@ -15,6 +15,18 @@ import path from "node:path";
 
 const ORIGIN = "https://creativovisualchile.myportfolio.com";
 
+/*
+ * Adobe sirve el sitio detrás de una CDN con s-maxage de un año, y al publicar
+ * no siempre purga: se llegó a recibir el índice con 15 horas de antigüedad,
+ * sin el proyecto recién subido. Cada petición lleva un parámetro distinto
+ * para no caer en la copia guardada y leer siempre el estado real.
+ */
+const sello = Date.now();
+const traer = (ruta) =>
+  fetch(`${ORIGIN}${ruta}${ruta.includes("?") ? "&" : "?"}cb=${sello}`, {
+    headers: { "Cache-Control": "no-cache", Pragma: "no-cache" },
+  });
+
 /** Páginas del sitio de Adobe que no son proyectos. */
 const NOT_A_PROJECT = new Set(["work", "contact", "about", "index"]);
 
@@ -24,7 +36,7 @@ const NOT_A_PROJECT = new Set(["work", "contact", "about", "index"]);
  * a ejecutar este script.
  */
 async function discoverSlugs() {
-  const html = await (await fetch(`${ORIGIN}/work`)).text();
+  const html = await (await traer("/work")).text();
   const slugs = [];
   for (const m of html.matchAll(/<a[^>]+class="[^"]*project-cover[^"]*"[^>]+href="\/([a-z0-9-]+)"/g)) {
     if (!NOT_A_PROJECT.has(m[1]) && !slugs.includes(m[1])) slugs.push(m[1]);
@@ -86,7 +98,7 @@ const stripTags = (s) =>
     .trim();
 
 async function scrapeProject(slug) {
-  const html = await (await fetch(`${ORIGIN}/${slug}`)).text();
+  const html = await (await traer(`/${slug}`)).text();
   const cut = html.indexOf("project-covers");
   const main = cut > 0 ? html.slice(0, cut) : html;
 
@@ -163,7 +175,7 @@ async function scrapeProject(slug) {
 
 /** Portadas oficiales del índice de Adobe, asociadas a cada proyecto. */
 async function scrapeCovers() {
-  const html = await (await fetch(`${ORIGIN}/work`)).text();
+  const html = await (await traer("/work")).text();
   const covers = {};
 
   for (const m of html.matchAll(
