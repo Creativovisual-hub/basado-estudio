@@ -148,9 +148,10 @@ Sección oscura entre el portfolio y el bloque de estudio, con dirección de
 arte propia: es oscura en los dos temas porque su contraste depende de la
 imagen que lleva detrás.
 
-**El fondo se elige al construir el sitio.** Si existe se usa esa fotografía; si no, se dibuja un relieve generado por código
-([](components/TerrainCanvas.tsx), canvas 2D sin librerías
-de 3D). Nunca queda una imagen rota.
+**El fondo se elige al construir el sitio.** Si existe `public/img/base/roca.*`
+(jpg, webp, png o avif) se usa esa fotografía; si no, se dibuja un relieve
+generado por código ([`TerrainCanvas.tsx`](components/TerrainCanvas.tsx),
+canvas 2D sin librerías de 3D). Nunca queda una imagen rota.
 
 Con la fotografía puesta, la luz sigue al cursor: dos copias de la misma
 imagen, la de abajo en penumbra y la de arriba sobreexpuesta y recortada por
