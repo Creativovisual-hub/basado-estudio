@@ -327,6 +327,50 @@ body {
   transition: transform 1s var(--ease) var(--rv-d, 0s);
 }
 
+/* ---------------------------------------------------------------
+   Parallax con inercia sobre imágenes. Ver lib/pointer.ts.
+   La capa se dibuja algo mayor que su hueco para que al desplazarse
+   no descubra un borde vacío.
+----------------------------------------------------------------*/
+.parallax-capa {
+  height: 100%;
+  width: 100%;
+  scale: 1.08;
+  will-change: transform;
+}
+
+/* ---------------------------------------------------------------
+   Secuencia de scroll. Ver components/Showreel.tsx.
+   El contenedor alto es el recorrido; el lienzo se queda pegado
+   arriba mientras se atraviesa.
+----------------------------------------------------------------*/
+.showreel {
+  position: relative;
+  height: 520vh;
+  background: var(--c-shade);
+}
+.showreel__pin {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+.showreel__lienzo {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .showreel { height: 320vh; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Sin recorrido: queda una composición fija de la altura del lienzo. */
+  .showreel { height: 100svh; }
+  .parallax-capa { scale: 1; }
+}
+
 /* Marquesina continua del pie de home */
 @keyframes marquee {
   from { transform: translate3d(0, 0, 0); }

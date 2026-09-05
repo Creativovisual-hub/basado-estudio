@@ -5,6 +5,7 @@ import { getProjects } from "@/lib/projects";
 import { getDict, isLocale, localePath } from "@/lib/i18n";
 import ProjectGrid from "@/components/ProjectGrid";
 import BaseSection from "@/components/BaseSection";
+import Showreel from "@/components/Showreel";
 import { Reveal, RevealLines } from "@/components/Reveal";
 import HeroType from "@/components/HeroType";
 import { site } from "@/lib/site";
@@ -54,6 +55,15 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         </h2>
         <ProjectGrid items={projects} locale={lang} />
       </section>
+
+      {/* ---------------------------------------------------------------
+          Secuencia atada al scroll: los mismos proyectos entran en
+          profundidad, se relevan y acaban en una imagen continua.
+      ----------------------------------------------------------------*/}
+      <Showreel
+        fuentes={projects.map((p) => p.cover)}
+        etiqueta={t.home.showreelHeading}
+      />
 
       {/* ---------------------------------------------------------------
           Manifiesto: pieza oscura con relieve. Corta el ritmo claro del
