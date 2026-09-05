@@ -28,7 +28,7 @@ export const site = {
    * sin ID no se carga ningún script ni se pone ninguna cookie, así que el
    * sitio funciona igual mientras no lo rellenes.
    */
-  analyticsId: "",
+  analyticsId: "G-S04DQRR925",
 
   /**
    * Contenedor de Google Tag Manager (formato GTM-XXXXXXX). Es una
@@ -38,7 +38,7 @@ export const site = {
    * una etiqueta de configuración de GA4 apuntando a un ID G-XXXXXXXXXX y
    * publicar el contenedor. Si sólo se pega este ID, no habrá datos.
    */
-  gtmId: "GTM-TZ5GJVBN",
+  gtmId: "",
 
   /** Portfolio de origen del que se leen los proyectos. */
   portfolioOrigin: "https://creativovisualchile.myportfolio.com",
