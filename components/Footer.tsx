@@ -1,14 +1,17 @@
 import Link from "next/link";
 import { site } from "@/lib/site";
+import { getDict, localePath, type Locale } from "@/lib/i18n";
 
-const social = [
-  { href: site.social.instagram, label: "Instagram" },
-  { href: site.social.behance, label: "Behance" },
-];
+export default function Footer({ locale }: { locale: Locale }) {
+  const t = getDict(locale);
 
-export default function Footer() {
+  const social = [
+    { href: site.social.instagram, label: "Instagram" },
+    { href: site.social.behance, label: "Behance" },
+  ];
+
   return (
-    <footer className="border-t border-line bg-bone">
+    <footer className="border-t border-line bg-bg">
       <div className="gutter grid grid-cols-1 gap-10 py-12 md:grid-cols-12 md:py-16">
         <div className="md:col-span-5">
           <p className="text-[clamp(1.75rem,3.6vw,3rem)] font-semibold leading-[0.95] tracking-[-0.04em]">
@@ -20,10 +23,10 @@ export default function Footer() {
 
         <div className="t-meta md:col-span-3 md:pt-2">
           <p className="opacity-55">{site.location}</p>
-          <p className="mt-3 opacity-55">Trabajamos con marcas en todo el mundo</p>
+          <p className="mt-3 opacity-55">{t.footer.worldwide}</p>
         </div>
 
-        <nav className="t-meta md:col-span-2 md:pt-2" aria-label="Redes">
+        <nav className="t-meta md:col-span-2 md:pt-2" aria-label={t.footer.social}>
           <ul className="space-y-3">
             {social.map((s) => (
               <li key={s.href}>
@@ -47,8 +50,11 @@ export default function Footer() {
           <p className="mt-8 opacity-40">
             © {new Date().getFullYear()} {site.shortName}
           </p>
-          <Link href="/" className="link-underline mt-3 inline-block opacity-55">
-            ↑ Volver al inicio
+          <Link
+            href={localePath(locale)}
+            className="link-underline mt-3 inline-block opacity-55"
+          >
+            {t.footer.backToTop}
           </Link>
         </div>
       </div>

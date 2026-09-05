@@ -7,16 +7,59 @@
    con gutter de 2px · case study de imágenes apiladas a sangre completa.
    ========================================================================= */
 
+/*
+ * Tokens semánticos, no de color literal: "bg"/"fg" se intercambian con el
+ * tema, y "inv" es el par invertido para los bloques en contraste (la
+ * llamada a contacto, el menú móvil). Así una misma clase funciona en claro
+ * y en oscuro sin duplicar reglas.
+ */
 @theme {
-  --color-bone: #f4f3f1;
-  --color-ink: #0e0e0e;
-  --color-ash: #6f6d69;
-  --color-line: rgba(14, 14, 14, 0.12);
+  --color-bg: var(--c-bg);
+  --color-fg: var(--c-fg);
+  --color-inv: var(--c-inv);
+  --color-inv-fg: var(--c-inv-fg);
+  --color-line: var(--c-line);
+  --color-shade: var(--c-shade);
 
   --font-sans: var(--font-display), "Helvetica Neue", Helvetica, Arial, sans-serif;
 
   /* Ritmo vertical: bloques de sección */
   --spacing-section: clamp(6rem, 14vh, 11rem);
+}
+
+/* Claro por defecto */
+:root {
+  --c-bg: #f4f3f1;
+  --c-fg: #0e0e0e;
+  --c-inv: #0e0e0e;
+  --c-inv-fg: #f4f3f1;
+  --c-line: rgba(14, 14, 14, 0.12);
+  --c-shade: #e7e5e1; /* fondo mientras carga una imagen */
+  color-scheme: light;
+}
+
+/* Oscuro: por preferencia del sistema, salvo elección explícita */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --c-bg: #0d0d0c;
+    --c-fg: #edece8;
+    --c-inv: #edece8;
+    --c-inv-fg: #0d0d0c;
+    --c-line: rgba(237, 236, 232, 0.16);
+    --c-shade: #1b1b19;
+    color-scheme: dark;
+  }
+}
+
+/* Oscuro: elección explícita del visitante */
+:root[data-theme="dark"] {
+  --c-bg: #0d0d0c;
+  --c-fg: #edece8;
+  --c-inv: #edece8;
+  --c-inv-fg: #0d0d0c;
+  --c-line: rgba(237, 236, 232, 0.16);
+  --c-shade: #1b1b19;
+  color-scheme: dark;
 }
 
 :root {
@@ -34,8 +77,8 @@
 * { -webkit-tap-highlight-color: transparent; }
 
 html {
-  background: var(--color-bone);
-  color: var(--color-ink);
+  background: var(--c-bg);
+  color: var(--c-fg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -50,16 +93,20 @@ html:not(.lenis) { scroll-behavior: smooth; }
 
 body {
   margin: 0;
+  /* El cambio de tema se asienta en lugar de dar un salto seco. */
+  transition:
+    background-color 0.4s var(--ease),
+    color 0.4s var(--ease);
   font-family: var(--font-sans);
   font-synthesis-weight: none;
   overflow-x: hidden;
 }
 
-::selection { background: var(--color-ink); color: var(--color-bone); }
+::selection { background: var(--c-fg); color: var(--c-bg); }
 
 /* Foco visible y consistente: accesibilidad sin ruido visual. */
 :focus-visible {
-  outline: 2px solid var(--color-ink);
+  outline: 2px solid var(--c-fg);
   outline-offset: 3px;
 }
 
@@ -200,7 +247,7 @@ body {
   position: fixed;
   inset: 0;
   z-index: 55;
-  background: var(--color-ink);
+  background: var(--c-inv);
   transform-origin: bottom;
   transform: scaleY(0);
   pointer-events: none;

@@ -60,7 +60,7 @@ export default function CaseImage({
   return (
     <div
       ref={ref}
-      className={`relative overflow-hidden bg-[#e7e5e1] ${className}`}
+      className={`relative overflow-hidden bg-shade ${className}`}
       style={{ aspectRatio: String(ratio ?? 16 / 9) }}
     >
       <img

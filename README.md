@@ -6,13 +6,62 @@ Next.js 15 (App Router) · React 19 · Tailwind CSS v4 · Motion · Lenis.
 ```bash
 npm install
 npm run dev     # http://localhost:3210
-npm run build   # build de producción (17 páginas estáticas)
+npm run build   # build de producción (29 páginas estáticas)
 npm run sync    # re-lee los proyectos desde Adobe Portfolio
 npm run assets  # regenera las visuales SVG de la página Estudio
 ```
 
 > No ejecutes `npm run build` con el servidor de desarrollo encendido: sobrescribe
 > los artefactos de `.next` y el dev deja de servir CSS hasta reiniciarlo.
+
+## Idiomas
+
+El sitio es bilingüe. El idioma va en el primer segmento de la ruta:
+`/es/work`, `/en/work`. La raíz redirige al español, y las rutas antiguas
+(`/estudio`, `/servicios`, `/contacto`) redirigen con 308 a sus equivalentes.
+
+Los segmentos son los mismos en ambos idiomas (`work`, `studio`, `services`,
+`contact`) para que el conmutador cambie sólo el prefijo y mantenga al
+visitante en la misma página: `/es/work/latin-wok` → `/en/work/latin-wok`.
+
+**Todo el texto de interfaz vive en [`lib/i18n.ts`](lib/i18n.ts)**, en dos
+diccionarios con la misma forma; TypeScript avisa si falta una clave en uno de
+los dos. El texto de los proyectos está en el bloque `EDITORIAL` de
+[`lib/projects.ts`](lib/projects.ts), con los campos como `{ es, en }`.
+
+Cada página declara `canonical` y enlaces `hreflang` con `x-default`, y el
+sitemap lista las 24 URLs (12 páginas × 2 idiomas).
+
+> El texto largo de los case studies en español viene del scraper. Su
+> traducción al inglés (`notesEn`) es manual: si cambias ese texto en Adobe
+> Portfolio, hay que actualizarla a mano.
+
+## Tema claro y oscuro
+
+Tres estados: **claro**, **oscuro** y —por defecto— **el del sistema**. La
+elección del visitante se guarda en su navegador y manda sobre la preferencia
+del sistema; sin elección, se sigue `prefers-color-scheme`.
+
+Los colores son tokens semánticos, no literales:
+
+| Token | Claro | Oscuro |
+|---|---|---|
+| `bg` / `fg` | `#f4f3f1` / `#0e0e0e` | `#0d0d0c` / `#edece8` |
+| `inv` / `inv-fg` | el par invertido, para los bloques en contraste |
+| `line` | borde sutil | borde sutil |
+| `shade` | fondo mientras carga una imagen |
+
+Así una misma clase (`bg-bg`, `text-fg`, `bg-inv`) funciona en los dos temas
+sin duplicar reglas. Contraste medido: **17,4:1** en claro y **16,5:1** en
+oscuro, muy por encima del mínimo AAA.
+
+Un script en línea aplica el tema guardado **antes del primer pintado**: como
+efecto de React llegaría tarde y la página parpadearía en blanco antes de
+pasar a oscuro.
+
+La sobreimpresión del hover en el grid de proyectos usa negro y blanco fijos,
+no los tokens: va sobre fotografía real, donde el contraste debe ser el mismo
+en los dos temas.
 
 ## Sistema de diseño
 

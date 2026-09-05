@@ -45,7 +45,7 @@ export default function Cursor() {
       <AnimatePresence>
         {label && (
           <motion.span
-            className="t-meta absolute block whitespace-nowrap rounded-full bg-ink px-5 py-3 text-bone"
+            className="t-meta absolute block whitespace-nowrap rounded-full bg-inv px-5 py-3 text-inv-fg"
             style={{ translateX: "-50%", translateY: "-50%" }}
             initial={{ opacity: 0, scale: 0.7 }}
             animate={{ opacity: 1, scale: 1 }}

@@ -2,25 +2,35 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { projects, getProject, adjacentProjects } from "@/lib/projects";
+import { projectSlugs, getProject, adjacentProjects } from "@/lib/projects";
+import { getDict, isLocale, locales, localePath } from "@/lib/i18n";
+import { site } from "@/lib/site";
 import CaseImage from "@/components/CaseImage";
 import { Reveal, RevealLines } from "@/components/Reveal";
 
-type Params = { params: Promise<{ slug: string }> };
+type Params = { params: Promise<{ lang: string; slug: string }> };
 
 export function generateStaticParams() {
-  return projects.map((p) => ({ slug: p.slug }));
+  return locales.flatMap((lang) => projectSlugs().map((slug) => ({ lang, slug })));
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const { slug } = await params;
-  const p = getProject(slug);
-  if (!p) return { title: "Proyecto no encontrado" };
+  const { lang, slug } = await params;
+  if (!isLocale(lang)) return {};
+  const p = getProject(lang, slug);
+  if (!p) return { title: "404" };
 
   return {
     title: `${p.name} — ${p.category}`,
     description: p.intro.slice(0, 160),
-    alternates: { canonical: `/work/${p.slug}` },
+    alternates: {
+      canonical: `/${lang}/work/${p.slug}`,
+      languages: {
+        es: `${site.url}/es/work/${p.slug}`,
+        en: `${site.url}/en/work/${p.slug}`,
+        "x-default": `${site.url}/es/work/${p.slug}`,
+      },
+    },
     openGraph: {
       title: `${p.name} — ${p.category} — BASADO ESTUDIO`,
       description: p.intro.slice(0, 160),
@@ -31,11 +41,13 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 export default async function CaseStudy({ params }: Params) {
-  const { slug } = await params;
-  const p = getProject(slug);
+  const { lang, slug } = await params;
+  if (!isLocale(lang)) notFound();
+  const p = getProject(lang, slug);
   if (!p) notFound();
 
-  const [next, after] = adjacentProjects(p.slug);
+  const t = getDict(lang);
+  const [next, after] = adjacentProjects(lang, p.slug);
 
   /*
    * Los proyectos vienen del portfolio como una secuencia de láminas, casi
@@ -55,17 +67,13 @@ export default async function CaseStudy({ params }: Params) {
 
   return (
     <article>
-      {/* --------------------------------------------------------------
-          Cabecera: nombre, categoría, año. Ficha a la izquierda,
-          introducción centrada. Poco texto, mucho aire.
-      ---------------------------------------------------------------*/}
       <header
         className="gutter pb-[8vh]"
         style={{ paddingTop: "calc(var(--header-h) + 16vh)" }}
       >
         <Reveal on="mount" className="t-meta mb-8 opacity-45">
           <p>
-            <Link href="/work" className="link-underline">
+            <Link href={localePath(lang, "work")} className="link-underline">
               Work
             </Link>
             <span className="mx-2">/</span>
@@ -80,15 +88,15 @@ export default async function CaseStudy({ params }: Params) {
         <Reveal on="mount" delay={0.45}>
           <dl className="t-meta mt-12 grid grid-cols-2 gap-y-6 border-t border-line pt-6 md:grid-cols-4">
             <div>
-              <dt className="opacity-40">Cliente</dt>
+              <dt className="opacity-40">{t.project.client}</dt>
               <dd className="mt-2">{p.client}</dd>
             </div>
             <div>
-              <dt className="opacity-40">Categoría</dt>
+              <dt className="opacity-40">{t.project.category}</dt>
               <dd className="mt-2">{p.category}</dd>
             </div>
             <div>
-              <dt className="opacity-40">Servicios</dt>
+              <dt className="opacity-40">{t.project.services}</dt>
               <dd className="mt-2">
                 {p.services.map((s) => (
                   <span key={s} className="block">
@@ -99,7 +107,7 @@ export default async function CaseStudy({ params }: Params) {
             </div>
             {p.year && (
               <div>
-                <dt className="opacity-40">Año</dt>
+                <dt className="opacity-40">{t.project.year}</dt>
                 <dd className="mt-2">{p.year}</dd>
               </div>
             )}
@@ -108,14 +116,9 @@ export default async function CaseStudy({ params }: Params) {
       </header>
 
       <Reveal on="mount" delay={0.6} className="gutter pb-[10vh]">
-        <p className="t-body mx-auto max-w-[62ch] text-balance md:text-center">
-          {p.intro}
-        </p>
+        <p className="t-body mx-auto max-w-[62ch] text-balance md:text-center">{p.intro}</p>
       </Reveal>
 
-      {/* --------------------------------------------------------------
-          Recorrido visual a sangre completa.
-      ---------------------------------------------------------------*/}
       <div className="flex flex-col" style={{ gap: "var(--gutter)" }}>
         {p.images.map((img, i) => (
           <div key={img.src} className="contents">
@@ -123,7 +126,7 @@ export default async function CaseStudy({ params }: Params) {
               src={img.src}
               srcSet={img.srcSet}
               sizes="100vw"
-              alt={`${p.name} — lámina ${i + 1} de ${p.images.length}`}
+              alt={t.project.plateAlt(p.name, i + 1, p.images.length)}
               ratio={img.ratio}
               priority={i === 0}
             />
@@ -131,9 +134,9 @@ export default async function CaseStudy({ params }: Params) {
             {noteAfter.has(i) && (
               <section className="gutter py-[12vh]">
                 <div className="mx-auto max-w-[60ch] space-y-5">
-                  {noteAfter.get(i)!.map((t, n) => (
+                  {noteAfter.get(i)!.map((text, n) => (
                     <Reveal key={n} delay={n * 0.06}>
-                      <p className="t-body">{t}</p>
+                      <p className="t-body">{text}</p>
                     </Reveal>
                   ))}
                 </div>
@@ -143,22 +146,19 @@ export default async function CaseStudy({ params }: Params) {
         ))}
       </div>
 
-      {/* --------------------------------------------------------------
-          Siguiente proyecto
-      ---------------------------------------------------------------*/}
       <section className="gutter pt-(--spacing-section) pb-10">
-        <h2 className="t-meta opacity-45">(Siguiente proyecto)</h2>
+        <h2 className="t-meta opacity-45">{t.project.nextTag}</h2>
       </section>
 
       <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: "var(--gutter)" }}>
         {[next, after].map((n) => (
           <Link
             key={n.slug}
-            href={`/work/${n.slug}`}
-            data-cursor="Ver proyecto"
+            href={localePath(lang, `work/${n.slug}`)}
+            data-cursor={t.project.viewProject}
             className="group block"
           >
-            <div className="relative aspect-[4/3] overflow-hidden bg-[#e7e5e1]">
+            <div className="relative aspect-[4/3] overflow-hidden bg-shade">
               <img
                 src={n.cover.src}
                 srcSet={n.cover.srcSet}

@@ -1,20 +1,26 @@
 import type { MetadataRoute } from "next";
-import { projects } from "@/lib/projects";
+import { projectSlugs } from "@/lib/projects";
+import { locales } from "@/lib/i18n";
 import { site } from "@/lib/site";
+
+const SECTIONS = ["", "work", "studio", "services", "contact"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-  const stat = ["", "/work", "/estudio", "/servicios", "/contacto"].map((r) => ({
-    url: `${site.url}${r}`,
-    lastModified: now,
-    changeFrequency: "monthly" as const,
-    priority: r === "" ? 1 : 0.8,
-  }));
-  const work = projects.map((p) => ({
-    url: `${site.url}/work/${p.slug}`,
-    lastModified: now,
-    changeFrequency: "yearly" as const,
-    priority: 0.7,
-  }));
-  return [...stat, ...work];
+  const slugs = projectSlugs();
+
+  return locales.flatMap((lang) => [
+    ...SECTIONS.map((s) => ({
+      url: s ? `${site.url}/${lang}/${s}` : `${site.url}/${lang}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: s ? 0.8 : 1,
+    })),
+    ...slugs.map((slug) => ({
+      url: `${site.url}/${lang}/work/${slug}`,
+      lastModified: now,
+      changeFrequency: "yearly" as const,
+      priority: 0.7,
+    })),
+  ]);
 }
