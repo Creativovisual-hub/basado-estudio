@@ -113,7 +113,7 @@ export function RevealLines({
   const { ref, shown } = useReveal(on);
 
   return (
-    <span ref={ref as never} className={className}>
+    <span ref={ref as never} className={`rv-lines ${className ?? ""}`}>
       {lines.map((line, i) => (
         <span key={i} className={`rv-line ${shown ? "is-in" : ""}`}>
           <span

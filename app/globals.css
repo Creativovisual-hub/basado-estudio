@@ -210,13 +210,41 @@ body {
     transform 0.9s var(--ease) var(--rv-d, 0s);
 }
 
+/*
+ * Recorte del revelado por líneas.
+ *
+ * La caja de línea es más corta que los glifos: con line-height 0.95 mide
+ * 87,5 px donde el texto ocupa 111, y con 0.86 en el hero la diferencia es
+ * aún mayor. Recortar a esa caja se comía los descendentes — la j de
+ * "Trabajo", la g de "algo", la eñe, la cola del signo de interrogación.
+ *
+ * El relleno agranda el área de recorte y el margen negativo lo descuenta,
+ * así que la máscara respira por arriba y por abajo sin mover ni un píxel la
+ * maquetación. El desplazamiento de partida sube en consecuencia: con una
+ * máscara más alta, 110% ya no bastaba para esconder el texto del todo.
+ */
+/*
+ * Los contenedores son flex por un motivo concreto: entre bloques
+ * contiguos los márgenes verticales colapsan y se aplica sólo el mayor,
+ * así que de los dos márgenes negativos que compensan el relleno sólo
+ * contaba uno y el titular crecía 50 px. En un contenedor flex no hay
+ * colapso y la compensación sale exacta.
+ */
+.rv-lines,
+.hero-type {
+  display: flex;
+  flex-direction: column;
+}
+
 .rv-line {
   display: block;
   overflow: hidden;
+  padding-block: 0.22em;
+  margin-block: -0.22em;
 }
 .rv-line > * {
   display: block;
-  transform: translateY(110%);
+  transform: translateY(160%);
 }
 .rv-line.is-in > * {
   transform: translateY(0);
@@ -308,7 +336,8 @@ body {
    Ver components/HeroType.tsx.
 ----------------------------------------------------------------*/
 .hero-type {
-  display: block;
+  /* El display lo fija la regla de .rv-lines: flex, para que los márgenes
+     de compensación del recorte no colapsen entre líneas. */
 }
 
 .hero-type__ch {
