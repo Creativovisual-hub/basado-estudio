@@ -6,6 +6,7 @@ import { getDict, isLocale, localePath } from "@/lib/i18n";
 import ProjectGrid from "@/components/ProjectGrid";
 import BaseSection from "@/components/BaseSection";
 import { Reveal, RevealLines } from "@/components/Reveal";
+import HeroType from "@/components/HeroType";
 import { site } from "@/lib/site";
 
 export default async function Home({ params }: { params: Promise<{ lang: string }> }) {
@@ -24,7 +25,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         style={{ paddingTop: "calc(var(--header-h) + 8vh)" }}
       >
         <h1 className="t-display">
-          <RevealLines lines={t.home.heroLines} delay={0.15} stagger={0.1} on="mount" />
+          <HeroType lines={t.home.heroLines} delay={0.15} stagger={0.1} />
         </h1>
 
         <div className="mt-[9vh] grid grid-cols-1 gap-8 md:mt-[7vh] md:grid-cols-12 md:items-end">

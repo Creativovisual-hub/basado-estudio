@@ -303,6 +303,63 @@ body {
   opacity: 1;
 }
 
+/* ---------------------------------------------------------------
+   Titular del hero: la piedra se enciende dentro de las letras.
+   Ver components/HeroType.tsx.
+----------------------------------------------------------------*/
+.hero-type {
+  position: relative;
+  display: block;
+  --mx: 50%;
+  --my: 50%;
+  /*
+   * Cuánto se aclara la roca dentro de las letras. La foto es muy oscura
+   * (luminancia media 11), así que necesita mucho empuje para leerse; en
+   * tema oscuro más todavía, porque compite con un texto ya claro.
+   */
+  --stone-b: 3.4;
+}
+
+.hero-type__stone {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+
+  background-image: url("/img/base/roca.webp");
+  background-size: cover;
+  background-position: center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: brightness(var(--stone-b)) contrast(1.15);
+
+  opacity: 0;
+  transition: opacity 0.45s var(--ease);
+
+  -webkit-mask-image: radial-gradient(
+    26% 52% at var(--mx) var(--my),
+    #000 0%,
+    rgba(0, 0, 0, 0.6) 42%,
+    transparent 74%
+  );
+  mask-image: radial-gradient(
+    26% 52% at var(--mx) var(--my),
+    #000 0%,
+    rgba(0, 0, 0, 0.6) 42%,
+    transparent 74%
+  );
+}
+
+.hero-type.is-lit .hero-type__stone {
+  opacity: 1;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .hero-type { --stone-b: 5.6; }
+}
+:root[data-theme="dark"] .hero-type { --stone-b: 5.6; }
+
 /* Marquesina continua del pie de home */
 @keyframes marquee {
   from { transform: translate3d(0, 0, 0); }
@@ -329,6 +386,7 @@ body {
   .marquee-track { animation: none; }
   .page-veil { display: none; }
   .rock__lit { transition: none; }
+  .hero-type__stone { display: none; }
 
   /* Sin movimiento, pero el contenido siempre presente. */
   .rv,
