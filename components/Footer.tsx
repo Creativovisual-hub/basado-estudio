@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { site } from "@/lib/site";
 import { getDict, localePath, type Locale } from "@/lib/i18n";
+import ContactLink from "./ContactLink";
 
 export default function Footer({ locale }: { locale: Locale }) {
   const t = getDict(locale);
 
   const social = [
-    { href: site.social.instagram, label: "Instagram" },
-    { href: site.social.behance, label: "Behance" },
+    { href: site.social.instagram, label: "Instagram", canal: "instagram" },
+    { href: site.social.behance, label: "Behance", canal: "behance" },
   ];
 
   return (
@@ -30,23 +31,18 @@ export default function Footer({ locale }: { locale: Locale }) {
           <ul className="space-y-3">
             {social.map((s) => (
               <li key={s.href}>
-                <a
-                  href={s.href}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="link-underline"
-                >
+                <ContactLink href={s.href} canal={s.canal} className="link-underline">
                   {s.label}
-                </a>
+                </ContactLink>
               </li>
             ))}
           </ul>
         </nav>
 
         <div className="t-meta md:col-span-2 md:pt-2">
-          <a href={`mailto:${site.email}`} className="link-underline">
+          <ContactLink href={`mailto:${site.email}`} canal="email" className="link-underline">
             {site.email}
-          </a>
+          </ContactLink>
           <p className="mt-8 opacity-40">
             © {new Date().getFullYear()} {site.shortName}
           </p>

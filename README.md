@@ -210,6 +210,17 @@ cuando la página ya es interactiva —para que la medición no compita con el
 primer pintado— y cuenta las navegaciones internas, que en esta web no recargan
 la página y de otro modo no se registrarían.
 
+### Evento de contacto
+
+Los enlaces de correo y redes emiten un evento `contacto` con el canal
+(`email`, `instagram`, `behance`), desde `components/ContactLink.tsx`. La
+medición automática de Google cuenta los clics a otros dominios pero **no los
+`mailto:`**, que en un portfolio son justamente los que importan.
+
+En Analytics conviene marcarlo como **evento clave**: *Administrar → Eventos →
+contacto → marcar como evento clave*. Aparece en la lista un día después del
+primer clic real.
+
 > **Cookies.** GA pone cookies de terceros. En Chile no hay obligación de
 > pedir consentimiento, pero si te visitan desde Europa el RGPD sí lo exige.
 > Si eso te importa, hay que añadir un aviso de cookies que retrase la carga

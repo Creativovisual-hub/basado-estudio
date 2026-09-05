@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getDict, isLocale } from "@/lib/i18n";
 import { site, instagramHandle, behanceLabel } from "@/lib/site";
 import { Reveal, RevealLines } from "@/components/Reveal";
+import ContactLink from "@/components/ContactLink";
 
 type Params = { params: Promise<{ lang: string }> };
 
@@ -31,9 +32,9 @@ export default async function ContactPage({ params }: Params) {
   const t = getDict(lang);
 
   const canales = [
-    { label: t.contact.channels.email, value: site.email, href: `mailto:${site.email}` },
-    { label: t.contact.channels.instagram, value: instagramHandle, href: site.social.instagram },
-    { label: t.contact.channels.behance, value: behanceLabel, href: site.social.behance },
+    { label: t.contact.channels.email, value: site.email, href: `mailto:${site.email}`, canal: "email" },
+    { label: t.contact.channels.instagram, value: instagramHandle, href: site.social.instagram, canal: "instagram" },
+    { label: t.contact.channels.behance, value: behanceLabel, href: site.social.behance, canal: "behance" },
   ];
 
   return (
@@ -54,15 +55,13 @@ export default async function ContactPage({ params }: Params) {
         {canales.map((c, i) => (
           <Reveal as="li" key={c.label} on="mount" delay={0.55 + i * 0.09}>
             <p className="t-meta opacity-40">{c.label}</p>
-            <a
+            <ContactLink
               href={c.href}
-              {...(c.href.startsWith("http")
-                ? { target: "_blank", rel: "noreferrer noopener" }
-                : {})}
+              canal={c.canal}
               className="link-underline mt-4 inline-block text-[clamp(1.25rem,2.4vw,2rem)] font-medium leading-none tracking-[-0.035em]"
             >
               {c.value}
-            </a>
+            </ContactLink>
           </Reveal>
         ))}
       </ul>
