@@ -8,7 +8,7 @@
 
 export const site = {
   /** Dominio en producción, sin barra final. */
-  url: "https://basadoestudio.cl",
+  url: "https://basadoestudio.com",
 
   name: "BASADO ESTUDIO",
   shortName: "Basado Estudio",
@@ -16,7 +16,7 @@ export const site = {
   location: "Santiago / Chile",
   locale: "es_CL",
 
-  email: "hola@basadoestudio.cl",
+  email: "hola@basadoestudio.com",
 
   social: {
     instagram: "https://www.instagram.com/basadoestudio",
