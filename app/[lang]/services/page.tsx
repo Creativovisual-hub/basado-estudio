@@ -37,7 +37,7 @@ export default async function ServicesPage({ params }: Params) {
         className="gutter pb-[10vh]"
         style={{ paddingTop: "calc(var(--header-h) + 18vh)" }}
       >
-        <Reveal on="mount" className="t-meta mb-14 opacity-45">
+        <Reveal on="mount" className="t-meta mb-6 opacity-45 md:mb-8">
           <p>{t.services.tag}</p>
         </Reveal>
         <h1 className="t-head max-w-[14ch]">

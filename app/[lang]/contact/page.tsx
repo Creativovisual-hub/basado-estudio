@@ -43,7 +43,7 @@ export default async function ContactPage({ params }: Params) {
       style={{ paddingTop: "calc(var(--header-h) + 18vh)" }}
     >
       <div>
-        <Reveal on="mount" className="t-meta mb-14 opacity-45">
+        <Reveal on="mount" className="t-meta mb-6 opacity-45 md:mb-8">
           <p>{t.contact.tag}</p>
         </Reveal>
         <h1 className="t-head max-w-[16ch]">

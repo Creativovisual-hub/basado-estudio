@@ -264,7 +264,9 @@ const en: Dict = {
     orgDescription: "Creative studio specialising in visual identity and branding.",
   },
   home: {
-    heroLines: ["BASED ON", "SOMETHING REAL."],
+    /* Tres líneas escritas, no heredadas del desbordamiento: en inglés
+       "SOMETHING REAL." no cabe a tamaño display y partía sola. */
+    heroLines: ["BASED ON", "SOMETHING", "REAL."],
     support: "Creative studio specialising in visual identity and branding.",
     projectsHeading: "Selected projects",
     studioTag: "(Studio)",
@@ -310,7 +312,7 @@ const en: Dict = {
   },
   services: {
     tag: "(Services)",
-    titleLines: ["What we", "do."],
+    titleLines: ["What we do."],
     items: [
       {
         name: "Visual Identity",

@@ -120,7 +120,9 @@ body {
   line-height: 0.86;
   letter-spacing: -0.045em;
   font-weight: 600;
-  margin: 0;
+  /* Sin margin: 0 aqui. Tailwind ya lo pone en su reset, y repetirlo
+     desde una clase propia ganaba a las utilidades mt-* por orden de
+     cascada: los margenes escritos en las paginas no se aplicaban. */
 }
 
 /*
@@ -138,7 +140,12 @@ body {
   line-height: 0.95;
   letter-spacing: -0.04em;
   font-weight: 600;
-  margin: 0;
+  /* Sin margin: 0 aqui. Tailwind ya lo pone en su reset, y repetirlo
+     desde una clase propia ganaba a las utilidades mt-* por orden de
+     cascada: los margenes escritos en las paginas no se aplicaban. */
+  /* Reparte las líneas en vez de dejar la última palabra sola. Los saltos
+     escritos a mano mandan igual: esto sólo actúa cuando la línea desborda. */
+  text-wrap: balance;
 }
 
 /* Nombre de proyecto sobre la imagen (referencia: 90px @1440) */
@@ -338,6 +345,11 @@ body {
 .hero-type {
   /* El display lo fija la regla de .rv-lines: flex, para que los márgenes
      de compensación del recorte no colapsen entre líneas. */
+}
+
+/* La palabra no se parte: el corte sólo puede caer en los espacios. */
+.hero-type__w {
+  white-space: nowrap;
 }
 
 .hero-type__ch {

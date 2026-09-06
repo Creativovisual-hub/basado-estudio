@@ -39,7 +39,7 @@ export default async function StudioPage({ params }: Params) {
         className="gutter pb-[14vh]"
         style={{ paddingTop: "calc(var(--header-h) + 18vh)" }}
       >
-        <Reveal on="mount" className="t-meta mb-14 opacity-45">
+        <Reveal on="mount" className="t-meta mb-6 opacity-45 md:mb-8">
           <p>{t.studio.tag}</p>
         </Reveal>
 
@@ -49,7 +49,9 @@ export default async function StudioPage({ params }: Params) {
 
         <div className="mt-[10vh] grid grid-cols-1 gap-10 md:grid-cols-12">
           <div className="md:col-span-7 md:col-start-6">
-            <p className="text-[clamp(1.5rem,3.4vw,2.75rem)] font-medium leading-[1.12] tracking-[-0.035em]">
+            {/* La enumeración pide aire entre líneas: a 1.12 se apelmazaba
+                contra el titular grande que viene debajo. */}
+            <p className="text-[clamp(1.35rem,2.6vw,2.125rem)] font-medium leading-[1.45] tracking-[-0.03em] opacity-70">
               <RevealLines
                 lines={t.studio.manifesto}
                 stagger={0.075}
@@ -58,7 +60,7 @@ export default async function StudioPage({ params }: Params) {
               />
             </p>
             <Reveal on="mount" delay={0.85}>
-              <p className="t-head mt-14 max-w-[14ch]">{t.studio.claim}</p>
+              <p className="t-head mt-20 max-w-[16ch] md:mt-28">{t.studio.claim}</p>
             </Reveal>
           </div>
         </div>

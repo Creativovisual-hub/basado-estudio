@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 
 /* ---------------------------------------------------------------------------
    Titular del hero: las letras engordan al acercarse el cursor.
@@ -127,15 +127,26 @@ export default function HeroType({
       {lines.map((line, i) => (
         <span key={i} className="rv-line">
           <span style={{ "--rv-d": `${delay + i * stagger}s` } as React.CSSProperties}>
-            {Array.from(line).map((ch, j) =>
-              ch === " " ? (
-                " "
-              ) : (
-                <span key={j} className="hero-type__ch">
-                  {ch}
+            {/*
+              Las palabras se agrupan. Cada letra es un inline-block, y eso
+              abre un punto de corte entre cualquier par de letras: en inglés
+              el titular partía "REAL." como "REA / L.". Envolviendo cada
+              palabra, el único corte posible vuelve a ser el espacio.
+            */}
+            {line.split(" ").map((palabra, w) => (
+              <Fragment key={w}>
+                {/* El espacio va fuera de la palabra: es el único sitio por
+                    donde la línea puede partir. */}
+                {w > 0 ? " " : null}
+                <span className="hero-type__w">
+                  {Array.from(palabra).map((ch, j) => (
+                    <span key={j} className="hero-type__ch">
+                      {ch}
+                    </span>
+                  ))}
                 </span>
-              )
-            )}
+              </Fragment>
+            ))}
           </span>
         </span>
       ))}

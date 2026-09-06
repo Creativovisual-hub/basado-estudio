@@ -44,17 +44,17 @@ export default function Footer({ locale }: { locale: Locale }) {
           <ContactLink href={`mailto:${site.email}`} canal="email" className="link-underline">
             {site.email}
           </ContactLink>
-          <p className="mt-8 opacity-40">
-            © {new Date().getFullYear()} {site.shortName}
-          </p>
-          <Link
-            href={localePath(locale)}
-            className="link-underline mt-3 inline-block opacity-55"
-          >
-            {t.footer.backToTop}
-          </Link>
-          <br />
-          <CookiesLink>{t.cookies.enlace}</CookiesLink>
+          {/* Un solo ritmo para lo que va bajo el correo: antes cada línea
+              llevaba su propio margen y la columna quedaba desnivelada. */}
+          <div className="mt-10 flex flex-col items-start gap-3">
+            <Link href={localePath(locale)} className="link-underline opacity-55">
+              {t.footer.backToTop}
+            </Link>
+            <CookiesLink>{t.cookies.enlace}</CookiesLink>
+            <p className="opacity-40">
+              © {new Date().getFullYear()} {site.shortName}
+            </p>
+          </div>
         </div>
       </div>
     </footer>
