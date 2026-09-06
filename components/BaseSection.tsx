@@ -63,7 +63,11 @@ export default function BaseSection({ locale }: { locale: Locale }) {
           <Reveal delay={0.3} className="mt-14 md:mt-20">
             {/* Filete corto: el "cimiento" del que habla el texto. */}
             <span className="mb-7 block h-10 w-px bg-[#edece8]/40" aria-hidden="true" />
-            <p className="t-meta max-w-[34ch] leading-[1.9]">
+            {/* La frase cabe entera: a 34ch partía y dejaba dos palabras
+                sueltas en la segunda línea. La unidad ch mide el ancho del
+                cero, y este texto va en mayúsculas y con más espaciado, así
+                que ocupa bastante más de lo que su número de letras sugiere. */}
+            <p className="t-meta max-w-[46ch] leading-[1.9]">
               {t.base.subPre}
               <span className="text-[#b9ada0]">{t.base.subHi}</span>
               {t.base.subPost}
