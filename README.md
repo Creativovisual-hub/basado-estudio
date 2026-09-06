@@ -182,9 +182,9 @@ cabecera y la página de contacto leen de ahí.
 
 ## Analítica
 
-Google Analytics 4 está montado pero **apagado**: el interruptor es
-`analyticsId` en [`lib/site.ts`](lib/site.ts). Vacío significa que no se carga
-ningún script de Google ni se pone ninguna cookie.
+Google Analytics 4 está activo. El interruptor es `analyticsId` en
+[`lib/site.ts`](lib/site.ts): vaciarlo lo apaga por completo, sin cargar ningún
+script de Google ni poner ninguna cookie.
 
 Hay dos interruptores, y son **alternativos**, no complementarios:
 
@@ -220,6 +220,22 @@ medición automática de Google cuenta los clics a otros dominios pero **no los
 En Analytics conviene marcarlo como **evento clave**: *Administrar → Eventos →
 contacto → marcar como evento clave*. Aparece en la lista un día después del
 primer clic real.
+
+El mismo clic avisa al píxel de Meta como evento `Contact`, si está encendido.
+
+### Píxel de Meta
+
+Interruptor aparte: `metaPixelId` en [`lib/site.ts`](lib/site.ts), sólo dígitos.
+Vive en `components/MetaPixel.tsx` y respeta el mismo corte de producción.
+
+No sustituye a Analytics ni sirve para consultar estadísticas: existe para
+**anunciarse en Instagram y Facebook**. Permite mostrar anuncios a quien ya
+visitó la web y buscar público parecido. Necesita semanas acumulando visitas
+antes de servir de algo, así que se instala antes de la campaña, no el día de.
+
+El fragmento que da Meta cuenta la visita una sola vez, al cargar. Como aquí las
+navegaciones internas no recargan nada, el componente avisa a mano en cada
+cambio de ruta; sin eso, una sesión entera contaría como una sola vista.
 
 > **Cookies.** GA pone cookies de terceros. En Chile no hay obligación de
 > pedir consentimiento, pero si te visitan desde Europa el RGPD sí lo exige.
