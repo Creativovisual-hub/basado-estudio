@@ -3,6 +3,7 @@ import { Inter_Tight } from "next/font/google";
 import "./globals.css";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import { site } from "@/lib/site";
+import MetaPixel from "@/components/MetaPixel";
 
 /*
  * La medición sólo se activa en el despliegue de producción.
@@ -74,6 +75,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         */}
         {enProduccion && site.analyticsId && <GoogleAnalytics gaId={site.analyticsId} />}
         {enProduccion && site.gtmId && <GoogleTagManager gtmId={site.gtmId} />}
+        {enProduccion && site.metaPixelId && <MetaPixel id={site.metaPixelId} />}
       </body>
     </html>
   );

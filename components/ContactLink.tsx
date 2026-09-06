@@ -32,7 +32,11 @@ export default function ContactLink({
       href={href}
       className={className}
       {...(externo ? { target: "_blank", rel: "noreferrer noopener" } : {})}
-      onClick={() => sendGAEvent("event", "contacto", { canal })}
+      onClick={() => {
+        sendGAEvent("event", "contacto", { canal });
+        // El píxel sólo existe si está configurado; si no, esto no hace nada.
+        window.fbq?.("track", "Contact", { canal });
+      }}
     >
       {children}
     </a>

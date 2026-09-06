@@ -40,6 +40,14 @@ export const site = {
    */
   gtmId: "",
 
+  /**
+   * Píxel de Meta, para Facebook e Instagram (son sólo dígitos, unos quince).
+   * Vacío = apagado. Sirve sobre todo si algún día se hace publicidad: sin él,
+   * Meta no puede saber quién llegó a la web ni a quién volver a mostrarle
+   * los anuncios.
+   */
+  metaPixelId: "",
+
   /** Portfolio de origen del que se leen los proyectos. */
   portfolioOrigin: "https://creativovisualchile.myportfolio.com",
 } as const;
