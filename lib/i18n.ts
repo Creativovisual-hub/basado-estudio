@@ -98,7 +98,8 @@ type Dict = {
   };
   header: { menu: string; close: string; nav: string; navMobile: string; brandHome: string };
   footer: { worldwide: string; backToTop: string; social: string };
-  common: { skipToContent: string; themeToggle: string; langSwitch: string; loading: string; toTop: string };
+  common: { skipToContent: string; themeToggle: string; langSwitch: string; toTop: string };
+  cookies: { titulo: string; texto: string; aceptar: string; rechazar: string; enlace: string };
   notFound: { tag: string; title: string; link: string };
 };
 
@@ -226,8 +227,15 @@ const es: Dict = {
     skipToContent: "Saltar al contenido",
     themeToggle: "Cambiar entre modo claro y oscuro",
     langSwitch: "Cambiar idioma",
-    loading: "Cargando el sitio",
     toTop: "Volver arriba",
+  },
+  cookies: {
+    titulo: "Cookies",
+    texto:
+      "Usamos cookies para medir cuánta gente visita la web y qué proyectos mira. Nada más. Puedes decir que no y el sitio funciona igual.",
+    aceptar: "Aceptar",
+    rechazar: "Rechazar",
+    enlace: "Cookies",
   },
   notFound: {
     tag: "(404)",
@@ -355,8 +363,15 @@ const en: Dict = {
     skipToContent: "Skip to content",
     themeToggle: "Switch between light and dark mode",
     langSwitch: "Change language",
-    loading: "Loading the site",
     toTop: "Back to top",
+  },
+  cookies: {
+    titulo: "Cookies",
+    texto:
+      "We use cookies to measure how many people visit the site and which projects they look at. Nothing else. You can say no and the site works just the same.",
+    aceptar: "Accept",
+    rechazar: "Decline",
+    enlace: "Cookies",
   },
   notFound: {
     tag: "(404)",

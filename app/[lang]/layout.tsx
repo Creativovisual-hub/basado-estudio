@@ -11,8 +11,23 @@ import PageTransition from "@/components/PageTransition";
 import Cursor from "@/components/Cursor";
 import BackToTop from "@/components/BackToTop";
 import HtmlLang from "@/components/HtmlLang";
+import Cookies from "@/components/Cookies";
 
 type Params = { params: Promise<{ lang: string }> };
+
+/*
+ * La medición sólo se activa en el despliegue de producción.
+ *
+ * Sin esto, cada vez que se levanta el sitio en local para trabajar, esas
+ * visitas se envían a las cuentas reales y ensucian las estadísticas: páginas
+ * recargadas cien veces, sesiones de horas, un país que no es. Vercel expone
+ * VERCEL_ENV en la construcción, y vale "production" sólo en el despliegue
+ * definitivo, no en local ni en las vistas previas de cada rama.
+ *
+ * Si algún día el sitio se despliega fuera de Vercel, esta variable no
+ * existirá y la medición quedaría apagada: habría que ajustar esta condición.
+ */
+const enProduccion = process.env.VERCEL_ENV === "production";
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
@@ -88,6 +103,19 @@ export default async function LangLayout({
       <Footer locale={locale} />
 
       <BackToTop etiqueta={t.common.toTop} />
+
+      {/*
+        El banner es también la llave de la medición: los scripts viven dentro
+        y no se cargan hasta que alguien acepta.
+      */}
+      {enProduccion && (
+        <Cookies
+          gaId={site.analyticsId}
+          gtmId={site.gtmId}
+          pixelId={site.metaPixelId}
+          t={t.cookies}
+        />
+      )}
 
       <script
         type="application/ld+json"

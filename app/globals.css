@@ -357,83 +357,6 @@ body {
 }
 
 /* ---------------------------------------------------------------
-   Pantalla de carga. Ver components/Preloader.tsx.
-   Negra en los dos temas: la pieza de introducción viene sobre negro.
-----------------------------------------------------------------*/
-.precarga {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  display: grid;
-  place-items: center;
-  background: #000;
-  transition:
-    opacity 0.9s var(--ease),
-    visibility 0.9s;
-}
-/* Ya vista en esta sesión: no se dibuja nunca. */
-html.sin-precarga .precarga { display: none; }
-
-.precarga.is-out {
-  opacity: 0;
-  visibility: hidden;
-}
-
-.precarga__medio {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-}
-.precarga__medio img,
-.precarga__medio video {
-  max-height: 62vh;
-  max-width: 78vw;
-  object-fit: contain;
-}
-
-/* La cifra se apoya abajo a la izquierda, sobre el gutter del sitio. */
-.precarga__cifra {
-  position: absolute;
-  left: var(--pad);
-  bottom: calc(var(--pad) + 1.4rem);
-  color: #edece8;
-  font-size: clamp(3rem, 11vw, 9rem);
-  font-weight: 600;
-  line-height: 0.85;
-  letter-spacing: -0.05em;
-  font-variant-numeric: tabular-nums;
-}
-.precarga__pc {
-  font-size: 0.3em;
-  letter-spacing: 0.06em;
-  margin-left: 0.35em;
-  vertical-align: super;
-  opacity: 0.55;
-}
-
-.precarga__barra {
-  position: absolute;
-  left: var(--pad);
-  right: var(--pad);
-  bottom: var(--pad);
-  height: 1px;
-  background: rgba(237, 236, 232, 0.16);
-}
-.precarga__barra span {
-  display: block;
-  height: 100%;
-  background: #edece8;
-  transform-origin: left;
-  transition: transform 0.25s linear;
-}
-
-/* Sin JavaScript no hay contador que la retire: no debe llegar a verse. */
-@media (prefers-reduced-motion: reduce) {
-  .precarga { transition: none; }
-}
-
-/* ---------------------------------------------------------------
    Botón de volver arriba. Ver components/BackToTop.tsx.
    Por debajo del menú móvil (z-40) para que éste lo tape al abrirse.
 ----------------------------------------------------------------*/
@@ -506,4 +429,65 @@ html.sin-precarga .precarga { display: none; }
     opacity: 1 !important;
     transform: none !important;
   }
+}
+
+/* ---------------------------------------------------------------
+   Banner de cookies. Ver components/Cookies.tsx.
+   Por debajo del menú móvil (z-40): abrirlo debe taparlo.
+----------------------------------------------------------------*/
+.cookies {
+  position: fixed;
+  left: var(--pad);
+  right: var(--pad);
+  bottom: var(--pad);
+  z-index: 35;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 34rem;
+  padding: 1.4rem 1.5rem;
+  background: var(--c-inv);
+  color: var(--c-inv-fg);
+  animation: cookies-in 0.7s var(--ease) both;
+}
+@keyframes cookies-in {
+  from { opacity: 0; transform: translateY(1rem); }
+  to   { opacity: 1; transform: none; }
+}
+
+.cookies__texto {
+  opacity: 0.75;
+  max-width: 44ch;
+}
+
+.cookies__acciones {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.cookies__btn {
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.7rem 1.4rem;
+  border: 1px solid currentColor;
+  color: inherit;
+  transition:
+    background-color 0.4s var(--ease),
+    color 0.4s var(--ease),
+    opacity 0.4s var(--ease);
+}
+.cookies__btn:hover {
+  background: var(--c-inv-fg);
+  color: var(--c-inv);
+}
+/* El botón de aceptar llega ya invertido: es la opción principal. */
+.cookies__btn--si {
+  background: var(--c-inv-fg);
+  color: var(--c-inv);
+}
+.cookies__btn--si:hover { opacity: 0.75; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cookies { animation: none; }
 }

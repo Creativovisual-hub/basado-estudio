@@ -2,6 +2,7 @@ import Link from "next/link";
 import { site } from "@/lib/site";
 import { getDict, localePath, type Locale } from "@/lib/i18n";
 import ContactLink from "./ContactLink";
+import CookiesLink from "./CookiesLink";
 
 export default function Footer({ locale }: { locale: Locale }) {
   const t = getDict(locale);
@@ -52,6 +53,8 @@ export default function Footer({ locale }: { locale: Locale }) {
           >
             {t.footer.backToTop}
           </Link>
+          <br />
+          <CookiesLink>{t.cookies.enlace}</CookiesLink>
         </div>
       </div>
     </footer>

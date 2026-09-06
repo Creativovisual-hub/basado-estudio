@@ -1,6 +1,3 @@
-import fs from "node:fs";
-import path from "node:path";
-
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -11,35 +8,6 @@ import BaseSection from "@/components/BaseSection";
 import { Reveal, RevealLines } from "@/components/Reveal";
 import HeroType from "@/components/HeroType";
 import { site } from "@/lib/site";
-import Preloader, { type MedioIntro } from "@/components/Preloader";
-
-/*
- * Pieza de introducción de la pantalla de carga. Se busca al construir el
- * sitio: si el archivo no está, la pantalla sale igual con el contador sobre
- * negro, sin imagen rota. Basta con dejarlo en public/img/precarga/.
- */
-const INTRO_DIR = path.join(process.cwd(), "public", "img", "precarga");
-const INTRO: { ext: string; tipo: "video" | "imagen" }[] = [
-  { ext: "webm", tipo: "video" },
-  { ext: "mp4", tipo: "video" },
-  { ext: "gif", tipo: "imagen" },
-  { ext: "webp", tipo: "imagen" },
-  { ext: "png", tipo: "imagen" },
-];
-
-/** Vale cualquiera de los dos nombres, para no depender de acertar uno. */
-const INTRO_NOMBRES = ["preloader", "intro"];
-
-function buscarIntro(): MedioIntro {
-  for (const nombre of INTRO_NOMBRES) {
-    for (const { ext, tipo } of INTRO) {
-      if (fs.existsSync(path.join(INTRO_DIR, `${nombre}.${ext}`))) {
-        return { src: `/img/precarga/${nombre}.${ext}`, tipo };
-      }
-    }
-  }
-  return null;
-}
 
 export default async function Home({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -49,8 +17,6 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
 
   return (
     <>
-      <Preloader medio={buscarIntro()} etiqueta={t.common.loading} />
-
       {/* ---------------------------------------------------------------
           Hero editorial. La tipografía es la única imagen.
       ----------------------------------------------------------------*/}

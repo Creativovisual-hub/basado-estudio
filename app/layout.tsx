@@ -1,23 +1,7 @@
 import type { Viewport } from "next";
 import { Inter_Tight } from "next/font/google";
 import "./globals.css";
-import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
-import { site } from "@/lib/site";
-import MetaPixel from "@/components/MetaPixel";
 
-/*
- * La medición sólo se activa en el despliegue de producción.
- *
- * Sin esto, cada vez que se levanta el sitio en local para trabajar, esas
- * visitas se envían a la propiedad real y ensucian las estadísticas: páginas
- * recargadas cien veces, sesiones de horas, un país que no es. Vercel expone
- * VERCEL_ENV en la construcción, y vale "production" sólo en el despliegue
- * definitivo, no en local ni en las vistas previas de cada rama.
- *
- * Si algún día el sitio se despliega fuera de Vercel, esta variable no
- * existirá y la medición quedaría apagada: habría que ajustar esta condición.
- */
-const enProduccion = process.env.VERCEL_ENV === "production";
 
 /*
  * Sin lista de pesos: se carga la versión variable de la familia. Además de
@@ -31,15 +15,11 @@ const display = Inter_Tight({
 });
 
 /*
- * Dos cosas que tienen que resolverse ANTES del primer pintado, porque como
- * efecto de React llegarían tarde y se verían como un parpadeo:
- *
- * · el tema guardado, o la página aparecería un instante en claro antes de
- *   pasar a oscuro;
- * · si la pantalla de carga ya se vio en esta sesión, o en la segunda visita
- *   habría un fogonazo negro antes de que React la retire.
+ * El tema guardado tiene que aplicarse ANTES del primer pintado. Como efecto
+ * de React llegaría tarde: la página aparecería un instante en claro antes de
+ * pasar a oscuro, y eso se ve como un fogonazo.
  */
-const themeScript = `(function(){try{var t=localStorage.getItem("tema");if(t==="dark"||t==="light"){document.documentElement.dataset.theme=t}}catch(e){}try{if(sessionStorage.getItem("precarga")){document.documentElement.classList.add("sin-precarga")}}catch(e){}})()`;
+const themeScript = `(function(){try{var t=localStorage.getItem("tema");if(t==="dark"||t==="light"){document.documentElement.dataset.theme=t}}catch(e){}})()`;
 
 export const viewport: Viewport = {
   themeColor: [
@@ -54,28 +34,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html suppressHydrationWarning className={display.variable}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-        {/*
-          Sin JavaScript: el contenido se muestra igual, sin animación, y la
-          pantalla de carga ni se dibuja, porque no habría contador que la
-          retirase y dejaría la web tapada.
-        */}
+        {/* Sin JavaScript el contenido se muestra igual, sin animación. */}
         <noscript>
           <style>
-            {".rv,.rv-line>*,.rv-img{opacity:1!important;transform:none!important}.precarga{display:none!important}"}
+            {".rv,.rv-line>*,.rv-img{opacity:1!important;transform:none!important}"}
           </style>
         </noscript>
       </head>
       <body className="bg-bg text-fg antialiased">
         {children}
-        {/*
-          Solo si hay ID. El componente oficial de Next carga el script
-          después de que la página sea interactiva, de modo que la medición
-          no compite con el primer pintado, y cuenta por su cuenta las
-          navegaciones internas, que en una web como ésta no recargan la página.
-        */}
-        {enProduccion && site.analyticsId && <GoogleAnalytics gaId={site.analyticsId} />}
-        {enProduccion && site.gtmId && <GoogleTagManager gtmId={site.gtmId} />}
-        {enProduccion && site.metaPixelId && <MetaPixel id={site.metaPixelId} />}
       </body>
     </html>
   );

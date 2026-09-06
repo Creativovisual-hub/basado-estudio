@@ -96,8 +96,6 @@ sin sombras, sin radios salvo la píldora del cursor.
 - **Titular del hero**: cada letra engorda al acercarse el cursor, de peso 600
   a 900 (`HeroType`). Se escribe con `font-variation-settings`, no con
   `font-weight`, que el navegador redondearía a saltos.
-- **Pantalla de carga**: contador de 0 a 100 antes de la home, una vez por
-  sesión (`Preloader`).
 
 Todo respeta `prefers-reduced-motion`: Lenis no se inicializa, las animaciones
 se anulan y la composición se conserva intacta.
@@ -186,6 +184,10 @@ Google Analytics 4 está activo. El interruptor es `analyticsId` en
 [`lib/site.ts`](lib/site.ts): vaciarlo lo apaga por completo, sin cargar ningún
 script de Google ni poner ninguna cookie.
 
+Hay una segunda condición, además del interruptor: **el visitante tiene que
+aceptar las cookies**. Ver *Consentimiento de cookies* al final de esta
+sección.
+
 Hay dos interruptores, y son **alternativos**, no complementarios:
 
 | Campo | Formato | Qué hace |
@@ -201,7 +203,8 @@ Hay dos interruptores, y son **alternativos**, no complementarios:
 **Sólo mide en el despliegue de producción.** El trabajo en local y las vistas
 previas de rama no envían nada: sin ese corte, cada sesión de desarrollo
 ensuciaría las estadísticas con páginas recargadas cien veces y sesiones de
-horas. El interruptor es `VERCEL_ENV === "production"` en `app/layout.tsx`; si
+horas. El interruptor es `VERCEL_ENV === "production"` en
+`app/[lang]/layout.tsx`; si
 algún día el sitio se despliega fuera de Vercel, esa variable no existirá y
 habría que ajustar la condición.
 
@@ -237,10 +240,27 @@ El fragmento que da Meta cuenta la visita una sola vez, al cargar. Como aquí la
 navegaciones internas no recargan nada, el componente avisa a mano en cada
 cambio de ruta; sin eso, una sesión entera contaría como una sola vista.
 
-> **Cookies.** GA pone cookies de terceros. En Chile no hay obligación de
-> pedir consentimiento, pero si te visitan desde Europa el RGPD sí lo exige.
-> Si eso te importa, hay que añadir un aviso de cookies que retrase la carga
-> hasta la aceptación; hoy el sitio no lo lleva.
+### Consentimiento de cookies
+
+Nada de lo anterior se carga hasta que la persona acepta. El banner
+(`components/Cookies.tsx`) no es sólo un aviso: los scripts de medición viven
+**dentro** de él, así que mientras no haya un sí no existe forma de que se
+cuelen. Antes de responder, el sitio no hace ni una sola petición a Google o a
+Meta ni pone ninguna cookie de seguimiento.
+
+La respuesta se guarda en `localStorage` bajo la clave `cookies`, con valor
+`si` o `no`. Si no se puede escribir —navegación privada con el
+almacenamiento bloqueado— se asume que no hay consentimiento, que es el lado
+seguro. Al rechazar se recarga la página: los scripts ya cargados no se pueden
+desmontar de verdad, y sus cookies seguirían puestas.
+
+En el pie hay un enlace *Cookies* para cambiar de opinión más tarde, como pide
+el RGPD. Los textos están en `lib/i18n.ts`, bloque `cookies`.
+
+> **Por qué está.** En Chile la ley 19.628 no obliga a pedirlo, pero la 21.719
+> —que entra en vigor a finales de 2026— sí endurece el criterio, y a quien te
+> visite desde Europa le aplica el RGPD desde ya. Con dos herramientas de
+> seguimiento instaladas, no llevarlo era el riesgo más caro de los dos.
 
 ## Publicar en internet
 

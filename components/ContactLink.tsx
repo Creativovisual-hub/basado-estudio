@@ -3,6 +3,12 @@
 import { sendGAEvent } from "@next/third-parties/google";
 import type { ReactNode } from "react";
 
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
 /**
  * Enlace de contacto que avisa a la analítica al pulsarlo.
  *
@@ -33,8 +39,8 @@ export default function ContactLink({
       className={className}
       {...(externo ? { target: "_blank", rel: "noreferrer noopener" } : {})}
       onClick={() => {
-        sendGAEvent("event", "contacto", { canal });
-        // El píxel sólo existe si está configurado; si no, esto no hace nada.
+        // Sin consentimiento no hay medición cargada, y no hay nada que avisar.
+        if (typeof window.gtag === "function") sendGAEvent("event", "contacto", { canal });
         window.fbq?.("track", "Contact", { canal });
       }}
     >
