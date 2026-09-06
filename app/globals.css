@@ -437,18 +437,30 @@ body {
 ----------------------------------------------------------------*/
 .cookies {
   position: fixed;
-  left: var(--pad);
-  right: var(--pad);
-  bottom: var(--pad);
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 35;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  max-width: 34rem;
-  padding: 1.4rem 1.5rem;
+  align-items: flex-start;
+  gap: 1.5rem;
+  /* El mismo gutter que el resto del sitio, para que no parezca pegado. */
+  padding: clamp(1.5rem, 3.4vw, 2.5rem) var(--pad);
   background: var(--c-inv);
   color: var(--c-inv-fg);
   animation: cookies-in 0.7s var(--ease) both;
+}
+
+/* A partir de tablet cabe en una línea: texto a la izquierda, botones a la
+   derecha, como una franja editorial y no como una ventana. */
+@media (min-width: 48rem) {
+  .cookies {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(2rem, 6vw, 6rem);
+  }
 }
 @keyframes cookies-in {
   from { opacity: 0; transform: translateY(1rem); }
@@ -457,12 +469,15 @@ body {
 
 .cookies__texto {
   opacity: 0.75;
-  max-width: 44ch;
+  /* Medida de lectura cómoda: una franja a todo ancho con la línea entera
+     sería ilegible en pantallas grandes. */
+  max-width: 62ch;
 }
 
 .cookies__acciones {
   display: flex;
   gap: 0.6rem;
+  flex-shrink: 0;
 }
 
 .cookies__btn {
