@@ -481,9 +481,11 @@ body {
 
 .cookies__texto {
   opacity: 0.75;
-  /* Medida de lectura cómoda: una franja a todo ancho con la línea entera
-     sería ilegible en pantallas grandes. */
-  max-width: 62ch;
+  /* Aprovecha el ancho de la franja pero no la línea entera: a 12 px y en
+     mayúsculas, un renglón de pantalla completa se seguiría con esfuerzo. */
+  max-width: 104ch;
+  /* Evita que la última línea quede en una sola palabra suelta. */
+  text-wrap: pretty;
 }
 
 .cookies__acciones {

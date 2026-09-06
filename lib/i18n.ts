@@ -232,7 +232,7 @@ const es: Dict = {
   cookies: {
     titulo: "Cookies",
     texto:
-      "Nos gustaría saber qué proyectos miras: nos ayuda a hacer mejor esta web. Para eso usamos cookies, y para nada más. Tú decides, y si prefieres que no, todo sigue funcionando igual.",
+      "Usamos cookies para saber qué proyectos te interesan y mejorar tu experiencia en esta web. Tú decides si aceptarlas; si prefieres que no, la web seguirá funcionando igual.",
     aceptar: "Aceptar",
     rechazar: "Rechazar",
     enlace: "Cookies",
@@ -370,7 +370,7 @@ const en: Dict = {
   cookies: {
     titulo: "Cookies",
     texto:
-      "We'd love to know which projects you look at: it helps us make this site better. That's what we use cookies for, and nothing else. It's your call, and if you'd rather not, everything keeps working just the same.",
+      "We use cookies to understand which projects interest you and improve your experience on this site. You decide whether to accept them; if you’d rather not, the site will work just the same.",
     aceptar: "Accept",
     rechazar: "Decline",
     enlace: "Cookies",
