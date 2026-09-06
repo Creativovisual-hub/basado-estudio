@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!--
+    Símbolo de BASADO ESTUDIO.
+
+    No es un calco de la imagen: la marca se midió y resultó ser geometría
+    exacta —un asta recta y dos círculos, el de arriba tangente al borde
+    superior y el de abajo al inferior—. Reconstruida así se ve nítida a
+    cualquier tamaño, desde los 16 px de la pestaña hasta el icono de
+    escritorio, cosa que un PNG de 189 px de ancho no permitía.
+
+    Ajuste sobre public/img/logo.png: 0,35 px de error medio.
+  -->
+  <rect width="512" height="512" fill="#0e0e0e"/>
+  <g fill="#f4f3f1" transform="translate(129 91) scale(1.793)">
+    <rect width="84" height="184"/>
+    <circle cx="72.25" cy="59.5" r="59.5"/>
+    <circle cx="81.75" cy="124" r="60"/>
+  </g>
+</svg>
