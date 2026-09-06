@@ -46,7 +46,7 @@ export const site = {
    * Meta no puede saber quién llegó a la web ni a quién volver a mostrarle
    * los anuncios.
    */
-  metaPixelId: "",
+  metaPixelId: "28317147271272626",
 
   /** Portfolio de origen del que se leen los proyectos. */
   portfolioOrigin: "https://creativovisualchile.myportfolio.com",
