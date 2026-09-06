@@ -34,6 +34,36 @@ export function guardarConsentimiento(v: Consentimiento) {
   } catch {}
 }
 
+/*
+ * Prefijos de las cookies que ponen Google y Meta. Se borran al rechazar:
+ * dejar de cargar los scripts no basta si alguien ya aceptó antes —o visitó
+ * el sitio cuando aún no había banner—, porque esas cookies duran hasta dos
+ * años y seguirían identificando a la persona.
+ */
+const PREFIJOS = ["_ga", "_gid", "_gcl", "_fbp", "_fbc"];
+
+export function borrarCookiesDeMedicion() {
+  // El dominio propio y el de nivel superior: Google y Meta las escriben en
+  // ".basadoestudio.com", y una cookie sólo se borra desde su mismo dominio.
+  const host = location.hostname;
+  const partes = host.split(".");
+  const dominios = [undefined, host, `.${host}`];
+  if (partes.length > 2) {
+    const raiz = partes.slice(-2).join(".");
+    dominios.push(raiz, `.${raiz}`);
+  }
+
+  for (const cookie of document.cookie.split(";")) {
+    const nombre = cookie.split("=")[0]?.trim();
+    if (!nombre || !PREFIJOS.some((p) => nombre.startsWith(p))) continue;
+    for (const dominio of dominios) {
+      document.cookie =
+        `${nombre}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/` +
+        (dominio ? `; domain=${dominio}` : "");
+    }
+  }
+}
+
 /** Reabre el banner desde cualquier parte, para cambiar de opinión. */
 export function abrirCookies() {
   window.dispatchEvent(new Event(EVENTO_ABRIR));

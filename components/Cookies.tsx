@@ -5,6 +5,7 @@ import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import MetaPixel from "./MetaPixel";
 import {
   EVENTO_ABRIR,
+  borrarCookiesDeMedicion,
   guardarConsentimiento,
   leerConsentimiento,
   type Consentimiento,
@@ -66,9 +67,12 @@ export default function Cookies({
     guardarConsentimiento(v);
     setDecision(v);
     setVisible(false);
-    // Al retirar el consentimiento hay que recargar: los scripts ya cargados
-    // no se pueden desmontar de verdad, y sus cookies siguen puestas.
-    if (v === "no") window.location.reload();
+    if (v === "no") {
+      // Rechazar no es sólo dejar de cargar: hay que retirar lo ya puesto.
+      // Y recargar después, porque un script ya cargado no se desmonta.
+      borrarCookiesDeMedicion();
+      window.location.reload();
+    }
   };
 
   const acepta = decision === "si";
