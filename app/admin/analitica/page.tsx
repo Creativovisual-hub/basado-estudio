@@ -58,7 +58,7 @@ export default async function Analitica() {
               <h2 className="text-[1.05rem] font-semibold tracking-[-0.02em]">
                 Almacenamiento
               </h2>
-              <p className="t-meta opacity-45">
+              <p className="a-etiqueta opacity-45">
                 {enTexto(espacio.usado)} de {enTexto(espacio.limite)}
               </p>
             </div>
@@ -91,7 +91,7 @@ export default async function Analitica() {
                       <span className="truncate text-[0.98rem] font-semibold tracking-[-0.02em]">
                         {p.nombre}
                       </span>
-                      <span className="t-meta shrink-0 opacity-45">
+                      <span className="a-etiqueta shrink-0 opacity-45">
                         {enTexto(p.bytes)} · {p.imagenes}{" "}
                         {p.imagenes === 1 ? "imagen" : "imágenes"}
                       </span>
@@ -130,7 +130,7 @@ export default async function Analitica() {
               href="https://analytics.google.com/"
               target="_blank"
               rel="noreferrer"
-              className="t-meta a-boton a-boton--linea"
+              className="a-etiqueta a-boton a-boton--linea"
             >
               Abrir Google Analytics ↗
             </a>

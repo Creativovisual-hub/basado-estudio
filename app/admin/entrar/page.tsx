@@ -50,13 +50,13 @@ export default async function Entrar() {
         <div className="mx-auto w-full max-w-[24rem]">
           <div className="mb-10">
             <LogoBasado alto={38} />
-            <p className="t-meta mt-4 opacity-40">Panel de administración</p>
+            <p className="a-etiqueta mt-4 opacity-40">Panel de administración</p>
           </div>
 
           <h1 className="mb-2 text-[1.7rem] font-semibold tracking-[-0.035em]">
             Entrar
           </h1>
-          <p className="t-meta mb-8 opacity-45">
+          <p className="a-etiqueta mb-8 opacity-45">
             Para administrar los proyectos de la web.
           </p>
 

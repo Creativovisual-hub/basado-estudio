@@ -29,7 +29,7 @@ export default async function EditarProyecto({
   return (
     <main className="p-5 md:p-8">
       <div className="mb-6 flex items-baseline justify-between gap-6">
-        <Link href="/admin" className="t-meta link-underline opacity-55">
+        <Link href="/admin" className="a-etiqueta link-underline opacity-55">
           ← Proyectos
         </Link>
 
@@ -39,13 +39,13 @@ export default async function EditarProyecto({
             href={`/es/work/${p.slug}`}
             target="_blank"
             rel="noreferrer"
-            className="t-meta link-underline opacity-55 transition-opacity hover:opacity-100"
+            className="a-etiqueta link-underline opacity-55 transition-opacity hover:opacity-100"
           >
             Ver en la web ↗
           </a>
 
           <span
-            className={`t-meta a-pastilla ${
+            className={`a-etiqueta a-pastilla ${
               p.publicado ? "a-pastilla--vivo" : "opacity-45"
             }`}
           >
@@ -55,7 +55,7 @@ export default async function EditarProyecto({
       </div>
 
       <h1 className="text-[1.7rem] font-semibold tracking-[-0.035em]">{p.nombre}</h1>
-      <p className="t-meta mb-7 mt-2 opacity-40">/work/{p.slug}</p>
+      <p className="a-etiqueta mb-7 mt-2 opacity-40">/work/{p.slug}</p>
 
       <FichaProyecto
         p={ficha}
@@ -79,14 +79,14 @@ export default async function EditarProyecto({
       */}
       <div className="mt-6 flex flex-wrap gap-3">
         <form action={duplicarEste}>
-          <button type="submit" className="t-meta a-boton a-boton--linea">
+          <button type="submit" className="a-etiqueta a-boton a-boton--linea">
             Duplicar proyecto
           </button>
         </form>
         <form action={borrarEste}>
         <button
           type="submit"
-          className="t-meta a-boton a-boton--linea opacity-55 transition-opacity hover:opacity-100"
+          className="a-etiqueta a-boton a-boton--linea opacity-55 transition-opacity hover:opacity-100"
         >
             Borrar este proyecto y sus imágenes
           </button>

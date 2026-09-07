@@ -18,7 +18,7 @@ export default async function Cuenta() {
       <h1 className="mb-7 text-[1.7rem] font-semibold tracking-[-0.035em]">Mi cuenta</h1>
 
       {cuenta && (
-        <dl className="a-panel t-meta mb-6 grid max-w-[34rem] grid-cols-2 gap-y-4 p-5 md:p-6">
+        <dl className="a-panel a-etiqueta mb-6 grid max-w-[34rem] grid-cols-2 gap-y-4 p-5 md:p-6">
           <dt className="opacity-45">Usuario</dt>
           <dd>{cuenta.usuario}</dd>
           <dt className="opacity-45">Último acceso</dt>
@@ -30,7 +30,7 @@ export default async function Cuenta() {
         </dl>
       )}
 
-      <h2 className="t-meta mb-5 opacity-45">Cambiar la contraseña</h2>
+      <h2 className="a-etiqueta mb-5 opacity-45">Cambiar la contraseña</h2>
 
       <div className="a-panel max-w-[34rem] p-5 md:p-6">
       <Formulario accion={cambiarContrasena} envio="Cambiar contraseña">

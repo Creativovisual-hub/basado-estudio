@@ -778,6 +778,25 @@ textarea.a-campo { resize: vertical; }
   font-size: 0.875rem;
   line-height: 1.6;
   letter-spacing: -0.005em;
-  max-width: 78ch;
+  max-width: 104ch;
   opacity: 0.5;
+}
+
+/*
+ * Etiqueta del panel: caja normal.
+ *
+ * En la web las mayúsculas con tracking son parte del tono editorial. En una
+ * herramienta estorban: uno no contempla el nombre de un campo, lo lee de
+ * reojo mientras escribe, y en mayúsculas cuesta más porque desaparece la
+ * silueta de la palabra.
+ *
+ * El menú lateral se queda en mayúsculas a propósito: es lo único que se
+ * mira de lejos, y ahí la mayúscula ayuda a separarlo del contenido.
+ */
+.a-etiqueta {
+  font-size: 0.78rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  text-transform: none;
+  font-weight: 500;
 }

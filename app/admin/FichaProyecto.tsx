@@ -27,7 +27,7 @@ function Texto({
 }) {
   return (
     <label className={`flex flex-col gap-2 ${ancho ? "md:col-span-2" : ""}`}>
-      <span className="t-meta opacity-55">{etiqueta}</span>
+      <span className="a-etiqueta opacity-55">{etiqueta}</span>
       <input
         name={nombre}
         defaultValue={valor ?? ""}
@@ -53,7 +53,7 @@ function Area({
 }) {
   return (
     <label className="flex flex-col gap-2">
-      <span className="t-meta opacity-55">{etiqueta}</span>
+      <span className="a-etiqueta opacity-55">{etiqueta}</span>
       <textarea
         name={nombre}
         rows={filas}
@@ -104,7 +104,7 @@ export default function FichaProyecto({
 
       <section className="a-panel grid grid-cols-1 gap-6 p-5 md:grid-cols-2 md:p-6">
         <label className="flex flex-col gap-2 md:col-span-2">
-          <span className="t-meta opacity-55">Formato de las láminas</span>
+          <span className="a-etiqueta opacity-55">Formato de las láminas</span>
           <select
             name="formato"
             defaultValue={p.formato || "16:9"}
@@ -178,7 +178,7 @@ export default function FichaProyecto({
         los suyos.
       */}
       <section className="a-panel a-destacada mt-6 flex flex-wrap items-center gap-6 p-5 md:p-6">
-        <label className="t-meta flex items-center gap-3">
+        <label className="a-etiqueta flex items-center gap-3">
           <input
             type="checkbox"
             name="publicado"
@@ -193,18 +193,18 @@ export default function FichaProyecto({
           type="submit"
           form="ficha-proyecto"
           disabled={pendiente}
-          className="t-meta a-boton"
+          className="a-etiqueta a-boton"
         >
           {pendiente ? "Guardando…" : "Guardar cambios"}
         </button>
 
         {estado === "guardado" && (
-          <span role="status" className="t-meta opacity-55">
+          <span role="status" className="a-etiqueta opacity-55">
             Guardado.
           </span>
         )}
         {estado && estado !== "guardado" && (
-          <span role="alert" className="t-meta text-[#e0342f]">
+          <span role="alert" className="a-etiqueta text-[#e0342f]">
             {estado}
           </span>
         )}

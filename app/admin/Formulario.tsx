@@ -17,7 +17,7 @@ function Boton({ children }: { children: React.ReactNode }) {
     <button
       type="submit"
       disabled={pending}
-      className="t-meta a-boton mt-2 w-full"
+      className="a-etiqueta a-boton mt-2 w-full"
     >
       {pending ? "Un momento…" : children}
     </button>
@@ -52,7 +52,7 @@ export default function Formulario({
       {mensaje && (
         <p
           role={exito ? "status" : "alert"}
-          className={`t-meta leading-relaxed ${
+          className={`a-etiqueta leading-relaxed ${
             exito ? "opacity-55" : "text-[#c0392b]"
           }`}
         >

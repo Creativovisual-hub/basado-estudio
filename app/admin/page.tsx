@@ -27,7 +27,7 @@ export default async function Panel() {
         </div>
 
         <form action={nuevoProyecto}>
-          <button type="submit" className="t-meta a-boton">
+          <button type="submit" className="a-etiqueta a-boton">
             <span aria-hidden="true" className="text-[1.1em] leading-none">
               +
             </span>
@@ -48,7 +48,7 @@ export default async function Panel() {
           <h2 className="text-[1.15rem] font-semibold tracking-[-0.03em]">
             Tus proyectos
           </h2>
-          <p className="t-meta opacity-40">
+          <p className="a-etiqueta opacity-40">
             Los de Adobe Portfolio no salen aquí
           </p>
         </div>
@@ -86,14 +86,14 @@ export default async function Panel() {
                     <span className="block truncate text-[1.05rem] font-semibold tracking-[-0.025em]">
                       {p.nombre}
                     </span>
-                    <span className="t-meta mt-1.5 block opacity-40">
+                    <span className="a-etiqueta mt-1.5 block opacity-40">
                       /{p.slug} · {p.imagenes}{" "}
                       {p.imagenes === 1 ? "imagen" : "imágenes"}
                     </span>
                   </span>
 
                   <span
-                    className={`t-meta a-pastilla ${
+                    className={`a-etiqueta a-pastilla ${
                       p.publicado ? "a-pastilla--vivo" : "opacity-45"
                     }`}
                   >

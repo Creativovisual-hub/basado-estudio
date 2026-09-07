@@ -118,13 +118,13 @@ export default function Imagenes({
       <div className="mb-5 flex flex-wrap items-baseline justify-between gap-4">
         <h2 className="text-[1.05rem] font-semibold tracking-[-0.02em]">
           Imágenes{" "}
-          <span className="t-meta ml-1 opacity-40">({lista.length})</span>
+          <span className="a-etiqueta ml-1 opacity-40">({lista.length})</span>
         </h2>
         <button
           type="button"
           onClick={() => entrada.current?.click()}
           disabled={Boolean(subiendo)}
-          className="t-meta a-boton"
+          className="a-etiqueta a-boton"
         >
           {subiendo ? "Subiendo…" : "Añadir imágenes"}
         </button>
@@ -139,7 +139,7 @@ export default function Imagenes({
         onChange={alElegir}
       />
 
-      {subiendo && <p className="t-meta mb-4 opacity-55">{subiendo}</p>}
+      {subiendo && <p className="a-etiqueta mb-4 opacity-55">{subiendo}</p>}
       {error && (
         <p role="alert" className="a-nota mb-4 text-[#e0342f]" style={{ opacity: 1 }}>
           {error}
@@ -182,7 +182,7 @@ export default function Imagenes({
                     className="h-full w-full object-cover"
                   />
                   {img.portada && (
-                    <span className="t-meta a-pastilla a-pastilla--vivo absolute left-2 top-2">
+                    <span className="a-etiqueta a-pastilla a-pastilla--vivo absolute left-2 top-2">
                       Portada
                     </span>
                   )}
@@ -204,12 +204,12 @@ export default function Imagenes({
                     placeholder="Qué se ve (inglés)"
                     className="a-campo"
                   />
-                  <button type="submit" className="t-meta link-underline self-start opacity-55">
+                  <button type="submit" className="a-etiqueta link-underline self-start opacity-55">
                     Guardar textos
                   </button>
                 </form>
 
-                <div className="t-meta flex flex-wrap items-center gap-x-4 gap-y-2 opacity-55">
+                <div className="a-etiqueta flex flex-wrap items-center gap-x-4 gap-y-2 opacity-55">
                   {!img.portada && (
                     <button
                       type="button"

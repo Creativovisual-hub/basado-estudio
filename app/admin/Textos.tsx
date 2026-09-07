@@ -30,11 +30,11 @@ export default function Textos({
   return (
     <section>
       <div className="mb-6 flex items-baseline justify-between gap-6">
-        <h2 className="t-meta opacity-45">
+        <h2 className="a-etiqueta opacity-45">
           Bloques de texto entre imágenes ({textos.length})
         </h2>
         <form action={crear}>
-          <button type="submit" className="t-meta link-underline">
+          <button type="submit" className="a-etiqueta link-underline">
             Añadir bloque
           </button>
         </form>
@@ -53,7 +53,7 @@ export default function Textos({
               <form action={guardarBloque.bind(null, t.id)} className="flex flex-col gap-4">
                 <div className="flex flex-wrap items-end justify-between gap-4">
                   <label className="flex flex-col gap-2">
-                    <span className="t-meta opacity-55">
+                    <span className="a-etiqueta opacity-55">
                       Bloque {i + 1} · aparece después de la imagen
                     </span>
                     <input
@@ -73,7 +73,7 @@ export default function Textos({
 
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <label className="flex flex-col gap-2">
-                    <span className="t-meta opacity-55">Español</span>
+                    <span className="a-etiqueta opacity-55">Español</span>
                     <textarea
                       name="texto_es"
                       rows={5}
@@ -82,7 +82,7 @@ export default function Textos({
                     />
                   </label>
                   <label className="flex flex-col gap-2">
-                    <span className="t-meta opacity-55">Inglés</span>
+                    <span className="a-etiqueta opacity-55">Inglés</span>
                     <textarea
                       name="texto_en"
                       rows={5}
@@ -97,7 +97,7 @@ export default function Textos({
                 </span>
 
                 <div className="flex items-center gap-6">
-                  <button type="submit" className="t-meta a-boton">
+                  <button type="submit" className="a-etiqueta a-boton">
                     Guardar bloque
                   </button>
                 </div>
@@ -106,7 +106,7 @@ export default function Textos({
               <form action={quitarTexto.bind(null, t.id)} className="mt-3">
                 <button
                   type="submit"
-                  className="t-meta link-underline opacity-45 transition-opacity hover:opacity-100"
+                  className="a-etiqueta link-underline opacity-45 transition-opacity hover:opacity-100"
                 >
                   Borrar bloque
                 </button>

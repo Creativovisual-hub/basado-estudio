@@ -94,7 +94,7 @@ export default function Arrastrable({ inicial }: { inicial: Fila[] }) {
       {aviso && (
         <p
           role="status"
-          className="t-meta a-panel a-destacada mb-4 px-5 py-4 opacity-75"
+          className="a-etiqueta a-panel a-destacada mb-4 px-5 py-4 opacity-75"
         >
           {aviso}
         </p>
@@ -142,7 +142,7 @@ export default function Arrastrable({ inicial }: { inicial: Fila[] }) {
               </svg>
             </span>
 
-            <span className="t-meta w-5 shrink-0 opacity-35">{i + 1}</span>
+            <span className="a-etiqueta w-5 shrink-0 opacity-35">{i + 1}</span>
 
             <span className="h-12 w-16 shrink-0 overflow-hidden rounded-[8px] bg-shade">
               {p.miniatura && (
@@ -161,7 +161,7 @@ export default function Arrastrable({ inicial }: { inicial: Fila[] }) {
               <span className="block truncate text-[1.05rem] font-semibold tracking-[-0.025em]">
                 {p.nombre}
               </span>
-              <span className="t-meta mt-1 block opacity-40">/{p.slug}</span>
+              <span className="a-etiqueta mt-1 block opacity-40">/{p.slug}</span>
             </span>
 
             {/* Aparece al acercarse, pero siempre presente para el teclado y
@@ -170,7 +170,7 @@ export default function Arrastrable({ inicial }: { inicial: Fila[] }) {
               type="button"
               onClick={() => preguntar(p)}
               aria-label={`Borrar ${p.nombre}`}
-              className="t-meta shrink-0 rounded-[8px] px-3 py-2 opacity-0 transition-opacity hover:bg-[var(--a-suave)] focus-visible:opacity-100 group-hover:opacity-55"
+              className="a-etiqueta shrink-0 rounded-[8px] px-3 py-2 opacity-0 transition-opacity hover:bg-[var(--a-suave)] focus-visible:opacity-100 group-hover:opacity-55"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -210,7 +210,7 @@ export default function Arrastrable({ inicial }: { inicial: Fila[] }) {
                 type="button"
                 onClick={confirmar}
                 disabled={borrando}
-                className="t-meta a-boton"
+                className="a-etiqueta a-boton"
                 style={{ background: "#e0342f", color: "#fff" }}
               >
                 {borrando ? "Borrando…" : "Sí, borrar"}
@@ -219,7 +219,7 @@ export default function Arrastrable({ inicial }: { inicial: Fila[] }) {
                 type="button"
                 onClick={cerrar}
                 disabled={borrando}
-                className="t-meta a-boton a-boton--linea"
+                className="a-etiqueta a-boton a-boton--linea"
               >
                 Cancelar
               </button>
