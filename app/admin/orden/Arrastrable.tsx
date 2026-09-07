@@ -10,9 +10,10 @@ import { reordenarPortada } from "../proyectos";
    respuesta del servidor para mover una fila haría que arrastrar se sintiera
    pegajoso, y aquí el gesto tiene que ir por delante.
 
-   Con teclado no se puede arrastrar, así que cada fila conserva dos botones
-   para subir y bajar. No es una duplicación por si acaso: sin ellos, esta
-   pantalla sería inutilizable para quien no maneja un ratón.
+   Con teclado no se puede arrastrar, así que cada fila se puede enfocar con
+   el tabulador y moverse con Alt + flecha arriba o abajo. Sin eso, esta
+   pantalla sería inutilizable para quien no maneja un ratón, y las flechas
+   dibujadas en cada fila ensuciaban la lista.
 --------------------------------------------------------------------------- */
 
 type Fila = {
@@ -67,6 +68,20 @@ export default function Arrastrable({ inicial }: { inicial: Fila[] }) {
             e.preventDefault();
             soltarSobre(p.id);
           }}
+          tabIndex={0}
+          onKeyDown={(e) => {
+            // Alt + flecha, y no la flecha sola, para no secuestrar el
+            // desplazamiento normal de la página con el teclado.
+            if (!e.altKey) return;
+            if (e.key === "ArrowUp") {
+              e.preventDefault();
+              mover(i, -1);
+            }
+            if (e.key === "ArrowDown") {
+              e.preventDefault();
+              mover(i, 1);
+            }
+          }}
           className={`a-fila flex cursor-grab items-center gap-4 px-2 py-3 transition-opacity ${
             arrastrando === p.id ? "opacity-40" : ""
           }`}
@@ -105,26 +120,6 @@ export default function Arrastrable({ inicial }: { inicial: Fila[] }) {
             <span className="t-meta mt-1 block opacity-40">/{p.slug}</span>
           </span>
 
-          <span className="t-meta flex shrink-0 gap-3 opacity-45">
-            <button
-              type="button"
-              onClick={() => mover(i, -1)}
-              disabled={i === 0}
-              aria-label={`Subir ${p.nombre}`}
-              className="link-underline disabled:opacity-25"
-            >
-              ↑
-            </button>
-            <button
-              type="button"
-              onClick={() => mover(i, 1)}
-              disabled={i === lista.length - 1}
-              aria-label={`Bajar ${p.nombre}`}
-              className="link-underline disabled:opacity-25"
-            >
-              ↓
-            </button>
-          </span>
         </li>
       ))}
     </ul>

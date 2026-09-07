@@ -17,7 +17,8 @@ export default async function Orden() {
       </h1>
       <p className="t-meta mb-7 mt-2 max-w-[62ch] leading-relaxed opacity-45">
         Arrastra los proyectos para cambiar el orden en que se ven en la
-        portada y en Work. Se guarda solo, no hay que confirmar nada.
+        portada y en Work. Se guarda solo, no hay que confirmar nada. Con
+        teclado: tabulador para llegar a una fila y Alt + flecha para moverla.
       </p>
 
       {visibles.length === 0 ? (

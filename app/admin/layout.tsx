@@ -5,6 +5,7 @@ import { usuarioDeLaSesion } from "@/lib/auth";
 import { salir } from "./acciones";
 import Barra from "./Barra";
 import LogoBasado from "@/components/LogoBasado";
+import ScrollPanel from "./ScrollPanel";
 
 /*
  * El panel no lleva la cabecera ni el pie del sitio: es una herramienta de
@@ -46,6 +47,7 @@ export default async function AdminLayout({
         hacer scroll, y tres píxeles de más lo romperían. Allí el degradado
         va sobre la foto.
       */}
+      {dentro && <ScrollPanel />}
       {dentro && <div className="a-filete" aria-hidden="true" />}
       <div className="md:flex">
         {dentro && <Barra salir={salir} logo={<LogoBasado alto={24} />} />}
