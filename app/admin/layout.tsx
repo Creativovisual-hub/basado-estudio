@@ -38,9 +38,13 @@ export default async function AdminLayout({
   const dentro = Boolean(await usuarioDeLaSesion());
 
   return (
-    <div className="a-lienzo min-h-svh text-fg md:flex">
-      {dentro && <Barra salir={salir} />}
-      <div className="min-w-0 flex-1">{children}</div>
+    <div className="a-lienzo min-h-svh text-fg">
+      {/* Filete de marca, como en la identidad. */}
+      <div className="a-filete" aria-hidden="true" />
+      <div className="md:flex">
+        {dentro && <Barra salir={salir} />}
+        <div className="min-w-0 flex-1">{children}</div>
+      </div>
     </div>
   );
 }

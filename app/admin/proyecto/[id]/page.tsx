@@ -4,6 +4,7 @@ import { usuarioDeLaSesion } from "@/lib/auth";
 import { obtenerProyecto, textosDe } from "@/lib/proyectos-db";
 import { eliminar } from "../../proyectos";
 import FichaProyecto from "../../FichaProyecto";
+import AvisoSinGuardar from "../../AvisoSinGuardar";
 import Imagenes from "../../Imagenes";
 import Textos from "../../Textos";
 
@@ -30,19 +31,33 @@ export default async function EditarProyecto({
         <Link href="/admin" className="t-meta link-underline opacity-55">
           ← Proyectos
         </Link>
-        <span
-          className={`t-meta a-pastilla ${
-            p.publicado ? "a-pastilla--vivo" : "opacity-45"
-          }`}
-        >
-          {p.publicado ? "En la web" : "Borrador"}
-        </span>
+
+        <div className="flex items-center gap-4">
+          {/* Ver la ficha tal como queda en la web, sin salir del panel. */}
+          <a
+            href={`/es/work/${p.slug}`}
+            target="_blank"
+            rel="noreferrer"
+            className="t-meta link-underline opacity-55 transition-opacity hover:opacity-100"
+          >
+            Ver en la web ↗
+          </a>
+
+          <span
+            className={`t-meta a-pastilla ${
+              p.publicado ? "a-pastilla--vivo" : "opacity-45"
+            }`}
+          >
+            {p.publicado ? "En la web" : "Borrador"}
+          </span>
+        </div>
       </div>
 
       <h1 className="text-[1.7rem] font-semibold tracking-[-0.035em]">{p.nombre}</h1>
       <p className="t-meta mb-7 mt-2 opacity-40">/work/{p.slug}</p>
 
       <FichaProyecto p={ficha} />
+      <AvisoSinGuardar formulario="ficha-proyecto" />
 
       <div className="a-panel mt-6 p-5 md:p-6">
         <Imagenes proyectoId={p.id} imagenes={imagenes} />

@@ -18,11 +18,9 @@ export default function Tarjeta({
   acento?: boolean;
 }) {
   return (
-    <div className="a-panel p-5 md:p-6">
+    <div className={`a-panel p-5 md:p-6 ${acento ? "a-destacada" : ""}`}>
       <p className="t-meta mb-4 opacity-45">{titulo}</p>
-      <p className="a-cifra" style={acento ? { color: "var(--a-acento)" } : undefined}>
-        {cifra}
-      </p>
+      <p className="a-cifra">{cifra}</p>
       {nota && <p className="t-meta mt-3 leading-relaxed opacity-40">{nota}</p>}
     </div>
   );

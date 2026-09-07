@@ -86,7 +86,7 @@ export default function FichaProyecto({ p }: { p: ProyectoFila }) {
   );
 
   return (
-    <form action={ejecutar} className="flex flex-col gap-6">
+    <form id="ficha-proyecto" action={ejecutar} className="flex flex-col gap-6">
       <section className="a-panel grid grid-cols-1 gap-6 p-5 md:grid-cols-2 md:p-6">
         <Texto nombre="nombre" etiqueta="Nombre del proyecto" valor={p.nombre} />
         <Texto

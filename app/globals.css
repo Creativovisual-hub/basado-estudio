@@ -565,7 +565,7 @@ body {
   --a-panel: #ffffff;                     /* superficie elevada */
   --a-borde: rgba(14, 14, 14, 0.14);
   --a-suave: rgba(14, 14, 14, 0.045);     /* realce al pasar */
-  --a-acento: #8a7a6a;
+  --a-acento: #d4249b;
   --a-radio: 14px;
 }
 
@@ -575,7 +575,7 @@ body {
     --a-panel: #1a1a18;
     --a-borde: rgba(237, 236, 232, 0.13);
     --a-suave: rgba(237, 236, 232, 0.055);
-    --a-acento: #b9ada0;
+    --a-acento: #d4249b;
   }
 }
 :root[data-theme="dark"] {
@@ -583,7 +583,7 @@ body {
   --a-panel: #1a1a18;
   --a-borde: rgba(237, 236, 232, 0.13);
   --a-suave: rgba(237, 236, 232, 0.055);
-  --a-acento: #b9ada0;
+  --a-acento: #d4249b;
 }
 
 .a-lienzo { background: var(--a-fondo); }
@@ -689,4 +689,78 @@ textarea.a-campo { resize: vertical; }
   font-weight: 600;
   letter-spacing: -0.04em;
   line-height: 1;
+}
+
+/* ---------------------------------------------------------------
+   Degradado de marca.
+
+   En la identidad aparece siempre como filete: barras finas arriba y abajo,
+   nunca rellenando superficies grandes. Aquí se usa igual —remate superior,
+   marca de sección activa, estado publicado— porque un degradado a toda
+   página convierte una marca en un fondo de pantalla.
+
+   La web pública no lo lleva: allí el contraste lo pone la fotografía y la
+   tipografía. Esto es el panel, donde hace falta orientar.
+----------------------------------------------------------------*/
+:root {
+  --a-degradado: linear-gradient(
+    90deg,
+    #f2a33c 0%,
+    #ec5f2a 16%,
+    #e0342f 32%,
+    #d4249b 54%,
+    #a935e8 76%,
+    #7b7bfa 100%
+  );
+}
+
+/* Filete superior, como el de la identidad. */
+.a-filete {
+  height: 3px;
+  background: var(--a-degradado);
+}
+
+/* Marca de la sección activa: barra vertical, no relleno. */
+.a-nav[data-activo="true"] {
+  background: var(--a-suave);
+  color: inherit;
+  opacity: 1;
+  position: relative;
+}
+.a-nav[data-activo="true"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55rem;
+  bottom: 0.55rem;
+  width: 3px;
+  border-radius: 999px;
+  background: var(--a-degradado);
+}
+
+/* Publicado: el degradado dice "esto está vivo". */
+.a-pastilla--vivo {
+  border-color: transparent;
+  background: var(--a-degradado);
+  color: #fff;
+}
+
+/*
+ * Tarjeta destacada: filete de marca en su borde superior.
+ *
+ * Se probó antes con la cifra teñida de degradado y no funcionaba: en un
+ * número de un solo dígito sólo cabe el arranque de la escala, así que el
+ * "1" salía naranja sin más y parecía un color elegido al azar. El filete
+ * enseña la marca entera y además es como se usa en la identidad.
+ */
+.a-destacada {
+  position: relative;
+  overflow: hidden;
+}
+.a-destacada::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--a-degradado);
 }

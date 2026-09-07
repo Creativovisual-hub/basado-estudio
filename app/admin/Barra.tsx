@@ -57,7 +57,7 @@ export default function Barra({ salir }: { salir: () => Promise<void> }) {
       : ruta === href;
 
   return (
-    <aside className="a-barra sticky top-0 z-40 md:h-svh md:w-[17rem] md:shrink-0">
+    <aside className="a-barra sticky top-0 z-40 md:h-[calc(100svh-3px)] md:w-[17rem] md:shrink-0">
       <div className="flex h-full flex-col gap-8 p-5 md:p-6">
         <div className="flex items-center justify-between gap-4">
           <Link href="/admin" className="flex items-center gap-3">
