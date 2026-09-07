@@ -1,7 +1,6 @@
 "use client";
 
 import { useActionState } from "react";
-import { useFormStatus } from "react-dom";
 import { guardar } from "./proyectos";
 import type { ProyectoFila } from "@/lib/proyectos-db";
 
@@ -66,27 +65,26 @@ function Area({
   );
 }
 
-function Guardar() {
-  const { pending } = useFormStatus();
-  return (
-    <button
-      type="submit"
-      disabled={pending}
-      className="t-meta a-boton"
-    >
-      {pending ? "Guardando…" : "Guardar cambios"}
-    </button>
-  );
-}
-
-export default function FichaProyecto({ p }: { p: ProyectoFila }) {
-  const [estado, ejecutar] = useActionState<string | null, FormData>(
+export default function FichaProyecto({
+  p,
+  medio,
+}: {
+  p: ProyectoFila;
+  /**
+   * Lo que va entre los campos y la barra de guardado: imágenes y bloques de
+   * texto. Se recibe como contenido porque esas piezas llevan formularios
+   * propios y no pueden anidarse dentro de éste.
+   */
+  medio: React.ReactNode;
+}) {
+  const [estado, ejecutar, pendiente] = useActionState<string | null, FormData>(
     async (previo, datos) => (await guardar(p.id, previo, datos)) ?? "guardado",
     null
   );
 
   return (
-    <form id="ficha-proyecto" action={ejecutar} className="flex flex-col gap-6">
+    <>
+      <form id="ficha-proyecto" action={ejecutar} className="flex flex-col gap-6">
       <section className="a-panel grid grid-cols-1 gap-6 p-5 md:grid-cols-2 md:p-6">
         <Texto nombre="nombre" etiqueta="Nombre del proyecto" valor={p.nombre} />
         <Texto
@@ -165,29 +163,52 @@ export default function FichaProyecto({ p }: { p: ProyectoFila }) {
           filas={3}
         />
       </section>
+      </form>
 
-      <section className="a-panel flex flex-wrap items-center gap-6 p-5 md:p-6">
+      {medio}
+
+      {/*
+        La barra de guardado va al final, después de las imágenes y los
+        bloques: así se rellena, se ordenan las fotos y se guarda una vez, sin
+        volver arriba.
+
+        Los controles están fuera del formulario y se enganchan a él por su
+        identificador (atributo form). Es HTML de toda la vida, y evita anidar
+        formularios, que no está permitido: las imágenes y los textos tienen
+        los suyos.
+      */}
+      <section className="a-panel a-destacada mt-6 flex flex-wrap items-center gap-6 p-5 md:p-6">
         <label className="t-meta flex items-center gap-3">
           <input
             type="checkbox"
             name="publicado"
+            form="ficha-proyecto"
             defaultChecked={p.publicado}
             className="h-4 w-4 accent-current"
           />
           Visible en la web
         </label>
-        <Guardar />
+
+        <button
+          type="submit"
+          form="ficha-proyecto"
+          disabled={pendiente}
+          className="t-meta a-boton"
+        >
+          {pendiente ? "Guardando…" : "Guardar cambios"}
+        </button>
+
         {estado === "guardado" && (
           <span role="status" className="t-meta opacity-55">
             Guardado.
           </span>
         )}
         {estado && estado !== "guardado" && (
-          <span role="alert" className="t-meta text-[#c0392b]">
+          <span role="alert" className="t-meta text-[#e0342f]">
             {estado}
           </span>
         )}
       </section>
-    </form>
+    </>
   );
 }

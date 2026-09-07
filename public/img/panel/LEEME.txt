@@ -1,0 +1,13 @@
+Foto de la pantalla de acceso al panel.
+
+Deja aquí una imagen con el nombre "acceso" y la web la usa sola. Valen
+.webp, .jpg, .png o .avif.
+
+  public/img/panel/acceso.jpg
+
+Recomendación: vertical o cuadrada y de al menos 1200 px de ancho. Se
+recorta para llenar la mitad derecha de la pantalla, así que lo importante
+conviene que quede centrado.
+
+Si no hay ninguna imagen, la pantalla de acceso sale sin foto y centrada.
+No queda un hueco roto.

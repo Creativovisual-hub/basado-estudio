@@ -404,3 +404,16 @@ export async function duplicarProyecto(
 
   return nuevo;
 }
+
+/**
+ * Reordena los proyectos de la portada según la lista recibida.
+ *
+ * Se reescribe el orden completo en lugar de intercambiar de dos en dos: al
+ * arrastrar, lo que llega es la posición final de todos, y aplicarla entera
+ * evita estados intermedios si algo falla a mitad.
+ */
+export async function reordenarProyectos(ids: string[]) {
+  for (let i = 0; i < ids.length; i++) {
+    await db()`update proyectos set orden = ${i} where id = ${ids[i]}::uuid`;
+  }
+}

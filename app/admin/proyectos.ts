@@ -253,3 +253,11 @@ export async function duplicar(id: string) {
   revalidatePath("/admin");
   if (nuevo) redirect(`/admin/proyecto/${nuevo}`);
 }
+
+export async function reordenarPortada(ids: string[]) {
+  await exigirSesion();
+  const { reordenarProyectos } = await import("@/lib/proyectos-db");
+  await reordenarProyectos(ids);
+  revalidatePath("/admin/orden");
+  refrescarWeb();
+}

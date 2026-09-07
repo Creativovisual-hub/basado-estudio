@@ -57,16 +57,21 @@ export default async function EditarProyecto({
       <h1 className="text-[1.7rem] font-semibold tracking-[-0.035em]">{p.nombre}</h1>
       <p className="t-meta mb-7 mt-2 opacity-40">/work/{p.slug}</p>
 
-      <FichaProyecto p={ficha} />
+      <FichaProyecto
+        p={ficha}
+        medio={
+          <>
+            <div className="a-panel mt-6 p-5 md:p-6">
+              <Imagenes proyectoId={p.id} imagenes={imagenes} />
+            </div>
+
+            <div className="a-panel mt-6 p-5 md:p-6">
+              <Textos proyectoId={p.id} textos={textos} totalImagenes={imagenes.length} />
+            </div>
+          </>
+        }
+      />
       <AvisoSinGuardar formulario="ficha-proyecto" />
-
-      <div className="a-panel mt-6 p-5 md:p-6">
-        <Imagenes proyectoId={p.id} imagenes={imagenes} />
-      </div>
-
-      <div className="a-panel mt-6 p-5 md:p-6">
-        <Textos proyectoId={p.id} textos={textos} totalImagenes={imagenes.length} />
-      </div>
 
       {/*
         Borrar va al final y separado: es la única acción de esta página que
