@@ -1,13 +1,20 @@
-Foto de la pantalla de acceso al panel.
+Imágenes del panel de administración.
 
-Deja aquí una imagen con el nombre "acceso" y la web la usa sola. Valen
-.webp, .jpg, .png o .avif.
+acceso.(webp|jpg|png|avif)
+  Foto de la pantalla de entrada. Ocupa la mitad derecha, recortada al
+  centro. Vertical o cuadrada, 1200 px de ancho o más. Si no está, la
+  pantalla sale centrada y sin hueco.
 
-  public/img/panel/acceso.jpg
+logo.png
+  El logotipo original, tal como se entregó: trazo blanco sobre negro.
 
-Recomendación: vertical o cuadrada y de al menos 1200 px de ancho. Se
-recorta para llenar la mitad derecha de la pantalla, así que lo importante
-conviene que quede centrado.
+logo-mascara.png
+  Derivado del anterior. Es el que usa la web: su silueta se rellena con el
+  color del texto, así que funciona igual en tema claro y oscuro. Puesto el
+  original tal cual, en claro saldría un rectángulo negro alrededor.
 
-Si no hay ninguna imagen, la pantalla de acceso sale sin foto y centrada.
-No queda un hueco roto.
+  Si cambias logo.png, hay que regenerar esta máscara: pásale la luminancia
+  del original al canal de opacidad y recórtala a su contenido.
+
+Si no hubiera logo-mascara.png, el símbolo se dibuja con su geometría y la
+palabra se compone con la tipografía del sitio. Nunca queda un hueco.
