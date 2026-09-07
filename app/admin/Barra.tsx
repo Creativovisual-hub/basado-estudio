@@ -20,11 +20,13 @@ const ICONO = {
   proyectos: "M3 6h18M3 12h18M3 18h10",
   orden: "M8 4v16M8 4L4 8M8 4l4 4M16 20V4M16 20l-4-4M16 20l4-4",
   cuenta: "M20 21a8 8 0 1 0-16 0M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8",
+  analitica: "M4 20V10M10 20V4M16 20v-7M22 20H2",
 } as const;
 
 const ENLACES = [
   { href: "/admin", texto: "Proyectos", icono: ICONO.proyectos },
   { href: "/admin/orden", texto: "Orden en la portada", icono: ICONO.orden },
+  { href: "/admin/analitica", texto: "Analítica", icono: ICONO.analitica },
   { href: "/admin/cuenta", texto: "Mi cuenta", icono: ICONO.cuenta },
 ];
 

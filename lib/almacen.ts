@@ -53,10 +53,26 @@ export async function borrarArchivo(url: string) {
   await del(url);
 }
 
-/** Lista lo que hay en una carpeta. Útil para auditar o para migrar. */
+/**
+ * Lista lo que hay en el almacén, con su peso.
+ *
+ * Se piden todas las páginas: el almacén devuelve como mucho mil archivos
+ * por llamada, y contar sólo la primera daría un total falso en cuanto el
+ * portfolio crezca.
+ */
 export async function listarArchivos(carpeta?: string) {
-  const { blobs } = await list(carpeta ? { prefix: carpeta } : undefined);
-  return blobs.map((b) => ({ url: b.url, ruta: b.pathname, bytes: b.size }));
+  const archivos: { url: string; ruta: string; bytes: number }[] = [];
+  let cursor: string | undefined;
+
+  do {
+    const pagina = await list({ prefix: carpeta, cursor, limit: 1000 });
+    for (const b of pagina.blobs) {
+      archivos.push({ url: b.url, ruta: b.pathname, bytes: b.size });
+    }
+    cursor = pagina.hasMore ? pagina.cursor : undefined;
+  } while (cursor);
+
+  return archivos;
 }
 
 /** ¿Hay almacén configurado? */
