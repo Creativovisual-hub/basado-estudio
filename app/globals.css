@@ -764,3 +764,20 @@ textarea.a-campo { resize: vertical; }
   height: 3px;
   background: var(--a-degradado);
 }
+
+/*
+ * Nota explicativa del panel.
+ *
+ * Los textos que explican una pantalla NO son etiquetas: son frases que se
+ * leen. Puestas en el estilo de etiqueta —mayúsculas y con espaciado— se
+ * leen peor y, además, la medida en "ch" se queda cortísima: esa unidad mide
+ * el ancho del cero en minúscula, y una frase en mayúsculas con tracking
+ * ocupa casi el doble. De ahí que se partieran a media pantalla.
+ */
+.a-nota {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  letter-spacing: -0.005em;
+  max-width: 78ch;
+  opacity: 0.5;
+}

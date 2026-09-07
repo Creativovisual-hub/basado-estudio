@@ -15,7 +15,7 @@ export default function Campo({
     <label className="flex flex-col gap-2">
       <span className="t-meta opacity-55">{etiqueta}</span>
       <input name={nombre} type={tipo} required autoComplete={auto} className="a-campo" />
-      {pista && <span className="t-meta leading-relaxed opacity-40">{pista}</span>}
+      {pista && <span className="a-nota">{pista}</span>}
     </label>
   );
 }

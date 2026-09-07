@@ -15,7 +15,7 @@ export default async function Orden() {
       <h1 className="text-[1.7rem] font-semibold tracking-[-0.035em]">
         Orden en la portada
       </h1>
-      <p className="t-meta mb-7 mt-2 max-w-[62ch] leading-relaxed opacity-45">
+      <p className="a-nota mb-7 mt-2">
         Arrastra los proyectos para cambiar el orden en que se ven en la
         portada y en Work. Se guarda solo, no hay que confirmar nada. Con
         teclado: tabulador para llegar a una fila y Alt + flecha para moverla.

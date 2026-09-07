@@ -17,7 +17,7 @@ export default async function Analitica() {
   return (
     <main className="p-5 md:p-8">
       <h1 className="text-[1.7rem] font-semibold tracking-[-0.035em]">Analítica</h1>
-      <p className="t-meta mb-7 mt-2 max-w-[62ch] leading-relaxed opacity-45">
+      <p className="a-nota mb-7 mt-2">
         Cuánto espacio ocupa el portfolio y cuánto queda libre.
       </p>
 
@@ -67,7 +67,7 @@ export default async function Analitica() {
               <div className="a-filete h-full" style={{ width: `${Math.max(porcentaje, 1)}%` }} />
             </div>
 
-            <p className="t-meta max-w-[64ch] leading-relaxed opacity-40">
+            <p className="a-nota">
               {porcentaje < 60
                 ? "Vas holgado. Cuando pases del 80% te aviso aquí, y a partir de ahí conviene decidir: comprimir las imágenes más pesadas o ampliar el plan."
                 : "Te acercas al límite. Antes de ampliar el plan, mira abajo qué proyecto pesa más: casi siempre hay una o dos imágenes enormes que se pueden aligerar sin que se note."}
@@ -122,7 +122,7 @@ export default async function Analitica() {
             <h2 className="mb-3 text-[1.05rem] font-semibold tracking-[-0.02em]">
               Visitas
             </h2>
-            <p className="t-body mb-4 max-w-[62ch] opacity-65">
+            <p className="a-nota mb-4" style={{ opacity: 0.7 }}>
               Quién entra, desde qué país y qué proyectos miran está en Google
               Analytics, midiendo desde el 6 de septiembre.
             </p>
@@ -134,7 +134,7 @@ export default async function Analitica() {
             >
               Abrir Google Analytics ↗
             </a>
-            <p className="t-meta mt-4 max-w-[62ch] leading-relaxed opacity-40">
+            <p className="a-nota mt-4">
               Se puede traer aquí dentro —usuarios activos, países y proyectos
               más vistos— pero requiere crear una cuenta de servicio en Google
               Cloud y darle permiso de lectura sobre la propiedad{" "}

@@ -33,7 +33,7 @@ function Texto({
         defaultValue={valor ?? ""}
         className="a-campo"
       />
-      {pista && <span className="t-meta leading-relaxed opacity-40">{pista}</span>}
+      {pista && <span className="a-nota">{pista}</span>}
     </label>
   );
 }
@@ -60,7 +60,7 @@ function Area({
         defaultValue={valor ?? ""}
         className="a-campo"
       />
-      {pista && <span className="t-meta leading-relaxed opacity-40">{pista}</span>}
+      {pista && <span className="a-nota">{pista}</span>}
     </label>
   );
 }
@@ -117,7 +117,7 @@ export default function FichaProyecto({
             <option value="4:5">4:5 — vertical</option>
             <option value="original">Cada imagen con su proporción</option>
           </select>
-          <span className="t-meta leading-relaxed opacity-40">
+          <span className="a-nota">
             Todas las imágenes del proyecto se muestran con esta proporción,
             recortadas para llenarla. Es lo que da el ritmo de láminas
             apiladas. Si eliges &laquo;cada imagen con su proporción&raquo;,

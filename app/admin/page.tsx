@@ -23,7 +23,7 @@ export default async function Panel() {
           <h1 className="text-[1.7rem] font-semibold tracking-[-0.035em]">
             Tablero
           </h1>
-          <p className="t-meta mt-2 opacity-45">Contenido de basadoestudio.com</p>
+          <p className="a-nota mt-2">Contenido de basadoestudio.com</p>
         </div>
 
         <form action={nuevoProyecto}>
@@ -56,7 +56,7 @@ export default async function Panel() {
         {proyectos.length === 0 ? (
           <div className="py-10 text-center">
             <p className="t-body mb-2 opacity-65">Todavía no hay ninguno.</p>
-            <p className="t-meta mx-auto max-w-[42ch] leading-relaxed opacity-40">
+            <p className="a-nota mx-auto">
               Los ocho que ya se ven en la web siguen llegando de Adobe
               Portfolio. Se irán retirando de allí a medida que los recrees
               aquí.

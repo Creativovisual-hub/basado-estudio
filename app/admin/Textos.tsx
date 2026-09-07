@@ -65,7 +65,7 @@ export default function Textos({
                       className="a-campo w-24"
                     />
                   </label>
-                  <span className="t-meta max-w-[26ch] leading-relaxed opacity-40">
+                  <span className="a-nota" style={{ maxWidth: "32ch" }}>
                     De 1 a {Math.max(totalImagenes, 1)}. Con 0 aparece antes de
                     la primera lámina.
                   </span>
@@ -92,7 +92,7 @@ export default function Textos({
                   </label>
                 </div>
 
-                <span className="t-meta leading-relaxed opacity-40">
+                <span className="a-nota">
                   Un párrafo por línea, como en Latin Wok.
                 </span>
 

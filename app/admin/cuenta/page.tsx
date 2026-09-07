@@ -56,7 +56,7 @@ export default async function Cuenta() {
       </Formulario>
       </div>
 
-      <p className="t-meta mt-10 leading-relaxed opacity-40">
+      <p className="a-nota mt-10">
         La contraseña no se guarda en ningún sitio: sólo una huella suya, que
         no se puede revertir. Si la pierdes no hay forma de recuperarla, hay
         que crear una nueva desde el código.

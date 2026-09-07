@@ -21,7 +21,7 @@ export default function Tarjeta({
     <div className={`a-panel p-5 md:p-6 ${acento ? "a-destacada" : ""}`}>
       <p className="t-meta mb-4 opacity-45">{titulo}</p>
       <p className="a-cifra">{cifra}</p>
-      {nota && <p className="t-meta mt-3 leading-relaxed opacity-40">{nota}</p>}
+      {nota && <p className="a-nota mt-3" style={{ fontSize: "0.8rem" }}>{nota}</p>}
     </div>
   );
 }

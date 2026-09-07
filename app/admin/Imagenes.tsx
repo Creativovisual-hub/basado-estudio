@@ -141,7 +141,7 @@ export default function Imagenes({
 
       {subiendo && <p className="t-meta mb-4 opacity-55">{subiendo}</p>}
       {error && (
-        <p role="alert" className="t-meta mb-4 leading-relaxed text-[#e0342f]">
+        <p role="alert" className="a-nota mb-4 text-[#e0342f]" style={{ opacity: 1 }}>
           {error}
         </p>
       )}
@@ -153,7 +153,7 @@ export default function Imagenes({
         </p>
       ) : (
         <>
-          <p className="t-meta mb-4 opacity-40">
+          <p className="a-nota mb-4">
             Arrastra las miniaturas para cambiar el orden.
           </p>
           <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -237,7 +237,7 @@ export default function Imagenes({
             ))}
           </ul>
 
-          <p className="t-meta mt-5 max-w-[62ch] leading-relaxed opacity-40">
+          <p className="a-nota mt-5">
             El texto alternativo describe la imagen para quien no puede verla y
             para los buscadores. Escribe lo que se ve, no el nombre del
             proyecto: «cartel del menú sobre una mesa de madera», no «Latin Wok
