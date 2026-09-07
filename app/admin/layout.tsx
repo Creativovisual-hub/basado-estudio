@@ -39,8 +39,13 @@ export default async function AdminLayout({
 
   return (
     <div className="a-lienzo min-h-svh text-fg">
-      {/* Filete de marca, como en la identidad. */}
-      <div className="a-filete" aria-hidden="true" />
+      {/*
+        Filete de marca sólo dentro del panel. En la pantalla de acceso
+        sobraría: esa página ocupa el alto exacto de la ventana para no
+        hacer scroll, y tres píxeles de más lo romperían. Allí el degradado
+        va sobre la foto.
+      */}
+      {dentro && <div className="a-filete" aria-hidden="true" />}
       <div className="md:flex">
         {dentro && <Barra salir={salir} />}
         <div className="min-w-0 flex-1">{children}</div>

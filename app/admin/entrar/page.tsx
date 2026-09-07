@@ -36,9 +36,16 @@ export default async function Entrar() {
   const foto = buscarFoto();
 
   return (
-    <div className="grid min-h-svh grid-cols-1 lg:grid-cols-2">
+    /*
+      Alto exacto de la ventana y sin desbordar: la pantalla de acceso cabe
+      entera y no se hace scroll. La foto se recorta por los lados o por
+      arriba y abajo, lo que haga falta, conservando siempre el centro.
+    */
+    <div className="grid h-svh grid-cols-1 overflow-hidden lg:grid-cols-2">
       {/* Columna del formulario. */}
-      <main className="flex flex-col justify-center px-6 py-16 md:px-14">
+      {/* Si la ventana fuera tan baja que el formulario no cupiera, se
+          desplaza sólo esta columna: la página nunca. */}
+      <main className="flex flex-col justify-center overflow-y-auto px-6 py-10 md:px-14">
         <div className="mx-auto w-full max-w-[24rem]">
           <div className="mb-10 flex items-center gap-3">
             <span
@@ -83,7 +90,7 @@ export default async function Entrar() {
           <img
             src={foto}
             alt=""
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover object-center"
           />
           {/* Filete de marca sobre la foto, como en la identidad. */}
           <span className="a-filete absolute inset-x-0 bottom-0" />
