@@ -43,8 +43,6 @@ type Dict = {
   };
   home: {
     heroLines: string[];
-    heroWords: string[];
-    heroAria: string;
     support: string;
     projectsHeading: string;
     studioTag: string;
@@ -124,11 +122,7 @@ const es: Dict = {
     orgDescription: "Estudio creativo especializado en identidad visual y branding.",
   },
   home: {
-    heroLines: ["BASADO", "EN ALGO"],
-    /* La última línea se escribe sola y va cambiando. La primera es la que
-       manda el servidor, así que es la que se ve sin JavaScript. */
-    heroWords: ["REAL.", "HONESTO.", "CONCRETO.", "PROPIO."],
-    heroAria: "BASADO EN ALGO REAL.",
+    heroLines: ["BASADO", "EN ALGO REAL."],
     support: "Estudio creativo especializado en identidad visual y branding.",
     projectsHeading: "Proyectos seleccionados",
     studioTag: "(Estudio)",
@@ -270,9 +264,9 @@ const en: Dict = {
     orgDescription: "Creative studio specialising in visual identity and branding.",
   },
   home: {
-    heroLines: ["BASED ON", "SOMETHING"],
-    heroWords: ["REAL.", "HONEST.", "SOLID.", "TRUE."],
-    heroAria: "BASED ON SOMETHING REAL.",
+    /* Tres líneas escritas, no heredadas del desbordamiento: en inglés
+       "SOMETHING REAL." no cabe a tamaño display y partía sola. */
+    heroLines: ["BASED ON", "SOMETHING", "REAL."],
     support: "Creative studio specialising in visual identity and branding.",
     projectsHeading: "Selected projects",
     studioTag: "(Studio)",

@@ -101,13 +101,8 @@ sin sombras, sin radios salvo la píldora del cursor.
 - **Transición entre páginas**: velo de tinta que se retira (`PageTransition`).
 - **Cursor contextual**: sólo aparece con la etiqueta "Ver proyecto" sobre
   elementos con `data-cursor`; desactivado en punteros gruesos.
-- **Titular del hero** (`HeroTitle`): entra línea a línea desde detrás de su
-  máscara y la última se escribe sola, se borra y se escribe otra. Las
-  palabras están en `lib/i18n.ts`, en `home.heroWords`: cambiarlas o añadir
-  más es editar esa lista. El servidor manda ya la primera escrita, así que
-  sin JavaScript —o con `prefers-reduced-motion`— la frase se lee entera y
-  quieta. El encabezado lleva un `aria-label` fijo para que un lector de
-  pantalla no lo anuncie otra vez con cada letra.
+- **Titular del hero**: entra línea a línea desde detrás de su máscara, sin
+  efecto de cursor.
 
 Todo respeta `prefers-reduced-motion`: Lenis no se inicializa, las animaciones
 se anulan y la composición se conserva intacta.
