@@ -11,7 +11,7 @@ export default async function Orden() {
   const visibles = (await listarProyectos()).filter((p) => p.publicado);
 
   return (
-    <main className="max-w-[52rem] p-5 md:p-8">
+    <main className="p-5 md:p-8">
       <h1 className="text-[1.7rem] font-semibold tracking-[-0.035em]">
         Orden en la portada
       </h1>

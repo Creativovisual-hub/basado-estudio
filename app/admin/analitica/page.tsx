@@ -15,7 +15,7 @@ export default async function Analitica() {
     : 0;
 
   return (
-    <main className="max-w-[62rem] p-5 md:p-8">
+    <main className="p-5 md:p-8">
       <h1 className="text-[1.7rem] font-semibold tracking-[-0.035em]">Analítica</h1>
       <p className="t-meta mb-7 mt-2 max-w-[62ch] leading-relaxed opacity-45">
         Cuánto espacio ocupa el portfolio y cuánto queda libre.
