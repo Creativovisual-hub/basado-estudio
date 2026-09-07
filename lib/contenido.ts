@@ -37,6 +37,13 @@ type FilaProyecto = {
   formato: string;
 };
 
+type FilaTexto = {
+  slug: string;
+  posicion: number;
+  texto_es: string;
+  texto_en: string;
+};
+
 type FilaImagen = {
   slug: string;
   url: string;
@@ -106,6 +113,22 @@ async function proyectosDelPanel(locale: Locale): Promise<Project[]> {
       order by i.orden asc, i.creado_en asc
     `) as FilaImagen[];
 
+    // Los bloques de texto, también de una vez.
+    const textos = (await sql`
+      select p.slug, t.posicion, t.texto_es, t.texto_en
+      from textos t
+      join proyectos p on p.id = t.proyecto_id
+      where p.publicado
+      order by t.posicion asc, t.orden asc, t.creado_en asc
+    `) as FilaTexto[];
+
+    const textosPorProyecto = new Map<string, FilaTexto[]>();
+    for (const t of textos) {
+      const lista = textosPorProyecto.get(t.slug) ?? [];
+      lista.push(t);
+      textosPorProyecto.set(t.slug, lista);
+    }
+
     const porProyecto = new Map<string, FilaImagen[]>();
     for (const img of imagenes) {
       const lista = porProyecto.get(img.slug) ?? [];
@@ -135,6 +158,16 @@ async function proyectosDelPanel(locale: Locale): Promise<Project[]> {
           cover: { src: portada.url, srcSet: `${portada.url} ${portada.ancho}w` },
           images: suyas.map((i) => comoImagen(i, proporcion)),
           notes: es ? p.notas_es : p.notas_en,
+          bloques: (textosPorProyecto.get(p.slug) ?? [])
+            .map((t) => ({
+              posicion: t.posicion,
+              // Un párrafo por línea, igual que se escriben en el panel.
+              parrafos: (es ? t.texto_es : t.texto_en)
+                .split("\n")
+                .map((l) => l.trim())
+                .filter(Boolean),
+            }))
+            .filter((b) => b.parrafos.length > 0),
         },
       ];
     });

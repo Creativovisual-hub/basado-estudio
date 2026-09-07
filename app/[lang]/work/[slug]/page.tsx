@@ -56,13 +56,27 @@ export default async function CaseStudy({ params }: Params) {
    * todas 16:9. Se presentan a sangre completa y en orden, y los textos
    * publicados (cuando existen) se reparten como respiros entre ellas.
    */
-  const notes = [...p.notes];
   const noteAfter = new Map<number, string[]>();
-  if (notes.length) {
+
+  if (p.bloques?.length) {
+    /*
+     * Proyectos del panel: cada bloque sabe tras qué lámina va, porque se
+     * eligió al escribirlo. La posición es la que ve quien edita —1 es
+     * "después de la primera imagen"—, y aquí se pasa al índice del array.
+     */
+    for (const b of p.bloques) {
+      const tras = Math.min(Math.max(b.posicion, 0), p.images.length) - 1;
+      noteAfter.set(tras, [...(noteAfter.get(tras) ?? []), ...b.parrafos]);
+    }
+  } else if (p.notes.length) {
+    /*
+     * Proyectos de Adobe: llegan como una lista de párrafos sin sitio
+     * asignado, así que se reparten entre las láminas como respiros.
+     */
     const stops = [1, 3, 5, 7].filter((i) => i < p.images.length - 1);
-    const perStop = Math.ceil(notes.length / Math.max(stops.length, 1));
+    const perStop = Math.ceil(p.notes.length / Math.max(stops.length, 1));
     stops.forEach((stop, i) => {
-      const slice = notes.slice(i * perStop, (i + 1) * perStop);
+      const slice = p.notes.slice(i * perStop, (i + 1) * perStop);
       if (slice.length) noteAfter.set(stop, slice);
     });
   }
@@ -127,6 +141,17 @@ export default async function CaseStudy({ params }: Params) {
       </div>
 
       <div className="flex flex-col" style={{ gap: "var(--gutter)" }}>
+        {/* Bloque colocado antes de la primera lámina (posición 0). */}
+        {noteAfter.has(-1) && (
+          <section className="gutter pb-[12vh]">
+            <div className="mx-auto max-w-[60ch] space-y-5">
+              {noteAfter.get(-1)!.map((text, n) => (
+                <SplitLines key={n} text={text} className="t-body" delay={n * 0.06} />
+              ))}
+            </div>
+          </section>
+        )}
+
         {p.images.map((img, i) => (
           <div key={img.src} className="contents">
             <CaseImage

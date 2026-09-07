@@ -266,3 +266,56 @@ export async function datosDeCuenta(usuarioId: string) {
   `) as { usuario: string; creado_en: string; ultimo_acceso: string | null }[];
   return filas[0] ?? null;
 }
+
+/* --------------------------- bloques de texto --------------------------- */
+
+export type TextoFila = {
+  id: string;
+  posicion: number;
+  orden: number;
+  texto_es: string;
+  texto_en: string;
+};
+
+export async function textosDe(proyectoId: string) {
+  return (await db()`
+    select id, posicion, orden, texto_es, texto_en
+    from textos where proyecto_id = ${proyectoId}::uuid
+    order by posicion asc, orden asc, creado_en asc
+  `) as TextoFila[];
+}
+
+export async function anadirTexto(proyectoId: string) {
+  await db()`
+    insert into textos (proyecto_id, posicion, orden)
+    values (
+      ${proyectoId}::uuid,
+      1,
+      coalesce((select max(orden) + 1 from textos where proyecto_id = ${proyectoId}::uuid), 0)
+    )
+  `;
+}
+
+export async function guardarTexto(
+  id: string,
+  d: { posicion: number; texto_es: string; texto_en: string }
+) {
+  await db()`
+    update textos set
+      posicion = ${d.posicion},
+      texto_es = ${d.texto_es},
+      texto_en = ${d.texto_en}
+    where id = ${id}::uuid
+  `;
+}
+
+export async function borrarTexto(id: string) {
+  await db()`delete from textos where id = ${id}::uuid`;
+}
+
+export async function proyectoDeTexto(id: string) {
+  const filas = (await db()`
+    select proyecto_id from textos where id = ${id}::uuid
+  `) as { proyecto_id: string }[];
+  return filas[0]?.proyecto_id ?? null;
+}

@@ -37,6 +37,12 @@ export type Project = {
   images: RemoteImage[];
   /** Textos publicados en el proyecto original, si los hay. */
   notes: string[];
+  /**
+   * Bloques de texto con su sitio marcado: cada uno dice tras qué imagen
+   * aparece. Sólo los proyectos del panel los traen; los de Adobe siguen
+   * repartiendo sus notas automáticamente.
+   */
+  bloques?: { posicion: number; parrafos: string[] }[];
 };
 
 type Editorial = {

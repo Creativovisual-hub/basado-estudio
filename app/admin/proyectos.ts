@@ -95,8 +95,9 @@ export async function guardar(id: string, _previo: string | null, datos: FormDat
     servicios_en: aListaComas(datos.get("servicios_en")),
     intro_es: String(datos.get("intro_es") ?? "").trim(),
     intro_en: String(datos.get("intro_en") ?? "").trim(),
-    notas_es: aLista(datos.get("notas_es")),
-    notas_en: aLista(datos.get("notas_en")),
+    // Los textos intercalados viven en su propia tabla, con su posición.
+    notas_es: [],
+    notas_en: [],
     formato: String(datos.get("formato") ?? "16:9"),
   });
 
@@ -183,4 +184,38 @@ export async function cambiarContrasena(_previo: string | null, datos: FormData)
   return cambiada
     ? "listo: Contraseña cambiada."
     : "La contraseña actual no es correcta.";
+}
+
+/* --------------------------- bloques de texto --------------------------- */
+
+export async function nuevoTexto(proyectoId: string) {
+  await exigirSesion();
+  const { anadirTexto } = await import("@/lib/proyectos-db");
+  await anadirTexto(proyectoId);
+  revalidatePath(`/admin/proyecto/${proyectoId}`);
+}
+
+export async function guardarBloque(id: string, datos: FormData) {
+  await exigirSesion();
+  const { guardarTexto, proyectoDeTexto } = await import("@/lib/proyectos-db");
+
+  const posicion = Math.max(0, Number(datos.get("posicion") ?? 1) || 0);
+  await guardarTexto(id, {
+    posicion,
+    texto_es: String(datos.get("texto_es") ?? "").trim(),
+    texto_en: String(datos.get("texto_en") ?? "").trim(),
+  });
+
+  const proyectoId = await proyectoDeTexto(id);
+  if (proyectoId) revalidatePath(`/admin/proyecto/${proyectoId}`);
+  refrescarWeb();
+}
+
+export async function quitarTexto(id: string) {
+  await exigirSesion();
+  const { borrarTexto, proyectoDeTexto } = await import("@/lib/proyectos-db");
+  const proyectoId = await proyectoDeTexto(id);
+  await borrarTexto(id);
+  if (proyectoId) revalidatePath(`/admin/proyecto/${proyectoId}`);
+  refrescarWeb();
 }

@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { usuarioDeLaSesion } from "@/lib/auth";
-import { obtenerProyecto } from "@/lib/proyectos-db";
+import { obtenerProyecto, textosDe } from "@/lib/proyectos-db";
 import { eliminar } from "../../proyectos";
 import FichaProyecto from "../../FichaProyecto";
 import Imagenes from "../../Imagenes";
+import Textos from "../../Textos";
 
 export const dynamic = "force-dynamic";
 
@@ -20,6 +21,7 @@ export default async function EditarProyecto({
   if (!p) notFound();
 
   const { imagenes, ...ficha } = p;
+  const textos = await textosDe(p.id);
   const borrarEste = eliminar.bind(null, p.id);
 
   return (
@@ -39,6 +41,10 @@ export default async function EditarProyecto({
 
       <div className="mt-16 border-t border-line pt-12">
         <Imagenes proyectoId={p.id} imagenes={imagenes} />
+      </div>
+
+      <div className="mt-16 border-t border-line pt-12">
+        <Textos proyectoId={p.id} textos={textos} totalImagenes={imagenes.length} />
       </div>
 
       {/*

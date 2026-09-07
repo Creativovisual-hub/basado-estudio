@@ -114,6 +114,30 @@ export const ESQUEMA: string[] = [
 
   `create index if not exists imagenes_proyecto_idx on imagenes (proyecto_id, orden)`,
 
+  /*
+   * Bloques de texto intercalados entre las láminas.
+   *
+   * Una ficha de proyecto no es sólo imágenes: la de Latin Wok, por ejemplo,
+   * tiene la introducción y cuatro bloques más repartidos entre las fotos,
+   * de tres párrafos cada uno. Esos respiros son parte de la composición.
+   *
+   * Tabla aparte y no una lista dentro del proyecto porque cada bloque
+   * necesita saber DÓNDE va: "posicion" es el número de la imagen tras la
+   * cual aparece. Repartirlos automáticamente, como se hacía antes, quita
+   * justo la decisión que importa.
+   */
+  `create table if not exists textos (
+     id          uuid primary key default gen_random_uuid(),
+     proyecto_id uuid not null references proyectos (id) on delete cascade,
+     posicion    integer not null default 1,
+     orden       integer not null default 0,
+     texto_es    text not null default '',
+     texto_en    text not null default '',
+     creado_en   timestamptz not null default now()
+   )`,
+
+  `create index if not exists textos_proyecto_idx on textos (proyecto_id, posicion, orden)`,
+
   // Una sola portada por proyecto, garantizado por la base y no por la
   // aplicación: así no puede quedar inconsistente pase lo que pase.
   `create unique index if not exists imagenes_una_portada_idx

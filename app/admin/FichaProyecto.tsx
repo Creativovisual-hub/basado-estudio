@@ -148,22 +148,9 @@ export default function FichaProyecto({ p }: { p: ProyectoFila }) {
           nombre="intro_es"
           etiqueta="Introducción (español)"
           valor={p.intro_es}
-          pista="El párrafo que abre la ficha del proyecto."
+          pista="El párrafo que abre la ficha, antes de la primera lámina."
         />
         <Area nombre="intro_en" etiqueta="Introducción (inglés)" valor={p.intro_en} />
-        <Area
-          nombre="notas_es"
-          etiqueta="Textos intercalados (español)"
-          valor={p.notas_es.join("\n")}
-          filas={6}
-          pista="Un párrafo por línea. Se reparten entre las imágenes como respiros."
-        />
-        <Area
-          nombre="notas_en"
-          etiqueta="Textos intercalados (inglés)"
-          valor={p.notas_en.join("\n")}
-          filas={6}
-        />
       </section>
 
       <section className="flex flex-wrap items-center gap-6 border-t border-line pt-8">
