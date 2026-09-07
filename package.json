@@ -10,7 +10,9 @@
     "sync": "node scripts/scrape-portfolio.mjs"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
     "@next/third-parties": "^16.3.4",
+    "@vercel/blob": "^2.8.0",
     "lenis": "^1.3.26",
     "motion": "^13.2.0",
     "next": "^16.3.4",
