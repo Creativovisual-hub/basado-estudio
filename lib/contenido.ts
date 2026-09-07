@@ -34,6 +34,7 @@ type FilaProyecto = {
   intro_en: string;
   notas_es: string[];
   notas_en: string[];
+  formato: string;
 };
 
 type FilaImagen = {
@@ -44,18 +45,37 @@ type FilaImagen = {
   portada: boolean;
 };
 
+/*
+ * Proporciones con las que se pueden presentar las láminas de un proyecto.
+ * Que todas midan lo mismo es lo que da el ritmo apilado y el scroll largo
+ * de un case study; Latin Wok, por ejemplo, son diez piezas de 1920x1080.
+ * "original" respeta la de cada archivo y no entra en esta tabla.
+ */
+const PROPORCIONES: Record<string, number> = {
+  "16:9": 16 / 9,
+  "3:2": 3 / 2,
+  "4:3": 4 / 3,
+  "1:1": 1,
+  "4:5": 4 / 5,
+};
+
 /**
  * Una imagen del almacén propio no tiene variantes por anchura como las del
  * CDN de Adobe: es un solo archivo. Se declara igualmente con su anchura
  * real para que el navegador sepa qué está eligiendo.
+ *
+ * La proporción que se declara no es la del archivo sino la del proyecto:
+ * es la que decide el hueco que reserva la página, y la imagen se recorta
+ * para llenarlo. Así se pueden subir fotos de cualquier medida sin que la
+ * ficha pierda el pulso.
  */
-function comoImagen(i: FilaImagen) {
+function comoImagen(i: FilaImagen, proporcion: number | null) {
   return {
     src: i.url,
     srcSet: `${i.url} ${i.ancho}w`,
     width: i.ancho,
     height: i.alto,
-    ratio: i.alto ? i.ancho / i.alto : null,
+    ratio: proporcion ?? (i.alto ? i.ancho / i.alto : null),
   };
 }
 
@@ -68,7 +88,7 @@ async function proyectosDelPanel(locale: Locale): Promise<Project[]> {
     const filas = (await sql`
       select slug, nombre, cliente, anio,
              categoria_es, categoria_en, servicios_es, servicios_en,
-             intro_es, intro_en, notas_es, notas_en
+             intro_es, intro_en, notas_es, notas_en, formato
       from proyectos
       where publicado
       order by orden asc, creado_en desc
@@ -100,6 +120,7 @@ async function proyectosDelPanel(locale: Locale): Promise<Project[]> {
       if (suyas.length === 0) return [];
 
       const portada = suyas.find((i) => i.portada) ?? suyas[0];
+      const proporcion = PROPORCIONES[p.formato] ?? null;
       const es = locale === "es";
 
       return [
@@ -112,7 +133,7 @@ async function proyectosDelPanel(locale: Locale): Promise<Project[]> {
           services: es ? p.servicios_es : p.servicios_en,
           intro: (es ? p.intro_es : p.intro_en) || p.intro_es,
           cover: { src: portada.url, srcSet: `${portada.url} ${portada.ancho}w` },
-          images: suyas.map(comoImagen),
+          images: suyas.map((i) => comoImagen(i, proporcion)),
           notes: es ? p.notas_es : p.notas_en,
         },
       ];

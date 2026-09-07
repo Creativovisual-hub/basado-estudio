@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { usuarioDeLaSesion } from "@/lib/auth";
 import { listarProyectos } from "@/lib/proyectos-db";
-import { hayUsuarios, salir } from "./acciones";
+import { hayUsuarios } from "./acciones";
 import { nuevoProyecto } from "./proyectos";
 
 export const dynamic = "force-dynamic";
@@ -14,17 +14,12 @@ export default async function Panel() {
   const proyectos = await listarProyectos();
 
   return (
-    <main className="gutter mx-auto max-w-[64rem] py-16">
-      <div className="mb-14 flex items-baseline justify-between gap-6">
+    <main className="gutter max-w-[64rem] py-14">
+      <div className="mb-14">
         <div>
           <p className="t-meta mb-3 opacity-45">(Panel)</p>
           <h1 className="t-head">Proyectos.</h1>
         </div>
-        <form action={salir}>
-          <button type="submit" className="t-meta link-underline opacity-55">
-            Salir
-          </button>
-        </form>
       </div>
 
       <form action={nuevoProyecto} className="mb-10">

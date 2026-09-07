@@ -40,6 +40,7 @@ export type ProyectoFila = {
   intro_en: string;
   notas_es: string[];
   notas_en: string[];
+  formato: string;
 };
 
 /** Convierte un nombre en una dirección web: "Latin Wok" → "latin-wok". */
@@ -135,6 +136,7 @@ export async function guardarProyecto(id: string, d: Omit<ProyectoFila, "id">) {
       intro_en = ${d.intro_en},
       notas_es = ${d.notas_es},
       notas_en = ${d.notas_en},
+      formato = ${d.formato},
       actualizado_en = now()
     where id = ${id}::uuid
   `;
@@ -215,4 +217,52 @@ export async function moverImagen(id: string, direccion: "arriba" | "abajo") {
 
   await db()`update imagenes set orden = ${vecina[0].orden} where id = ${actual[0].id}::uuid`;
   await db()`update imagenes set orden = ${actual[0].orden} where id = ${vecina[0].id}::uuid`;
+}
+
+/** Sube o baja un proyecto en la portada intercambiando el orden con su vecino. */
+export async function moverProyecto(id: string, direccion: "arriba" | "abajo") {
+  const actual = (await db()`
+    select id, orden from proyectos where id = ${id}::uuid
+  `) as { id: string; orden: number }[];
+  if (!actual[0]) return;
+
+  const vecino = (
+    direccion === "arriba"
+      ? await db()`
+          select id, orden from proyectos where orden < ${actual[0].orden}
+          order by orden desc limit 1
+        `
+      : await db()`
+          select id, orden from proyectos where orden > ${actual[0].orden}
+          order by orden asc limit 1
+        `
+  ) as { id: string; orden: number }[];
+  if (!vecino[0]) return;
+
+  await db()`update proyectos set orden = ${vecino[0].orden} where id = ${actual[0].id}::uuid`;
+  await db()`update proyectos set orden = ${actual[0].orden} where id = ${vecino[0].id}::uuid`;
+}
+
+/** Cambia la contraseña comprobando antes la actual. */
+export async function cambiarClave(
+  usuarioId: string,
+  comprobar: (huella: string) => boolean,
+  nuevaHuella: string
+) {
+  const filas = (await db()`
+    select clave_huella from usuarios where id = ${usuarioId}::uuid
+  `) as { clave_huella: string }[];
+  if (!filas[0] || !comprobar(filas[0].clave_huella)) return false;
+
+  await db()`
+    update usuarios set clave_huella = ${nuevaHuella} where id = ${usuarioId}::uuid
+  `;
+  return true;
+}
+
+export async function datosDeCuenta(usuarioId: string) {
+  const filas = (await db()`
+    select usuario, creado_en, ultimo_acceso from usuarios where id = ${usuarioId}::uuid
+  `) as { usuario: string; creado_en: string; ultimo_acceso: string | null }[];
+  return filas[0] ?? null;
 }

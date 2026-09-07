@@ -23,7 +23,7 @@ export default async function EditarProyecto({
   const borrarEste = eliminar.bind(null, p.id);
 
   return (
-    <main className="gutter mx-auto max-w-[64rem] py-16">
+    <main className="gutter max-w-[64rem] py-14">
       <div className="mb-12 flex items-baseline justify-between gap-6">
         <Link href="/admin" className="t-meta link-underline opacity-55">
           ← Proyectos

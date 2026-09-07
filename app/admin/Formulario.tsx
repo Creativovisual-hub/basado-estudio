@@ -33,17 +33,30 @@ export default function Formulario({
   envio: string;
   children: React.ReactNode;
 }) {
-  const [error, ejecutar] = useActionState<string | null, FormData>(
+  const [mensaje, ejecutar] = useActionState<string | null, FormData>(
     async (previo, datos) => (await accion(previo, datos)) ?? null,
     null
   );
 
+  const exito = Boolean(mensaje?.startsWith("listo:"));
+
   return (
     <form action={ejecutar} className="flex flex-col gap-4">
       {children}
-      {error && (
-        <p role="alert" className="t-meta leading-relaxed text-[#c0392b]">
-          {error}
+      {/*
+        Un mensaje que empieza por "listo:" es un acierto, no un fallo: se
+        muestra en el color del texto y sin avisar como alarma a un lector de
+        pantalla. Distinguirlos por el contenido evita tener que devolver dos
+        cosas distintas desde cada acción.
+      */}
+      {mensaje && (
+        <p
+          role={exito ? "status" : "alert"}
+          className={`t-meta leading-relaxed ${
+            exito ? "opacity-55" : "text-[#c0392b]"
+          }`}
+        >
+          {exito ? mensaje.slice(6).trim() : mensaje}
         </p>
       )}
       <Boton>{envio}</Boton>

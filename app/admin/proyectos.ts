@@ -97,6 +97,7 @@ export async function guardar(id: string, _previo: string | null, datos: FormDat
     intro_en: String(datos.get("intro_en") ?? "").trim(),
     notas_es: aLista(datos.get("notas_es")),
     notas_en: aLista(datos.get("notas_en")),
+    formato: String(datos.get("formato") ?? "16:9"),
   });
 
   refrescarWeb(slug);
@@ -151,4 +152,35 @@ export async function mover(proyectoId: string, imagenId: string, direccion: "ar
   await moverImagen(imagenId, direccion);
   revalidatePath(`/admin/proyecto/${proyectoId}`);
   refrescarWeb();
+}
+
+export async function moverEnPortada(id: string, direccion: "arriba" | "abajo") {
+  await exigirSesion();
+  const { moverProyecto } = await import("@/lib/proyectos-db");
+  await moverProyecto(id, direccion);
+  revalidatePath("/admin/orden");
+  refrescarWeb();
+}
+
+export async function cambiarContrasena(_previo: string | null, datos: FormData) {
+  const usuarioId = await exigirSesion();
+  const actual = String(datos.get("actual") ?? "");
+  const nueva = String(datos.get("nueva") ?? "");
+  const repetida = String(datos.get("repetida") ?? "");
+
+  if (nueva.length < 10) return "La nueva contraseña necesita al menos 10 caracteres.";
+  if (nueva !== repetida) return "Las dos contraseñas nuevas no coinciden.";
+
+  const { cambiarClave } = await import("@/lib/proyectos-db");
+  const { claveCoincide, huellaDeClave } = await import("@/lib/auth");
+
+  const cambiada = await cambiarClave(
+    usuarioId,
+    (huella) => claveCoincide(actual, huella),
+    huellaDeClave(nueva)
+  );
+
+  return cambiada
+    ? "listo: Contraseña cambiada."
+    : "La contraseña actual no es correcta.";
 }

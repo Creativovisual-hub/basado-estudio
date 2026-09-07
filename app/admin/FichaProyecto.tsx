@@ -105,6 +105,28 @@ export default function FichaProyecto({ p }: { p: ProyectoFila }) {
       </section>
 
       <section className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <label className="flex flex-col gap-2 md:col-span-2">
+          <span className="t-meta opacity-55">Formato de las láminas</span>
+          <select
+            name="formato"
+            defaultValue={p.formato || "16:9"}
+            className="border border-line bg-transparent px-4 py-3 text-[1rem] outline-none focus:border-fg"
+          >
+            <option value="16:9">16:9 — apaisado, como Latin Wok</option>
+            <option value="3:2">3:2 — apaisado, algo más alto</option>
+            <option value="4:3">4:3 — clásico</option>
+            <option value="1:1">1:1 — cuadrado</option>
+            <option value="4:5">4:5 — vertical</option>
+            <option value="original">Cada imagen con su proporción</option>
+          </select>
+          <span className="t-meta leading-relaxed opacity-40">
+            Todas las imágenes del proyecto se muestran con esta proporción,
+            recortadas para llenarla. Es lo que da el ritmo de láminas
+            apiladas. Si eliges &laquo;cada imagen con su proporción&raquo;,
+            se respetan tal cual y el resultado es más irregular.
+          </span>
+        </label>
+
         <Texto nombre="categoria_es" etiqueta="Categoría (español)" valor={p.categoria_es} />
         <Texto nombre="categoria_en" etiqueta="Categoría (inglés)" valor={p.categoria_en} />
         <Texto

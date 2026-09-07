@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+import { db, hayBaseDeDatos } from "@/lib/db";
+import { asegurarEsquema } from "@/lib/esquema";
+import { usuarioDeLaSesion } from "@/lib/auth";
+import { salir } from "./acciones";
+import Barra from "./Barra";
 
 /*
  * El panel no lleva la cabecera ni el pie del sitio: es una herramienta de
@@ -11,6 +16,31 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false, nocache: true },
 };
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  return <div className="min-h-svh bg-bg text-fg">{children}</div>;
+export default async function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  /*
+   * Puesta al día del esquema antes de nada. Es lo que permite añadir una
+   * columna en el código y que aparezca sola, sin que nadie tenga que
+   * ejecutar nada a mano. Si la base no está configurada todavía, se sigue
+   * adelante: la pantalla de instalación explicará qué falta.
+   */
+  if (hayBaseDeDatos()) {
+    try {
+      await asegurarEsquema((instruccion) => db().query(instruccion));
+    } catch (error) {
+      console.error("[panel] no se pudo poner al día el esquema:", error);
+    }
+  }
+
+  const dentro = Boolean(await usuarioDeLaSesion());
+
+  return (
+    <div className="min-h-svh bg-bg text-fg md:flex">
+      {dentro && <Barra salir={salir} />}
+      <div className="min-w-0 flex-1">{children}</div>
+    </div>
+  );
 }
