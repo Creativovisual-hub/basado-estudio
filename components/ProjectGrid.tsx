@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { Project } from "@/lib/projects";
+import type { Project } from "@/lib/tipos";
 import { getDict, localePath, type Locale } from "@/lib/i18n";
 import { Reveal } from "./Reveal";
 

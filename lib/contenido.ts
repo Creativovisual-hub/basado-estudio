@@ -1,24 +1,16 @@
 import { db, hayBaseDeDatos } from "./db";
-import { getProjects as proyectosHeredados, type Project } from "./projects";
+import type { Project } from "./tipos";
 import type { Locale } from "./i18n";
 
 /* ---------------------------------------------------------------------------
    El contenido que ve el público.
 
-   Durante la mudanza conviven dos orígenes:
+   Todo sale de la base de datos y del almacén propio. Hasta el traslado de
+   septiembre de 2026 convivía con los proyectos de Adobe Portfolio; ya no
+   queda nada de aquello, y por eso este archivo es corto.
 
-   · los proyectos creados en el panel, que viven en la base de datos;
-   · los ocho que todavía vienen de Adobe Portfolio.
-
-   Se juntan en una sola lista con la misma forma, así que las páginas no
-   saben —ni les importa— de dónde salió cada uno. El día que se migren los
-   de Adobe, se borra la segunda mitad de este archivo y nada más cambia.
-
-   Los del panel van primero: son el trabajo nuevo, y lo nuevo abre el
-   portfolio.
-
-   Si la base de datos no responde, la web sigue mostrando los de Adobe en
-   vez de quedarse en blanco. Un fallo de la base no puede tumbar el sitio.
+   Si la base no responde, la web se queda sin proyectos pero no se rompe:
+   las páginas siguen sirviéndose y el resto del sitio funciona.
 --------------------------------------------------------------------------- */
 
 type FilaProyecto = {
@@ -91,7 +83,7 @@ function comoImagen(i: FilaImagen, proporcion: number | null, es: boolean) {
   };
 }
 
-async function proyectosDelPanel(locale: Locale): Promise<Project[]> {
+async function proyectosPublicados(locale: Locale): Promise<Project[]> {
   if (!hayBaseDeDatos()) return [];
 
   try {
@@ -186,13 +178,7 @@ async function proyectosDelPanel(locale: Locale): Promise<Project[]> {
 
 /** Todos los proyectos visibles, en el idioma pedido. */
 export async function getProyectos(locale: Locale): Promise<Project[]> {
-  const delPanel = await proyectosDelPanel(locale);
-  const deAdobe = proyectosHeredados(locale);
-
-  // Si un slug existe en los dos sitios manda el del panel: es el que se ha
-  // editado a mano y el que se supone correcto.
-  const vistos = new Set(delPanel.map((p) => p.slug));
-  return [...delPanel, ...deAdobe.filter((p) => !vistos.has(p.slug))];
+  return proyectosPublicados(locale);
 }
 
 export async function getProyecto(locale: Locale, slug: string) {

@@ -1,13 +1,13 @@
 import type { MetadataRoute } from "next";
-import { projectSlugs } from "@/lib/projects";
+import { slugsDeProyecto } from "@/lib/contenido";
 import { locales } from "@/lib/i18n";
 import { site } from "@/lib/site";
 
 const SECTIONS = ["", "work", "studio", "services", "contact"];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
-  const slugs = projectSlugs();
+  const slugs = await slugsDeProyecto();
 
   return locales.flatMap((lang) => [
     ...SECTIONS.map((s) => ({

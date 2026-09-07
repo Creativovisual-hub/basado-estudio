@@ -6,8 +6,7 @@
     "dev": "next dev -p 3210",
     "build": "next build",
     "start": "next start -p 3210",
-    "assets": "node scripts/gen-assets.mjs",
-    "sync": "node scripts/scrape-portfolio.mjs"
+    "assets": "node scripts/gen-assets.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

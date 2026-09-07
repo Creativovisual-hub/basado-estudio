@@ -1,13 +1,12 @@
 # BASADO ESTUDIO
 
 Sitio del estudio: portfolio editorial, minimalista y premium.
-Next.js 15 (App Router) · React 19 · Tailwind CSS v4 · Motion · Lenis.
+Next.js 16 (App Router) · React 19 · Tailwind CSS v4 · Postgres · Vercel Blob.
 
 ```bash
 npm install
 npm run dev     # http://localhost:3210
-npm run build   # build de producción (29 páginas estáticas)
-npm run sync    # re-lee los proyectos desde Adobe Portfolio
+npm run build   # build de producción
 npm run assets  # regenera las visuales SVG de la página Estudio
 ```
 
@@ -26,15 +25,15 @@ visitante en la misma página: `/es/work/latin-wok` → `/en/work/latin-wok`.
 
 **Todo el texto de interfaz vive en [`lib/i18n.ts`](lib/i18n.ts)**, en dos
 diccionarios con la misma forma; TypeScript avisa si falta una clave en uno de
-los dos. El texto de los proyectos está en el bloque `EDITORIAL` de
-[`lib/projects.ts`](lib/projects.ts), con los campos como `{ es, en }`.
+los dos. El texto de los proyectos se escribe desde el panel, en los dos
+idiomas y con los campos emparejados a la vista.
 
 Cada página declara `canonical` y enlaces `hreflang` con `x-default`, y el
 sitemap lista las 24 URLs (12 páginas × 2 idiomas).
 
-> El texto largo de los case studies en español viene del scraper. Su
-> traducción al inglés (`notesEn`) es manual: si cambias ese texto en Adobe
-> Portfolio, hay que actualizarla a mano.
+> Un campo vacío en inglés no rompe la página: se muestra el español. Pero es
+> una página coja, no un detalle, y por eso el panel enseña los dos idiomas
+> uno al lado del otro.
 
 ## Tema claro y oscuro
 
@@ -120,51 +119,59 @@ sin sombras, sin radios salvo la píldora del cursor.
 Todo respeta `prefers-reduced-motion`: Lenis no se inicializa, las animaciones
 se anulan y la composición se conserva intacta.
 
-## Contenido: conectado con Adobe Portfolio
+## Contenido: el panel
 
-Los 7 proyectos y sus 61 imágenes salen de
-[creativovisualchile.myportfolio.com](https://creativovisualchile.myportfolio.com/).
-Las imágenes **no se descargan**: se enlazan al CDN de Adobe, aprovechando las
-variantes por anchura que ese CDN ya publica (640w a 5120w) vía `srcSet`, así
-que el navegador elige el tamaño y no hace falta optimizador propio. Por eso
-`CaseImage` y `ProjectGrid` usan `<img>` y no `next/image`, y `next.config.ts`
-no necesita `remotePatterns`.
+Los proyectos viven en tu propia base de datos y sus imágenes en tu propio
+almacén. Se administran desde **[basadoestudio.com/admin](https://basadoestudio.com/admin)**,
+con usuario y contraseña.
 
-```bash
-npm run sync    # re-lee el portfolio → lib/portfolio-data.json
-```
+Hasta septiembre de 2026 el contenido venía de Adobe Portfolio y se leía con
+un scraper. Ya no: los ocho proyectos y sus 67 imágenes se trasladaron, y esa
+dependencia está cortada. Si aquella cuenta se cierra, aquí no pasa nada.
 
-Ejecútalo cada vez que publiques cambios en Adobe Portfolio. El script lee
-títulos, textos, portadas del índice y las imágenes en orden. Para saber la
-proporción de cada imagen —el HTML de Adobe no la publica, y sin ella el layout
-salta al cargar— pide sólo los primeros 32 KB de cada archivo y lee las
-dimensiones de la cabecera PNG, GIF o JPEG.
+### Qué se edita desde el panel
 
-La ficha editorial de cada proyecto (nombre corto, categoría, año, cliente,
-servicios e introducción) se edita a mano en el bloque `EDITORIAL` de
-`lib/projects.ts`. Es lo único que hay que mantener: ver **Subir y editar
-proyectos** más abajo.
+| | |
+|---|---|
+| **Ficha** | Nombre, dirección web, cliente, año, categoría y servicios |
+| **Textos** | Introducción y bloques intercalados, cada uno con su posición |
+| **Imágenes** | Subir, arrastrar para ordenar, elegir portada y borrar |
+| **Formato** | La proporción de las láminas: 16:9 por defecto, como Latin Wok |
+| **Buscadores** | Descripción propia y texto alternativo de cada imagen |
+| **Estado** | Visible en la web o borrador |
 
-### Consecuencias de enlazar al CDN
+Todo va en español y en inglés, con los campos emparejados a la vista para que
+se note enseguida si falta una traducción.
 
-- Si la cuenta de Adobe Portfolio se cierra o se despublica un proyecto, esas
-  imágenes dejan de cargar aquí.
-- Las URL del CDN llevan un hash: si reemplazas una imagen en Adobe, cambia la
-  URL y hay que volver a ejecutar el scraper.
+### Cómo llega a la web
 
-### Revisar antes de publicar
+Al guardar se refrescan las páginas afectadas —portada, listado y ficha— así
+que el cambio se ve **en segundos**, sin reconstruir el sitio ni esperar un
+despliegue.
 
-- **Años**: el portfolio de origen no publica ninguno. Sólo Latin Wok tiene año
-  (2020, tomado de su pie de página). El resto está en `null` y la ficha oculta
-  el campo hasta que lo rellenes.
-- **Introducciones**: sólo Latin Wok trae texto propio; los otros seis
-  proyectos son series de láminas sin copy. Sus introducciones en `EDITORIAL`
-  son un borrador de estudio, no información verificada del cliente.
-- **Arte Floral** incluye un módulo de vídeo en el original que aquí no se
-  reproduce; sólo se traen sus imágenes.
+Un proyecto sólo sale si está marcado como visible **y** tiene alguna imagen:
+una ficha vacía no llega a publicarse.
 
-Las dos visuales ambientales de la página Estudio siguen siendo SVG propios
-generados por `scripts/gen-assets.mjs` (16 KB).
+### Estructura
+
+- [`lib/esquema.ts`](lib/esquema.ts) — las tablas. PostgreSQL estándar, sin
+  nada exclusivo de ningún proveedor. Se pone al día sola al abrir el panel:
+  una columna nueva aparece sin que nadie ejecute nada a mano.
+- [`lib/proyectos-db.ts`](lib/proyectos-db.ts) — todas las consultas, juntas.
+- [`lib/almacen.ts`](lib/almacen.ts) — todo lo que sube, borra o lista
+  archivos. Es la pieza que ata el proyecto a un proveedor concreto:
+  mantenerla en un solo archivo hace que cambiar de almacén sea reescribir
+  tres funciones.
+- [`lib/contenido.ts`](lib/contenido.ts) — lo que leen las páginas públicas.
+
+De cada imagen se guardan dos direcciones: la pública de hoy y la ruta interna
+en el almacén. La segunda es la que permitiría mudarse de proveedor sin perder
+el rastro de los archivos.
+
+### Si la base de datos no responde
+
+La web se queda sin proyectos pero **no se rompe**: las páginas se sirven, la
+navegación funciona y el resto del sitio sigue en pie.
 
 ## Bloque manifiesto de la home
 
@@ -325,84 +332,3 @@ nada y el plan gratuito cubre de sobra un sitio de estudio.
 
 A partir de ahí, **cada `git push` a `main` republica la web sola**.
 
-## Subir y editar proyectos
-
-Adobe Portfolio sigue siendo el gestor de contenidos: los proyectos se suben
-allí como siempre, y esta web los lee.
-
-### Añadir un proyecto nuevo
-
-1. Publicarlo en Adobe Portfolio, como de costumbre.
-2. En este proyecto:
-
-   ```bash
-   npm run sync
-   git commit -am "Nuevo proyecto"
-   git push
-   ```
-
-El script **descubre solo** los proyectos publicados leyendo el índice de
-Adobe: no hay ninguna lista que actualizar a mano. El proyecto nuevo aparece en
-la web con su nombre y categoría deducidos del título, y avisa por consola de
-que le falta ficha propia.
-
-### Afinar la ficha de un proyecto
-
-Nombre corto, categoría, año, cliente, servicios e introducción se editan en el
-bloque `EDITORIAL` de [`lib/projects.ts`](lib/projects.ts). Los campos con
-texto llevan las dos versiones, `{ es, en }`, y TypeScript avisa si falta una:
-
-```ts
-{
-  source: "logo-ilisto",   // slug en Adobe Portfolio (no tocar)
-  slug: "ilisto",          // slug en esta web → /es/work/ilisto y /en/work/ilisto
-  name: "I.LISTO",         // igual en los dos idiomas
-  category: IDENTITY,      // atajo; o { es: "…", en: "…" } para uno propio
-  year: "2021",            // null mientras no se sepa: el campo se oculta
-  client: "I.Listo",
-  services: services("identity", "applications"),
-  intro: {
-    es: "Diseño de marca para I.Listo: logotipo, sistema cromático y aplicaciones.",
-    en: "Brand design for I.Listo: logotype, colour system and applications.",
-  },
-}
-```
-
-Atajos disponibles arriba del bloque, para no repetir traducciones:
-
-| Atajo | Español | Inglés |
-|---|---|---|
-| `IDENTITY` | Identidad Visual | Visual Identity |
-| `BRANDING` | Branding | Branding |
-| `services("identity")` | Identidad Visual | Visual Identity |
-| `services("applications")` | Aplicaciones de Marca | Brand Applications |
-| `services("artDirection")` | Dirección de Arte | Art Direction |
-| `services("branding")` | Branding | Branding |
-
-`services()` acepta varios: `services("identity", "applications")`.
-
-El orden de `EDITORIAL` es el orden en que salen los proyectos en la web.
-
-### Los textos largos del case study
-
-El cuerpo en español sale del scraper, tal como lo escribiste en Adobe. El
-inglés es manual: se pone en `notesEn` dentro de la misma ficha. Si no está,
-la versión inglesa del proyecto muestra sólo la introducción.
-
-### Cambiar o reordenar imágenes
-
-Se hace en Adobe Portfolio y luego `npm run sync`. Las URL del CDN llevan un
-hash, así que reemplazar una imagen allí obliga a volver a sincronizar aquí.
-
-### Sincronización automática
-
-Hay un flujo de trabajo en `.github/workflows/sync-portfolio.yml` que hace el
-`npm run sync` cada lunes y sube los cambios si los hay, con lo que Vercel
-republica sola. También se puede lanzar a mano desde la pestaña **Actions** de
-GitHub. Si prefieres controlarlo tú, borra ese archivo y usa sólo `npm run sync`.
-
-### Si algún día quieres dejar Adobe Portfolio
-
-`lib/portfolio-data.json` es un archivo normal: se puede editar a mano o
-sustituir por otra fuente. Lo único que la web espera de cada proyecto es
-`slug`, `title`, `paragraphs`, `cover` e `images` con su `ratio`.
