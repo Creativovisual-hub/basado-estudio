@@ -12,10 +12,9 @@ export default async function Orden() {
   const visibles = proyectos.filter((p) => p.publicado);
 
   return (
-    <main className="gutter max-w-[52rem] py-14">
-      <p className="t-meta mb-3 opacity-45">(Portada)</p>
-      <h1 className="t-head mb-6">Orden.</h1>
-      <p className="t-body mb-12 max-w-[52ch] opacity-65">
+    <main className="p-5 md:p-8">
+      <h1 className="text-[1.7rem] font-semibold tracking-[-0.035em]">Orden en la portada</h1>
+      <p className="t-meta mb-7 mt-2 max-w-[62ch] leading-relaxed opacity-45">
         El orden en que se ven los proyectos en la portada y en Work. Los de
         Adobe Portfolio van después de éstos, en el orden que ya tenían.
       </p>
@@ -26,11 +25,11 @@ export default async function Orden() {
           &laquo;Visible en la web&raquo; en alguno para que aparezca aquí.
         </p>
       ) : (
-        <ul className="border-t border-line">
+        <ul className="a-panel flex flex-col gap-1 p-4 md:p-5">
           {visibles.map((p, i) => (
             <li
               key={p.id}
-              className="flex items-center gap-5 border-b border-line py-4"
+              className="a-fila flex items-center gap-4 px-2 py-3"
             >
               <span className="t-meta w-6 shrink-0 opacity-35">{i + 1}</span>
               <span className="h-12 w-16 shrink-0 overflow-hidden bg-shade">

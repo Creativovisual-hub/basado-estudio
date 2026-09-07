@@ -25,8 +25,8 @@ export default async function EditarProyecto({
   const borrarEste = eliminar.bind(null, p.id);
 
   return (
-    <main className="gutter max-w-[68rem] py-12 md:py-16">
-      <div className="mb-12 flex items-baseline justify-between gap-6">
+    <main className="p-5 md:p-8">
+      <div className="mb-6 flex items-baseline justify-between gap-6">
         <Link href="/admin" className="t-meta link-underline opacity-55">
           ← Proyectos
         </Link>
@@ -39,16 +39,16 @@ export default async function EditarProyecto({
         </span>
       </div>
 
-      <h1 className="t-head mb-3">{p.nombre}</h1>
-      <p className="t-meta mb-12 opacity-40">/work/{p.slug}</p>
+      <h1 className="text-[1.7rem] font-semibold tracking-[-0.035em]">{p.nombre}</h1>
+      <p className="t-meta mb-7 mt-2 opacity-40">/work/{p.slug}</p>
 
       <FichaProyecto p={ficha} />
 
-      <div className="mt-16 border-t border-line pt-12">
+      <div className="a-panel mt-6 p-5 md:p-6">
         <Imagenes proyectoId={p.id} imagenes={imagenes} />
       </div>
 
-      <div className="mt-16 border-t border-line pt-12">
+      <div className="a-panel mt-6 p-5 md:p-6">
         <Textos proyectoId={p.id} textos={textos} totalImagenes={imagenes.length} />
       </div>
 
@@ -56,7 +56,7 @@ export default async function EditarProyecto({
         Borrar va al final y separado: es la única acción de esta página que
         no se puede deshacer.
       */}
-      <form action={borrarEste} className="mt-20 border-t border-line pt-8">
+      <form action={borrarEste} className="mt-6">
         <button
           type="submit"
           className="t-meta a-boton a-boton--linea opacity-55 transition-opacity hover:opacity-100"

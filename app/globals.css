@@ -552,85 +552,141 @@ body {
 /* ---------------------------------------------------------------
    Panel de administración.
 
-   Comparte tipografía, colores y tema con el sitio: es la misma marca por
-   dentro. Lo que cambia es la densidad —aquí se trabaja, no se contempla—
-   y que los controles tienen que verse como controles.
-----------------------------------------------------------------*/
+   Un panel no es una página del portfolio: aquí se trabaja. Por eso adopta
+   el lenguaje de un tablero —superficies elevadas, esquinas redondeadas,
+   iconos, datos de un vistazo— en vez de la composición editorial del sitio.
 
-/* Campos de texto, áreas y desplegables: un mismo objeto. */
+   Lo que NO cambia es la paleta. El acento es el tono piedra que ya usa el
+   bloque de la roca, no un violeta de plantilla: por dentro sigue siendo la
+   misma marca.
+----------------------------------------------------------------*/
+:root {
+  --a-fondo: #eeece9;                     /* lienzo, un punto más apagado */
+  --a-panel: #ffffff;                     /* superficie elevada */
+  --a-borde: rgba(14, 14, 14, 0.09);
+  --a-suave: rgba(14, 14, 14, 0.045);     /* realce al pasar */
+  --a-acento: #8a7a6a;
+  --a-radio: 14px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --a-fondo: #0a0a09;
+    --a-panel: #141413;
+    --a-borde: rgba(237, 236, 232, 0.1);
+    --a-suave: rgba(237, 236, 232, 0.055);
+    --a-acento: #b9ada0;
+  }
+}
+:root[data-theme="dark"] {
+  --a-fondo: #0a0a09;
+  --a-panel: #141413;
+  --a-borde: rgba(237, 236, 232, 0.1);
+  --a-suave: rgba(237, 236, 232, 0.055);
+  --a-acento: #b9ada0;
+}
+
+.a-lienzo { background: var(--a-fondo); }
+
+/* Superficie elevada: la pieza base del tablero. */
+.a-panel {
+  background: var(--a-panel);
+  border: 1px solid var(--a-borde);
+  border-radius: var(--a-radio);
+}
+
+/* Barra lateral: panel propio, separado del lienzo. */
+.a-barra {
+  background: var(--a-panel);
+  border-right: 1px solid var(--a-borde);
+}
+
+/* Enlace de la barra, con su pastilla activa. */
+.a-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  border-radius: 10px;
+  padding: 0.7rem 0.85rem;
+  color: inherit;
+  opacity: 0.5;
+  transition: background-color 0.25s var(--ease), opacity 0.25s var(--ease);
+}
+.a-nav:hover { opacity: 1; background: var(--a-suave); }
+.a-nav[data-activo="true"] {
+  opacity: 1;
+  background: var(--c-fg);
+  color: var(--c-bg);
+}
+
+/* Campos: mismo objeto en todo el panel. */
 .a-campo {
   width: 100%;
-  border: 1px solid var(--c-line);
-  border-radius: 2px;
-  background: color-mix(in srgb, var(--c-fg) 3%, transparent);
-  padding: 0.85rem 1rem;
+  border: 1px solid var(--a-borde);
+  border-radius: 10px;
+  background: var(--a-suave);
+  padding: 0.8rem 1rem;
   font-size: 0.95rem;
   line-height: 1.5;
   color: inherit;
-  transition:
-    border-color 0.25s var(--ease),
-    background-color 0.25s var(--ease);
+  transition: border-color 0.25s var(--ease), background-color 0.25s var(--ease);
 }
-.a-campo:hover { border-color: color-mix(in srgb, var(--c-fg) 28%, transparent); }
+.a-campo:hover { border-color: color-mix(in srgb, var(--c-fg) 25%, transparent); }
 .a-campo:focus {
   outline: none;
-  border-color: var(--c-fg);
-  background: color-mix(in srgb, var(--c-fg) 5%, transparent);
+  border-color: var(--a-acento);
+  background: transparent;
 }
 textarea.a-campo { resize: vertical; }
 
-/* Acción principal. */
+/* Acción principal y su versión secundaria. */
 .a-boton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 2px;
-  background: var(--c-inv);
-  color: var(--c-inv-fg);
-  padding: 0.9rem 1.6rem;
-  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+  border-radius: 10px;
+  background: var(--c-fg);
+  color: var(--c-bg);
+  padding: 0.8rem 1.4rem;
+  transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
 }
 .a-boton:hover { opacity: 0.85; }
 .a-boton:active { transform: translateY(1px); }
 .a-boton:disabled { opacity: 0.35; }
 
-/* Acción secundaria: mismo tamaño, sin peso. */
 .a-boton--linea {
   background: transparent;
   color: inherit;
-  border: 1px solid var(--c-line);
+  border: 1px solid var(--a-borde);
 }
-.a-boton--linea:hover {
-  border-color: var(--c-fg);
-  opacity: 1;
-}
+.a-boton--linea:hover { border-color: var(--c-fg); opacity: 1; }
 
-/* Bloque agrupado: da estructura sin dibujar una tarjeta pesada. */
-.a-bloque {
-  border: 1px solid var(--c-line);
-  border-radius: 3px;
-  padding: 1.6rem;
-  background: color-mix(in srgb, var(--c-fg) 2%, transparent);
-}
-
-/* Fila de listado con realce al pasar. */
+/* Fila de listado. */
 .a-fila {
-  border-radius: 2px;
-  transition: background-color 0.3s var(--ease);
+  border-radius: 10px;
+  transition: background-color 0.25s var(--ease);
 }
-.a-fila:hover { background: color-mix(in srgb, var(--c-fg) 4%, transparent); }
+.a-fila:hover { background: var(--a-suave); }
 
-/* Etiqueta de estado. */
+/* Estado. */
 .a-pastilla {
   display: inline-block;
   border-radius: 999px;
-  border: 1px solid var(--c-line);
-  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--a-borde);
+  padding: 0.32rem 0.75rem;
   white-space: nowrap;
 }
 .a-pastilla--vivo {
   border-color: transparent;
-  background: color-mix(in srgb, var(--c-fg) 88%, transparent);
+  background: var(--a-acento);
   color: var(--c-bg);
+}
+
+/* Cifra grande de las tarjetas de resumen. */
+.a-cifra {
+  font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1;
 }

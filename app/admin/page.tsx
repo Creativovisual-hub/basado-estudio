@@ -4,6 +4,7 @@ import { usuarioDeLaSesion } from "@/lib/auth";
 import { listarProyectos } from "@/lib/proyectos-db";
 import { hayUsuarios } from "./acciones";
 import { nuevoProyecto } from "./proyectos";
+import Tarjeta from "./Tarjeta";
 
 export const dynamic = "force-dynamic";
 
@@ -13,83 +14,97 @@ export default async function Panel() {
 
   const proyectos = await listarProyectos();
   const visibles = proyectos.filter((p) => p.publicado).length;
+  const imagenes = proyectos.reduce((n, p) => n + p.imagenes, 0);
 
   return (
-    <main className="gutter max-w-[68rem] py-12 md:py-16">
-      <header className="mb-12 flex flex-wrap items-end justify-between gap-6">
+    <main className="p-5 md:p-8">
+      <header className="mb-7 flex flex-wrap items-center justify-between gap-5">
         <div>
-          <p className="t-meta mb-3 opacity-45">
-            {proyectos.length === 0
-              ? "Ningún proyecto"
-              : `${proyectos.length} ${
-                  proyectos.length === 1 ? "proyecto" : "proyectos"
-                } · ${visibles} en la web`}
-          </p>
-          <h1 className="t-head">Proyectos.</h1>
+          <h1 className="text-[1.7rem] font-semibold tracking-[-0.035em]">
+            Tablero
+          </h1>
+          <p className="t-meta mt-2 opacity-45">Contenido de basadoestudio.com</p>
         </div>
 
         <form action={nuevoProyecto}>
           <button type="submit" className="t-meta a-boton">
+            <span aria-hidden="true" className="text-[1.1em] leading-none">
+              +
+            </span>
             Nuevo proyecto
           </button>
         </form>
       </header>
 
-      {proyectos.length === 0 ? (
-        <div className="a-bloque">
-          <p className="t-body opacity-65">
-            Todavía no hay ningún proyecto aquí. Pulsa{" "}
-            <strong className="font-semibold">Nuevo proyecto</strong> para crear
-            el primero.
-          </p>
-          <p className="t-meta mt-4 leading-relaxed opacity-40">
-            Los ocho que ya se ven en la web siguen llegando de Adobe Portfolio
-            y no aparecen en esta lista. Se irán retirando de allí a medida que
-            los recrees aquí.
+      <section className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <Tarjeta titulo="Proyectos" cifra={proyectos.length} nota="Creados en el panel" />
+        <Tarjeta titulo="En la web" cifra={visibles} nota="Visibles para el público" acento />
+        <Tarjeta titulo="Borradores" cifra={proyectos.length - visibles} nota="Sin publicar" />
+        <Tarjeta titulo="Imágenes" cifra={imagenes} nota="En tu almacén" />
+      </section>
+
+      <section className="a-panel p-5 md:p-6">
+        <div className="mb-5 flex flex-wrap items-baseline justify-between gap-4">
+          <h2 className="text-[1.15rem] font-semibold tracking-[-0.03em]">
+            Tus proyectos
+          </h2>
+          <p className="t-meta opacity-40">
+            Los de Adobe Portfolio no salen aquí
           </p>
         </div>
-      ) : (
-        <ul className="flex flex-col">
-          {proyectos.map((p) => (
-            <li key={p.id} className="border-b border-line first:border-t">
-              <Link
-                href={`/admin/proyecto/${p.id}`}
-                className="a-fila -mx-3 flex items-center gap-5 px-3 py-4"
-              >
-                <span className="h-16 w-24 shrink-0 overflow-hidden rounded-sm bg-shade">
-                  {p.miniatura && (
-                    /* eslint-disable-next-line @next/next/no-img-element */
-                    <img
-                      src={p.miniatura}
-                      alt=""
-                      loading="lazy"
-                      className="h-full w-full object-cover"
-                    />
-                  )}
-                </span>
 
-                <span className="min-w-0 flex-1">
-                  <span className="block truncate text-[1.3rem] font-semibold tracking-[-0.03em]">
-                    {p.nombre}
-                  </span>
-                  <span className="t-meta mt-2 block opacity-40">
-                    /{p.slug} · {p.imagenes}{" "}
-                    {p.imagenes === 1 ? "imagen" : "imágenes"}
-                  </span>
-                </span>
-
-                <span
-                  className={`t-meta a-pastilla ${
-                    p.publicado ? "a-pastilla--vivo" : "opacity-45"
-                  }`}
+        {proyectos.length === 0 ? (
+          <div className="py-10 text-center">
+            <p className="t-body mb-2 opacity-65">Todavía no hay ninguno.</p>
+            <p className="t-meta mx-auto max-w-[42ch] leading-relaxed opacity-40">
+              Los ocho que ya se ven en la web siguen llegando de Adobe
+              Portfolio. Se irán retirando de allí a medida que los recrees
+              aquí.
+            </p>
+          </div>
+        ) : (
+          <ul className="flex flex-col gap-1">
+            {proyectos.map((p) => (
+              <li key={p.id}>
+                <Link
+                  href={`/admin/proyecto/${p.id}`}
+                  className="a-fila -mx-2 flex items-center gap-4 px-2 py-3"
                 >
-                  {p.publicado ? "En la web" : "Borrador"}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
+                  <span className="h-14 w-20 shrink-0 overflow-hidden rounded-[10px] bg-shade">
+                    {p.miniatura && (
+                      /* eslint-disable-next-line @next/next/no-img-element */
+                      <img
+                        src={p.miniatura}
+                        alt=""
+                        loading="lazy"
+                        className="h-full w-full object-cover"
+                      />
+                    )}
+                  </span>
+
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-[1.05rem] font-semibold tracking-[-0.025em]">
+                      {p.nombre}
+                    </span>
+                    <span className="t-meta mt-1.5 block opacity-40">
+                      /{p.slug} · {p.imagenes}{" "}
+                      {p.imagenes === 1 ? "imagen" : "imágenes"}
+                    </span>
+                  </span>
+
+                  <span
+                    className={`t-meta a-pastilla ${
+                      p.publicado ? "a-pastilla--vivo" : "opacity-45"
+                    }`}
+                  >
+                    {p.publicado ? "En la web" : "Borrador"}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
     </main>
   );
 }

@@ -14,12 +14,11 @@ export default async function Cuenta() {
   const cuenta = await datosDeCuenta(id);
 
   return (
-    <main className="gutter max-w-[34rem] py-14">
-      <p className="t-meta mb-3 opacity-45">(Cuenta)</p>
-      <h1 className="t-head mb-10">Mi cuenta.</h1>
+    <main className="p-5 md:p-8">
+      <h1 className="mb-7 text-[1.7rem] font-semibold tracking-[-0.035em]">Mi cuenta</h1>
 
       {cuenta && (
-        <dl className="t-meta mb-14 grid grid-cols-2 gap-y-4 border-y border-line py-6">
+        <dl className="a-panel t-meta mb-6 grid max-w-[34rem] grid-cols-2 gap-y-4 p-5 md:p-6">
           <dt className="opacity-45">Usuario</dt>
           <dd>{cuenta.usuario}</dd>
           <dt className="opacity-45">Último acceso</dt>
@@ -31,8 +30,9 @@ export default async function Cuenta() {
         </dl>
       )}
 
-      <h2 className="t-meta mb-6 opacity-45">Cambiar la contraseña</h2>
+      <h2 className="t-meta mb-5 opacity-45">Cambiar la contraseña</h2>
 
+      <div className="a-panel max-w-[34rem] p-5 md:p-6">
       <Formulario accion={cambiarContrasena} envio="Cambiar contraseña">
         <Campo
           nombre="actual"
@@ -54,6 +54,7 @@ export default async function Cuenta() {
           auto="new-password"
         />
       </Formulario>
+      </div>
 
       <p className="t-meta mt-10 leading-relaxed opacity-40">
         La contraseña no se guarda en ningún sitio: sólo una huella suya, que

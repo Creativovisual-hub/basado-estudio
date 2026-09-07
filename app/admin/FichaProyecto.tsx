@@ -86,8 +86,8 @@ export default function FichaProyecto({ p }: { p: ProyectoFila }) {
   );
 
   return (
-    <form action={ejecutar} className="flex flex-col gap-12">
-      <section className="grid grid-cols-1 gap-6 md:grid-cols-2">
+    <form action={ejecutar} className="flex flex-col gap-6">
+      <section className="a-panel grid grid-cols-1 gap-6 p-5 md:grid-cols-2 md:p-6">
         <Texto nombre="nombre" etiqueta="Nombre del proyecto" valor={p.nombre} />
         <Texto
           nombre="slug"
@@ -104,7 +104,7 @@ export default function FichaProyecto({ p }: { p: ProyectoFila }) {
         />
       </section>
 
-      <section className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <section className="a-panel grid grid-cols-1 gap-6 p-5 md:grid-cols-2 md:p-6">
         <label className="flex flex-col gap-2 md:col-span-2">
           <span className="t-meta opacity-55">Formato de las láminas</span>
           <select
@@ -143,7 +143,7 @@ export default function FichaProyecto({ p }: { p: ProyectoFila }) {
         />
       </section>
 
-      <section className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <section className="a-panel grid grid-cols-1 gap-6 p-5 md:grid-cols-2 md:p-6">
         <Area
           nombre="intro_es"
           etiqueta="Introducción (español)"
@@ -153,7 +153,7 @@ export default function FichaProyecto({ p }: { p: ProyectoFila }) {
         <Area nombre="intro_en" etiqueta="Introducción (inglés)" valor={p.intro_en} />
       </section>
 
-      <section className="flex flex-wrap items-center gap-6 border-t border-line pt-8">
+      <section className="a-panel flex flex-wrap items-center gap-6 p-5 md:p-6">
         <label className="t-meta flex items-center gap-3">
           <input
             type="checkbox"

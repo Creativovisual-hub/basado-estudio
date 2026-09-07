@@ -38,7 +38,7 @@ export default async function AdminLayout({
   const dentro = Boolean(await usuarioDeLaSesion());
 
   return (
-    <div className="min-h-svh bg-bg text-fg md:flex">
+    <div className="a-lienzo min-h-svh text-fg md:flex">
       {dentro && <Barra salir={salir} />}
       <div className="min-w-0 flex-1">{children}</div>
     </div>
