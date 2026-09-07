@@ -87,15 +87,22 @@ sin sombras, sin radios salvo la píldora del cursor.
 
 - **Scroll suave** con Lenis (`components/SmoothScroll.tsx`).
 - **Reveal al entrar al viewport**: fade + translate (`Reveal`) y aparición
-  progresiva de texto línea a línea con máscara (`RevealLines`).
+  progresiva de texto línea a línea con máscara (`RevealLines`, con las líneas
+  escritas a mano).
+- **Párrafos línea a línea** (`SplitLines`): mismo revelado, pero midiendo en
+  el navegador dónde caen las líneas reales, porque eso depende del ancho, del
+  idioma y de la tipografía. Se vuelve a repartir cuando cambia el ancho del
+  párrafo —`ResizeObserver` más el evento de ventana—, que es lo que se suele
+  olvidar y se nota al girar el teléfono. El servidor manda el párrafo entero:
+  sin JavaScript, con `prefers-reduced-motion` o si algo falla, el texto está
+  ahí y se lee igual.
 - **Imágenes**: revelado con sobre-escalado de 1.07 → 1 (`CaseImage`).
 - **Hover de proyecto**: escala 1.035 en 1100ms y el nombre entra desde abajo.
 - **Transición entre páginas**: velo de tinta que se retira (`PageTransition`).
 - **Cursor contextual**: sólo aparece con la etiqueta "Ver proyecto" sobre
   elementos con `data-cursor`; desactivado en punteros gruesos.
-- **Titular del hero**: cada letra engorda al acercarse el cursor, de peso 600
-  a 900 (`HeroType`). Se escribe con `font-variation-settings`, no con
-  `font-weight`, que el navegador redondearía a saltos.
+- **Titular del hero**: entra línea a línea desde detrás de su máscara, sin
+  efecto de cursor.
 
 Todo respeta `prefers-reduced-motion`: Lenis no se inicializa, las animaciones
 se anulan y la composición se conserva intacta.

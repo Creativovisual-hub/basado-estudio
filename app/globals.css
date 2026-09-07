@@ -249,8 +249,7 @@ body {
  * contaba uno y el titular crecía 50 px. En un contenedor flex no hay
  * colapso y la compensación sale exacta.
  */
-.rv-lines,
-.hero-type {
+.rv-lines {
   display: flex;
   flex-direction: column;
 }
@@ -350,35 +349,6 @@ body {
   opacity: 1;
 }
 
-/* ---------------------------------------------------------------
-   Titular del hero: las letras engordan cerca del cursor.
-   Ver components/HeroType.tsx.
-----------------------------------------------------------------*/
-.hero-type {
-  /* El display lo fija la regla de .rv-lines: flex, para que los márgenes
-     de compensación del recorte no colapsen entre líneas. */
-}
-
-/* La palabra no se parte: el corte sólo puede caer en los espacios. */
-.hero-type__w {
-  white-space: nowrap;
-}
-
-.hero-type__ch {
-  display: inline-block;
-  /* El peso lo escribe el script; la transición suaviza la vuelta al
-     reposo cuando el cursor se va de golpe. */
-  transition:
-    font-variation-settings 0.35s var(--ease),
-    transform 0.35s var(--ease);
-  will-change: font-variation-settings, transform;
-}
-
-/* El revelado de entrada lo gobierna el contenedor, no cada linea. */
-.hero-type.is-in .rv-line > * {
-  transform: translateY(0);
-  transition: transform 1s var(--ease) var(--rv-d, 0s);
-}
 
 /* ---------------------------------------------------------------
    Botón de volver arriba. Ver components/BackToTop.tsx.
@@ -457,7 +427,6 @@ body {
   .marquee-track { animation: none; }
   .page-veil { display: none; }
   .rock__lit { transition: none; }
-  .hero-type__ch { transition: none; }
 
   /* Sin movimiento, pero el contenido siempre presente. */
   .rv,

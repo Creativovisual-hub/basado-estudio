@@ -6,7 +6,6 @@ import { getDict, isLocale, localePath } from "@/lib/i18n";
 import ProjectGrid from "@/components/ProjectGrid";
 import BaseSection from "@/components/BaseSection";
 import { Reveal, RevealLines } from "@/components/Reveal";
-import HeroType from "@/components/HeroType";
 import SplitLines from "@/components/SplitLines";
 import { site } from "@/lib/site";
 
@@ -25,8 +24,8 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         className="gutter flex min-h-[100svh] flex-col justify-end pb-[var(--pad)]"
         style={{ paddingTop: "calc(var(--header-h) + 8vh)" }}
       >
-        <h1 className="t-display" aria-label={t.home.heroLines.join(" ")}>
-          <HeroType lines={t.home.heroLines} delay={0.15} stagger={0.1} />
+        <h1 className="t-display">
+          <RevealLines lines={t.home.heroLines} delay={0.15} stagger={0.1} on="mount" />
         </h1>
 
         <div className="mt-[9vh] grid grid-cols-1 gap-8 md:mt-[7vh] md:grid-cols-12 md:items-end">
