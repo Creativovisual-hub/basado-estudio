@@ -103,6 +103,14 @@ sin sombras, sin radios salvo la píldora del cursor.
   elementos con `data-cursor`; desactivado en punteros gruesos.
 - **Titular del hero**: entra línea a línea desde detrás de su máscara, sin
   efecto de cursor.
+- **Pieza generativa del hero** (`HeroField`): curvas de nivel que respiran,
+  como la topografía de una piedra, ocupando el aire sobre el titular. Canvas
+  2D sin librerías: anillos concéntricos modulados por una suma de senos, y el
+  cursor los empuja hacia fuera con caída suave. Se dibuja con `currentColor`,
+  así que el tema claro y el oscuro salen solos. **0,23 ms por fotograma**
+  medidos, frente a los 16,7 disponibles a 60 fps. Se detiene fuera de
+  pantalla, con la pestaña en segundo plano y con `prefers-reduced-motion`
+  (ahí queda un fotograma fijo).
 
 Todo respeta `prefers-reduced-motion`: Lenis no se inicializa, las animaciones
 se anulan y la composición se conserva intacta.

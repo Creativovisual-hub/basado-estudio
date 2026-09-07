@@ -7,6 +7,7 @@ import ProjectGrid from "@/components/ProjectGrid";
 import BaseSection from "@/components/BaseSection";
 import { Reveal, RevealLines } from "@/components/Reveal";
 import SplitLines from "@/components/SplitLines";
+import HeroField from "@/components/HeroField";
 import { site } from "@/lib/site";
 
 export default async function Home({ params }: { params: Promise<{ lang: string }> }) {
@@ -21,9 +22,11 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
           Hero editorial. La tipografía es la única imagen.
       ----------------------------------------------------------------*/}
       <section
-        className="gutter flex min-h-[100svh] flex-col justify-end pb-[var(--pad)]"
+        className="gutter relative isolate flex min-h-[100svh] flex-col justify-end pb-[var(--pad)]"
         style={{ paddingTop: "calc(var(--header-h) + 8vh)" }}
       >
+        {/* Ocupa el aire sobre el titular, por detrás de todo. */}
+        <HeroField />
         <h1 className="t-display">
           <RevealLines lines={t.home.heroLines} delay={0.15} stagger={0.1} on="mount" />
         </h1>
