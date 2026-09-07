@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { getProjects } from "@/lib/projects";
+import { getProyectos } from "@/lib/contenido";
 import { getDict, isLocale, localePath } from "@/lib/i18n";
 import ProjectGrid from "@/components/ProjectGrid";
 import BaseSection from "@/components/BaseSection";
@@ -14,7 +14,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
   const t = getDict(lang);
-  const projects = getProjects(lang);
+  const projects = await getProyectos(lang);
 
   return (
     <>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getProjects } from "@/lib/projects";
+import { getProyectos } from "@/lib/contenido";
 import { getDict, isLocale } from "@/lib/i18n";
 import { site } from "@/lib/site";
 import ProjectGrid from "@/components/ProjectGrid";
@@ -31,7 +31,7 @@ export default async function WorkPage({ params }: Params) {
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
   const t = getDict(lang);
-  const projects = getProjects(lang);
+  const projects = await getProyectos(lang);
 
   return (
     <>

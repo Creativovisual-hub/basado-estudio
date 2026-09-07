@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { projectSlugs, getProject, adjacentProjects } from "@/lib/projects";
+import { slugsDeProyecto, getProyecto, proyectosContiguos } from "@/lib/contenido";
 import { getDict, isLocale, locales, localePath } from "@/lib/i18n";
 import { site } from "@/lib/site";
 import CaseImage from "@/components/CaseImage";
@@ -11,14 +11,15 @@ import { Reveal, RevealLines } from "@/components/Reveal";
 
 type Params = { params: Promise<{ lang: string; slug: string }> };
 
-export function generateStaticParams() {
-  return locales.flatMap((lang) => projectSlugs().map((slug) => ({ lang, slug })));
+export async function generateStaticParams() {
+  const slugs = await slugsDeProyecto();
+  return locales.flatMap((lang) => slugs.map((slug) => ({ lang, slug })));
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { lang, slug } = await params;
   if (!isLocale(lang)) return {};
-  const p = getProject(lang, slug);
+  const p = await getProyecto(lang, slug);
   if (!p) return { title: "404" };
 
   return {
@@ -44,11 +45,11 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 export default async function CaseStudy({ params }: Params) {
   const { lang, slug } = await params;
   if (!isLocale(lang)) notFound();
-  const p = getProject(lang, slug);
+  const p = await getProyecto(lang, slug);
   if (!p) notFound();
 
   const t = getDict(lang);
-  const [next, after] = adjacentProjects(lang, p.slug);
+  const [next, after] = await proyectosContiguos(lang, p.slug);
 
   /*
    * Los proyectos vienen del portfolio como una secuencia de láminas, casi
