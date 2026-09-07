@@ -99,6 +99,8 @@ export async function guardar(id: string, _previo: string | null, datos: FormDat
     notas_es: [],
     notas_en: [],
     formato: String(datos.get("formato") ?? "16:9"),
+    descripcion_es: String(datos.get("descripcion_es") ?? "").trim(),
+    descripcion_en: String(datos.get("descripcion_en") ?? "").trim(),
   });
 
   refrescarWeb(slug);
@@ -218,4 +220,36 @@ export async function quitarTexto(id: string) {
   await borrarTexto(id);
   if (proyectoId) revalidatePath(`/admin/proyecto/${proyectoId}`);
   refrescarWeb();
+}
+
+/* ------------------- alt, reordenar y duplicar ------------------- */
+
+export async function guardarAltDeImagen(id: string, datos: FormData) {
+  await exigirSesion();
+  const { guardarAlt, obtenerImagen } = await import("@/lib/proyectos-db");
+  await guardarAlt(
+    id,
+    String(datos.get("alt_es") ?? "").trim(),
+    String(datos.get("alt_en") ?? "").trim()
+  );
+  const img = await obtenerImagen(id);
+  if (img) revalidatePath(`/admin/proyecto/${img.proyecto_id}`);
+  refrescarWeb();
+}
+
+export async function reordenar(proyectoId: string, ids: string[]) {
+  await exigirSesion();
+  const { reordenarImagenes } = await import("@/lib/proyectos-db");
+  await reordenarImagenes(proyectoId, ids);
+  revalidatePath(`/admin/proyecto/${proyectoId}`);
+  refrescarWeb();
+}
+
+export async function duplicar(id: string) {
+  await exigirSesion();
+  const { duplicarProyecto } = await import("@/lib/proyectos-db");
+  const { copiarArchivo } = await import("@/lib/almacen");
+  const nuevo = await duplicarProyecto(id, copiarArchivo);
+  revalidatePath("/admin");
+  if (nuevo) redirect(`/admin/proyecto/${nuevo}`);
 }

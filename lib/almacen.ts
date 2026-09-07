@@ -61,3 +61,19 @@ export async function listarArchivos(carpeta?: string) {
 
 /** ¿Hay almacén configurado? */
 export const hayAlmacen = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+
+/**
+ * Copia un archivo dentro del almacén.
+ *
+ * Se usa al duplicar un proyecto. Podría bastar con apuntar las dos fichas a
+ * la misma dirección, pero entonces borrar una imagen en la copia dejaría un
+ * hueco en el original: dejarían de ser proyectos independientes.
+ */
+export async function copiarArchivo(url: string, carpeta: string, nombre: string) {
+  const { copy } = await import("@vercel/blob");
+  const copia = await copy(url, `${carpeta}/${nombre}`, {
+    access: "public",
+    addRandomSuffix: true,
+  });
+  return { url: copia.url, ruta: copia.pathname };
+}

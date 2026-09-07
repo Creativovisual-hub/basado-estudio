@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { usuarioDeLaSesion } from "@/lib/auth";
 import { obtenerProyecto, textosDe } from "@/lib/proyectos-db";
-import { eliminar } from "../../proyectos";
+import { duplicar, eliminar } from "../../proyectos";
 import FichaProyecto from "../../FichaProyecto";
 import AvisoSinGuardar from "../../AvisoSinGuardar";
 import Imagenes from "../../Imagenes";
@@ -24,6 +24,7 @@ export default async function EditarProyecto({
   const { imagenes, ...ficha } = p;
   const textos = await textosDe(p.id);
   const borrarEste = eliminar.bind(null, p.id);
+  const duplicarEste = duplicar.bind(null, p.id);
 
   return (
     <main className="p-5 md:p-8">
@@ -71,14 +72,21 @@ export default async function EditarProyecto({
         Borrar va al final y separado: es la única acción de esta página que
         no se puede deshacer.
       */}
-      <form action={borrarEste} className="mt-6">
+      <div className="mt-6 flex flex-wrap gap-3">
+        <form action={duplicarEste}>
+          <button type="submit" className="t-meta a-boton a-boton--linea">
+            Duplicar proyecto
+          </button>
+        </form>
+        <form action={borrarEste}>
         <button
           type="submit"
           className="t-meta a-boton a-boton--linea opacity-55 transition-opacity hover:opacity-100"
         >
-          Borrar este proyecto y sus imágenes
-        </button>
-      </form>
+            Borrar este proyecto y sus imágenes
+          </button>
+        </form>
+      </div>
     </main>
   );
 }

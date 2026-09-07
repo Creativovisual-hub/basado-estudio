@@ -35,6 +35,8 @@ type FilaProyecto = {
   notas_es: string[];
   notas_en: string[];
   formato: string;
+  descripcion_es: string;
+  descripcion_en: string;
 };
 
 type FilaTexto = {
@@ -50,6 +52,8 @@ type FilaImagen = {
   ancho: number;
   alto: number;
   portada: boolean;
+  alt_es: string;
+  alt_en: string;
 };
 
 /*
@@ -76,9 +80,10 @@ const PROPORCIONES: Record<string, number> = {
  * para llenarlo. Así se pueden subir fotos de cualquier medida sin que la
  * ficha pierda el pulso.
  */
-function comoImagen(i: FilaImagen, proporcion: number | null) {
+function comoImagen(i: FilaImagen, proporcion: number | null, es: boolean) {
   return {
     src: i.url,
+    alt: (es ? i.alt_es : i.alt_en) || i.alt_es,
     srcSet: `${i.url} ${i.ancho}w`,
     width: i.ancho,
     height: i.alto,
@@ -95,7 +100,8 @@ async function proyectosDelPanel(locale: Locale): Promise<Project[]> {
     const filas = (await sql`
       select slug, nombre, cliente, anio,
              categoria_es, categoria_en, servicios_es, servicios_en,
-             intro_es, intro_en, notas_es, notas_en, formato
+             intro_es, intro_en, notas_es, notas_en, formato,
+             descripcion_es, descripcion_en
       from proyectos
       where publicado
       order by orden asc, creado_en desc
@@ -106,7 +112,7 @@ async function proyectosDelPanel(locale: Locale): Promise<Project[]> {
     // Una sola consulta para todas las imágenes: pedirlas proyecto a proyecto
     // multiplicaría los viajes a la base por el número de proyectos.
     const imagenes = (await sql`
-      select p.slug, i.url, i.ancho, i.alto, i.portada
+      select p.slug, i.url, i.ancho, i.alto, i.portada, i.alt_es, i.alt_en
       from imagenes i
       join proyectos p on p.id = i.proyecto_id
       where p.publicado
@@ -156,7 +162,8 @@ async function proyectosDelPanel(locale: Locale): Promise<Project[]> {
           services: es ? p.servicios_es : p.servicios_en,
           intro: (es ? p.intro_es : p.intro_en) || p.intro_es,
           cover: { src: portada.url, srcSet: `${portada.url} ${portada.ancho}w` },
-          images: suyas.map((i) => comoImagen(i, proporcion)),
+          images: suyas.map((i) => comoImagen(i, proporcion, es)),
+          descripcion: (es ? p.descripcion_es : p.descripcion_en) || undefined,
           notes: es ? p.notas_es : p.notas_en,
           bloques: (textosPorProyecto.get(p.slug) ?? [])
             .map((t) => ({

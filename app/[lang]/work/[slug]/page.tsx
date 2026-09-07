@@ -24,7 +24,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
   return {
     title: `${p.name} — ${p.category}`,
-    description: p.intro.slice(0, 160),
+    // La descripción propia manda; sin ella, se recorta la introducción.
+    description: p.descripcion ?? p.intro.slice(0, 160),
     alternates: {
       canonical: `/${lang}/work/${p.slug}`,
       languages: {
@@ -35,7 +36,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     },
     openGraph: {
       title: `${p.name} — ${p.category} — BASADO ESTUDIO`,
-      description: p.intro.slice(0, 160),
+      description: p.descripcion ?? p.intro.slice(0, 160),
       type: "article",
       images: [{ url: p.cover.src }],
     },
@@ -158,7 +159,8 @@ export default async function CaseStudy({ params }: Params) {
               src={img.src}
               srcSet={img.srcSet}
               sizes="100vw"
-              alt={t.project.plateAlt(p.name, i + 1, p.images.length)}
+              // El texto escrito en el panel manda; si no lo hay, uno genérico.
+              alt={img.alt || t.project.plateAlt(p.name, i + 1, p.images.length)}
               ratio={img.ratio}
               priority={i === 0}
             />

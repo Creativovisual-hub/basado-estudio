@@ -87,6 +87,16 @@ export const ESQUEMA: string[] = [
   `alter table proyectos add column if not exists formato text not null default '16:9'`,
 
   /*
+   * Descripción para buscadores.
+   *
+   * Sin esto, Google recorta la introducción a 160 caracteres, y ese recorte
+   * casi nunca dice lo que uno querría que se lea en el resultado de
+   * búsqueda. Vacía, se sigue usando la introducción.
+   */
+  `alter table proyectos add column if not exists descripcion_es text not null default ''`,
+  `alter table proyectos add column if not exists descripcion_en text not null default ''`,
+
+  /*
    * Imágenes de cada proyecto.
    *
    * Se guardan dos direcciones y no una: "url" es la pública de hoy, la que

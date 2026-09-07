@@ -151,6 +151,19 @@ export default function FichaProyecto({ p }: { p: ProyectoFila }) {
           pista="El párrafo que abre la ficha, antes de la primera lámina."
         />
         <Area nombre="intro_en" etiqueta="Introducción (inglés)" valor={p.intro_en} />
+        <Area
+          nombre="descripcion_es"
+          etiqueta="Descripción para buscadores (español)"
+          valor={p.descripcion_es}
+          filas={3}
+          pista="Lo que se lee bajo el título en Google. Unos 155 caracteres. Vacía, se usa la introducción."
+        />
+        <Area
+          nombre="descripcion_en"
+          etiqueta="Descripción para buscadores (inglés)"
+          valor={p.descripcion_en}
+          filas={3}
+        />
       </section>
 
       <section className="a-panel flex flex-wrap items-center gap-6 p-5 md:p-6">

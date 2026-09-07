@@ -16,6 +16,8 @@ import type { Locale } from "./i18n";
 export type RemoteImage = {
   src: string;
   srcSet: string;
+  /** Qué se ve en la imagen. Vacío en las de Adobe: allí no hay dato. */
+  alt?: string;
   width: number | null;
   height: number | null;
   ratio: number | null;
@@ -43,6 +45,8 @@ export type Project = {
    * repartiendo sus notas automáticamente.
    */
   bloques?: { posicion: number; parrafos: string[] }[];
+  /** Descripción propia para buscadores; si falta, se recorta la intro. */
+  descripcion?: string;
 };
 
 type Editorial = {

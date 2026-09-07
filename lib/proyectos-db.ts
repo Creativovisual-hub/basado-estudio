@@ -41,6 +41,8 @@ export type ProyectoFila = {
   notas_es: string[];
   notas_en: string[];
   formato: string;
+  descripcion_es: string;
+  descripcion_en: string;
 };
 
 /** Convierte un nombre en una dirección web: "Latin Wok" → "latin-wok". */
@@ -137,6 +139,8 @@ export async function guardarProyecto(id: string, d: Omit<ProyectoFila, "id">) {
       notas_es = ${d.notas_es},
       notas_en = ${d.notas_en},
       formato = ${d.formato},
+      descripcion_es = ${d.descripcion_es},
+      descripcion_en = ${d.descripcion_en},
       actualizado_en = now()
     where id = ${id}::uuid
   `;
@@ -318,4 +322,85 @@ export async function proyectoDeTexto(id: string) {
     select proyecto_id from textos where id = ${id}::uuid
   `) as { proyecto_id: string }[];
   return filas[0]?.proyecto_id ?? null;
+}
+
+/** Texto alternativo de una imagen: lo que lee un lector de pantalla. */
+export async function guardarAlt(id: string, alt_es: string, alt_en: string) {
+  await db()`
+    update imagenes set alt_es = ${alt_es}, alt_en = ${alt_en}
+    where id = ${id}::uuid
+  `;
+}
+
+/**
+ * Reordena las imágenes de un proyecto según la lista recibida.
+ *
+ * Se reescriben todas de una vez en lugar de intercambiar de dos en dos: al
+ * arrastrar, lo que llega es el orden final completo, y aplicarlo entero
+ * evita estados intermedios raros si algo falla a mitad.
+ */
+export async function reordenarImagenes(proyectoId: string, ids: string[]) {
+  for (let i = 0; i < ids.length; i++) {
+    await db()`
+      update imagenes set orden = ${i}
+      where id = ${ids[i]}::uuid and proyecto_id = ${proyectoId}::uuid
+    `;
+  }
+}
+
+/**
+ * Duplica un proyecto entero: ficha, bloques de texto e imágenes.
+ *
+ * Las imágenes se copian de verdad en el almacén, no se comparten. Si
+ * apuntaran al mismo archivo, borrar una foto en la copia dejaría un hueco
+ * en el original y dejarían de ser proyectos independientes.
+ */
+export async function duplicarProyecto(
+  id: string,
+  copiar: (url: string, carpeta: string, nombre: string) => Promise<{ url: string; ruta: string }>
+) {
+  const original = await obtenerProyecto(id);
+  if (!original) return null;
+
+  const slug = await slugLibre(`${original.nombre} copia`);
+
+  const filas = (await db()`
+    insert into proyectos (
+      slug, orden, publicado, nombre, cliente, anio,
+      categoria_es, categoria_en, servicios_es, servicios_en,
+      intro_es, intro_en, notas_es, notas_en, formato,
+      descripcion_es, descripcion_en
+    )
+    select ${slug},
+           coalesce((select max(orden) + 1 from proyectos), 0),
+           false,
+           nombre || ' (copia)', cliente, anio,
+           categoria_es, categoria_en, servicios_es, servicios_en,
+           intro_es, intro_en, notas_es, notas_en, formato,
+           descripcion_es, descripcion_en
+    from proyectos where id = ${id}::uuid
+    returning id
+  `) as { id: string }[];
+
+  const nuevo = filas[0].id;
+
+  await db()`
+    insert into textos (proyecto_id, posicion, orden, texto_es, texto_en)
+    select ${nuevo}::uuid, posicion, orden, texto_es, texto_en
+    from textos where proyecto_id = ${id}::uuid
+  `;
+
+  for (const img of original.imagenes) {
+    const nombre = img.ruta.split("/").pop() ?? "imagen";
+    const copia = await copiar(img.url, `proyectos/${nuevo}`, nombre);
+    await db()`
+      insert into imagenes (proyecto_id, url, ruta, ancho, alto, orden, portada, alt_es, alt_en)
+      values (
+        ${nuevo}::uuid, ${copia.url}, ${copia.ruta}, ${img.ancho}, ${img.alto},
+        ${img.orden}, ${img.portada}, ${img.alt_es}, ${img.alt_en}
+      )
+    `;
+  }
+
+  return nuevo;
 }
