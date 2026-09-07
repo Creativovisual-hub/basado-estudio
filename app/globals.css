@@ -561,9 +561,9 @@ body {
    misma marca.
 ----------------------------------------------------------------*/
 :root {
-  --a-fondo: #eeece9;                     /* lienzo, un punto más apagado */
+  --a-fondo: #e8e5e1;                     /* lienzo: más apagado que el panel */
   --a-panel: #ffffff;                     /* superficie elevada */
-  --a-borde: rgba(14, 14, 14, 0.09);
+  --a-borde: rgba(14, 14, 14, 0.14);
   --a-suave: rgba(14, 14, 14, 0.045);     /* realce al pasar */
   --a-acento: #8a7a6a;
   --a-radio: 14px;
@@ -571,17 +571,17 @@ body {
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --a-fondo: #0a0a09;
-    --a-panel: #141413;
-    --a-borde: rgba(237, 236, 232, 0.1);
+    --a-fondo: #070706;
+    --a-panel: #1a1a18;
+    --a-borde: rgba(237, 236, 232, 0.13);
     --a-suave: rgba(237, 236, 232, 0.055);
     --a-acento: #b9ada0;
   }
 }
 :root[data-theme="dark"] {
-  --a-fondo: #0a0a09;
-  --a-panel: #141413;
-  --a-borde: rgba(237, 236, 232, 0.1);
+  --a-fondo: #070706;
+  --a-panel: #1a1a18;
+  --a-borde: rgba(237, 236, 232, 0.13);
   --a-suave: rgba(237, 236, 232, 0.055);
   --a-acento: #b9ada0;
 }
