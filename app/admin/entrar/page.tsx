@@ -5,6 +5,7 @@ import { entrar, hayUsuarios } from "../acciones";
 import { usuarioDeLaSesion } from "@/lib/auth";
 import Formulario from "../Formulario";
 import Campo from "../Campo";
+import LogoBasado from "@/components/LogoBasado";
 
 export const dynamic = "force-dynamic";
 
@@ -47,17 +48,9 @@ export default async function Entrar() {
           desplaza sólo esta columna: la página nunca. */}
       <main className="flex flex-col justify-center overflow-y-auto px-6 py-10 md:px-14">
         <div className="mx-auto w-full max-w-[24rem]">
-          <div className="mb-10 flex items-center gap-3">
-            <span
-              aria-hidden="true"
-              className="grid h-10 w-10 place-items-center rounded-[10px] bg-fg text-[1rem] font-semibold text-bg"
-            >
-              B
-            </span>
-            <span className="t-meta leading-tight">
-              BASADO ESTUDIO
-              <span className="mt-1 block opacity-40">Panel</span>
-            </span>
+          <div className="mb-10">
+            <LogoBasado alto={38} />
+            <p className="t-meta mt-4 opacity-40">Panel de administración</p>
           </div>
 
           <h1 className="mb-2 text-[1.7rem] font-semibold tracking-[-0.035em]">

@@ -4,6 +4,7 @@ import { asegurarEsquema } from "@/lib/esquema";
 import { usuarioDeLaSesion } from "@/lib/auth";
 import { salir } from "./acciones";
 import Barra from "./Barra";
+import LogoBasado from "@/components/LogoBasado";
 
 /*
  * El panel no lleva la cabecera ni el pie del sitio: es una herramienta de
@@ -47,7 +48,7 @@ export default async function AdminLayout({
       */}
       {dentro && <div className="a-filete" aria-hidden="true" />}
       <div className="md:flex">
-        {dentro && <Barra salir={salir} />}
+        {dentro && <Barra salir={salir} logo={<LogoBasado alto={24} />} />}
         <div className="min-w-0 flex-1">{children}</div>
       </div>
     </div>

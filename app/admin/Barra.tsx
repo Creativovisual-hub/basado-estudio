@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { site } from "@/lib/site";
 import ThemeToggle from "@/components/ThemeToggle";
 
 /* ---------------------------------------------------------------------------
@@ -48,7 +47,15 @@ function Trazo({ d }: { d: string }) {
   );
 }
 
-export default function Barra({ salir }: { salir: () => Promise<void> }) {
+export default function Barra({
+  salir,
+  logo,
+}: {
+  salir: () => Promise<void>;
+  /* El logotipo llega dibujado desde el servidor: mira el disco por si hay
+     un archivo propio, y eso no puede hacerse en el navegador. */
+  logo: React.ReactNode;
+}) {
   const ruta = usePathname();
 
   const activo = (href: string) =>
@@ -60,18 +67,8 @@ export default function Barra({ salir }: { salir: () => Promise<void> }) {
     <aside className="a-barra sticky top-0 z-40 md:h-[calc(100svh-3px)] md:w-[17rem] md:shrink-0">
       <div className="flex h-full flex-col gap-8 p-5 md:p-6">
         <div className="flex items-center justify-between gap-4">
-          <Link href="/admin" className="flex items-center gap-3">
-            {/* La misma B del icono del sitio, en pequeño. */}
-            <span
-              aria-hidden="true"
-              className="grid h-9 w-9 place-items-center rounded-[10px] bg-fg text-[0.95rem] font-semibold text-bg"
-            >
-              B
-            </span>
-            <span className="t-meta leading-tight">
-              {site.shortName}
-              <span className="mt-1 block opacity-40">Panel</span>
-            </span>
+          <Link href="/admin" aria-label="Panel de BASADO ESTUDIO">
+            {logo}
           </Link>
           <ThemeToggle label="Cambiar entre modo claro y oscuro" />
         </div>
