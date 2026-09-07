@@ -68,7 +68,7 @@ export default function Header({ locale }: { locale: Locale }) {
           open
             ? "text-inv-fg"
             : scrolled
-              ? "border-b border-line bg-bg/95 text-fg"
+              ? "vidrio border-b border-line text-fg"
               : "text-fg"
         }`}
         style={{ height: "var(--header-h)" }}

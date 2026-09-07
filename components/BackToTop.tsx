@@ -35,7 +35,7 @@ export default function BackToTop({ etiqueta }: { etiqueta: string }) {
       // Sin foco ni lectura mientras está oculto: no debe salir en el tabulador.
       tabIndex={visible ? 0 : -1}
       aria-hidden={!visible}
-      className={`subir ${visible ? "is-in" : ""}`}
+      className={`subir vidrio ${visible ? "is-in" : ""}`}
     >
       <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none">
         <path

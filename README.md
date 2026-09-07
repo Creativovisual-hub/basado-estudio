@@ -112,6 +112,11 @@ sin sombras, sin radios salvo la píldora del cursor.
   pantalla, con la pestaña en segundo plano y con `prefers-reduced-motion`
   (ahí queda un fotograma fijo).
 
+- **Vidrio** (`.vidrio`): fondo translúcido con desenfoque de lo que pasa por
+  detrás. Sólo en la cabecera al bajar y en el botón de volver arriba, que son
+  las dos cosas que flotan sobre el contenido. El aviso de cookies se queda
+  opaco a propósito: es un texto legal y ahí manda la legibilidad.
+
 Todo respeta `prefers-reduced-motion`: Lenis no se inicializa, las animaciones
 se anulan y la composición se conserva intacta.
 
