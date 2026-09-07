@@ -7,6 +7,7 @@ import ProjectGrid from "@/components/ProjectGrid";
 import BaseSection from "@/components/BaseSection";
 import { Reveal, RevealLines } from "@/components/Reveal";
 import SplitLines from "@/components/SplitLines";
+import HeroTitle from "@/components/HeroTitle";
 import { site } from "@/lib/site";
 
 export default async function Home({ params }: { params: Promise<{ lang: string }> }) {
@@ -24,8 +25,15 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         className="gutter flex min-h-[100svh] flex-col justify-end pb-[var(--pad)]"
         style={{ paddingTop: "calc(var(--header-h) + 8vh)" }}
       >
-        <h1 className="t-display">
-          <RevealLines lines={t.home.heroLines} delay={0.15} stagger={0.1} on="mount" />
+        {/* El nombre accesible es fijo: sin esto, un lector de pantalla
+            volvería a anunciar el titular con cada letra que se escribe. */}
+        <h1 className="t-display" aria-label={t.home.heroAria}>
+          <HeroTitle
+            lines={t.home.heroLines}
+            words={t.home.heroWords}
+            delay={0.15}
+            stagger={0.1}
+          />
         </h1>
 
         <div className="mt-[9vh] grid grid-cols-1 gap-8 md:mt-[7vh] md:grid-cols-12 md:items-end">

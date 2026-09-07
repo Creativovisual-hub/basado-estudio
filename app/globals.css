@@ -116,7 +116,13 @@ body {
 
 /* Display gigante del hero */
 .t-display {
-  font-size: clamp(3.25rem, 12.6vw, 15rem);
+  /*
+   * El tope por altura no es un adorno: el titular son tres líneas, y en un
+   * portátil de pantalla baja (1280x660) medía 416 px y empujaba el texto de
+   * apoyo fuera de la primera pantalla. Midiendo también contra el alto, el
+   * hero entra siempre completo sin tener que hacer scroll.
+   */
+  font-size: min(clamp(3.25rem, 12.6vw, 15rem), 21vh);
   line-height: 0.86;
   letter-spacing: -0.045em;
   font-weight: 600;
@@ -513,4 +519,30 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .cookies { animation: none; }
+}
+
+/* ---------------------------------------------------------------
+   Cursor de escritura del titular. Ver components/HeroTitle.tsx.
+----------------------------------------------------------------*/
+.type-caret {
+  display: inline-block;
+  width: 0.055em;
+  height: 0.72em;
+  margin-left: 0.07em;
+  background: currentColor;
+  /* Se apoya en la línea base, como una letra más. */
+  vertical-align: baseline;
+  animation: caret-parpadeo 1.05s steps(1) infinite;
+}
+/* Mientras escribe no parpadea: el parpadeo es la señal de que está parado. */
+.type-caret.is-typing { animation: none; }
+
+@keyframes caret-parpadeo {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+
+/* Sin movimiento: el titular queda escrito y quieto, sin cursor. */
+@media (prefers-reduced-motion: reduce) {
+  .type-caret { display: none; }
 }
