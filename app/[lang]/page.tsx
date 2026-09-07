@@ -7,6 +7,7 @@ import ProjectGrid from "@/components/ProjectGrid";
 import BaseSection from "@/components/BaseSection";
 import { Reveal, RevealLines } from "@/components/Reveal";
 import HeroType from "@/components/HeroType";
+import SplitLines from "@/components/SplitLines";
 import { site } from "@/lib/site";
 
 export default async function Home({ params }: { params: Promise<{ lang: string }> }) {
@@ -29,9 +30,16 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         </h1>
 
         <div className="mt-[9vh] grid grid-cols-1 gap-8 md:mt-[7vh] md:grid-cols-12 md:items-end">
-          <Reveal on="mount" delay={0.5} className="md:col-span-6 md:col-start-1">
-            <p className="t-body max-w-[38ch] text-balance">{t.home.support}</p>
-          </Reveal>
+          {/* Sin Reveal alrededor: el propio párrafo se revela línea a línea,
+              y encadenar las dos animaciones lo dejaba flotando. */}
+          <div className="md:col-span-6 md:col-start-1">
+            <SplitLines
+              text={t.home.support}
+              className="t-body max-w-[38ch] text-balance"
+              on="mount"
+              delay={0.5}
+            />
+          </div>
 
           {/* Sin el contador, la ubicación se va al borde derecho para que
               la fila no quede con un elemento suelto a medio camino. */}
@@ -74,15 +82,22 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
             <h2 className="t-head max-w-[16ch]">
               <RevealLines lines={t.home.studioLines} stagger={0.08} />
             </h2>
-            <Reveal delay={0.25} className="mt-12 max-w-[54ch]">
-              <p className="t-body opacity-70">{t.home.studioBody}</p>
-              <Link
-                href={localePath(lang, "studio")}
-                className="t-meta link-underline mt-10 inline-block"
-              >
-                {t.home.studioLink}
-              </Link>
-            </Reveal>
+            <div className="mt-12 max-w-[54ch]">
+              <SplitLines
+                text={t.home.studioBody}
+                className="t-body opacity-70"
+                delay={0.25}
+              />
+              {/* El enlace entra después del último renglón del párrafo. */}
+              <Reveal delay={0.55}>
+                <Link
+                  href={localePath(lang, "studio")}
+                  className="t-meta link-underline mt-10 inline-block"
+                >
+                  {t.home.studioLink}
+                </Link>
+              </Reveal>
+            </div>
           </div>
         </div>
       </section>

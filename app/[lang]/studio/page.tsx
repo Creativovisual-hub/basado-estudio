@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { getDict, isLocale, localePath } from "@/lib/i18n";
 import { site } from "@/lib/site";
+import SplitLines from "@/components/SplitLines";
 import { Reveal, RevealLines } from "@/components/Reveal";
 import CaseImage from "@/components/CaseImage";
 
@@ -80,9 +81,12 @@ export default async function StudioPage({ params }: Params) {
 
           <div className="md:col-span-8 md:col-start-5">
             {t.studio.how.map((p, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <p className={`t-body max-w-[54ch] ${i > 0 ? "mt-8 opacity-70" : ""}`}>{p}</p>
-              </Reveal>
+              <SplitLines
+                key={i}
+                text={p}
+                className={`t-body max-w-[54ch] ${i > 0 ? "mt-8 opacity-70" : ""}`}
+                delay={i * 0.1}
+              />
             ))}
           </div>
         </div>

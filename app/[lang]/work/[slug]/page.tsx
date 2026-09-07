@@ -6,6 +6,7 @@ import { projectSlugs, getProject, adjacentProjects } from "@/lib/projects";
 import { getDict, isLocale, locales, localePath } from "@/lib/i18n";
 import { site } from "@/lib/site";
 import CaseImage from "@/components/CaseImage";
+import SplitLines from "@/components/SplitLines";
 import { Reveal, RevealLines } from "@/components/Reveal";
 
 type Params = { params: Promise<{ lang: string; slug: string }> };
@@ -115,9 +116,14 @@ export default async function CaseStudy({ params }: Params) {
         </Reveal>
       </header>
 
-      <Reveal on="mount" delay={0.6} className="gutter pb-[10vh]">
-        <p className="t-body mx-auto max-w-[62ch] text-balance md:text-center">{p.intro}</p>
-      </Reveal>
+      <div className="gutter pb-[10vh]">
+        <SplitLines
+          text={p.intro}
+          className="t-body mx-auto max-w-[62ch] text-balance md:text-center"
+          on="mount"
+          delay={0.6}
+        />
+      </div>
 
       <div className="flex flex-col" style={{ gap: "var(--gutter)" }}>
         {p.images.map((img, i) => (
@@ -135,9 +141,12 @@ export default async function CaseStudy({ params }: Params) {
               <section className="gutter py-[12vh]">
                 <div className="mx-auto max-w-[60ch] space-y-5">
                   {noteAfter.get(i)!.map((text, n) => (
-                    <Reveal key={n} delay={n * 0.06}>
-                      <p className="t-body">{text}</p>
-                    </Reveal>
+                    <SplitLines
+                      key={n}
+                      text={text}
+                      className="t-body"
+                      delay={n * 0.06}
+                    />
                   ))}
                 </div>
               </section>

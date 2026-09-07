@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { getDict, isLocale, localePath } from "@/lib/i18n";
 import { site } from "@/lib/site";
+import SplitLines from "@/components/SplitLines";
 import { Reveal, RevealLines } from "@/components/Reveal";
 
 type Params = { params: Promise<{ lang: string }> };
@@ -55,7 +56,11 @@ export default async function ServicesPage({ params }: Params) {
                 <h2 className="text-[clamp(2rem,5.2vw,4.25rem)] font-semibold leading-[0.95] tracking-[-0.045em] transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] md:col-span-6 md:group-hover:translate-x-3">
                   {s.name}
                 </h2>
-                <p className="t-body max-w-[40ch] opacity-65 md:col-span-5">{s.text}</p>
+                <SplitLines
+                  text={s.text}
+                  className="t-body max-w-[40ch] opacity-65 md:col-span-5"
+                  delay={i * 0.06}
+                />
               </div>
             </Reveal>
           ))}
