@@ -12,36 +12,51 @@ export default async function Panel() {
   if (!(await usuarioDeLaSesion())) redirect("/admin/entrar");
 
   const proyectos = await listarProyectos();
+  const visibles = proyectos.filter((p) => p.publicado).length;
 
   return (
-    <main className="gutter max-w-[64rem] py-14">
-      <div className="mb-14">
+    <main className="gutter max-w-[68rem] py-12 md:py-16">
+      <header className="mb-12 flex flex-wrap items-end justify-between gap-6">
         <div>
-          <p className="t-meta mb-3 opacity-45">(Panel)</p>
+          <p className="t-meta mb-3 opacity-45">
+            {proyectos.length === 0
+              ? "Ningún proyecto"
+              : `${proyectos.length} ${
+                  proyectos.length === 1 ? "proyecto" : "proyectos"
+                } · ${visibles} en la web`}
+          </p>
           <h1 className="t-head">Proyectos.</h1>
         </div>
-      </div>
 
-      <form action={nuevoProyecto} className="mb-10">
-        <button type="submit" className="t-meta bg-inv px-8 py-4 text-inv-fg">
-          Nuevo proyecto
-        </button>
-      </form>
+        <form action={nuevoProyecto}>
+          <button type="submit" className="t-meta a-boton">
+            Nuevo proyecto
+          </button>
+        </form>
+      </header>
 
       {proyectos.length === 0 ? (
-        <p className="t-body opacity-65">
-          Todavía no hay ningún proyecto. Pulsa &laquo;Nuevo proyecto&raquo;
-          para crear el primero.
-        </p>
+        <div className="a-bloque">
+          <p className="t-body opacity-65">
+            Todavía no hay ningún proyecto aquí. Pulsa{" "}
+            <strong className="font-semibold">Nuevo proyecto</strong> para crear
+            el primero.
+          </p>
+          <p className="t-meta mt-4 leading-relaxed opacity-40">
+            Los ocho que ya se ven en la web siguen llegando de Adobe Portfolio
+            y no aparecen en esta lista. Se irán retirando de allí a medida que
+            los recrees aquí.
+          </p>
+        </div>
       ) : (
-        <ul className="border-t border-line">
+        <ul className="flex flex-col">
           {proyectos.map((p) => (
-            <li key={p.id} className="border-b border-line">
+            <li key={p.id} className="border-b border-line first:border-t">
               <Link
                 href={`/admin/proyecto/${p.id}`}
-                className="flex items-center gap-5 py-5"
+                className="a-fila -mx-3 flex items-center gap-5 px-3 py-4"
               >
-                <span className="h-14 w-20 shrink-0 overflow-hidden bg-shade">
+                <span className="h-16 w-24 shrink-0 overflow-hidden rounded-sm bg-shade">
                   {p.miniatura && (
                     /* eslint-disable-next-line @next/next/no-img-element */
                     <img
@@ -52,12 +67,23 @@ export default async function Panel() {
                     />
                   )}
                 </span>
-                <span className="flex-1 text-[1.35rem] font-semibold tracking-[-0.03em]">
-                  {p.nombre}
+
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate text-[1.3rem] font-semibold tracking-[-0.03em]">
+                    {p.nombre}
+                  </span>
+                  <span className="t-meta mt-2 block opacity-40">
+                    /{p.slug} · {p.imagenes}{" "}
+                    {p.imagenes === 1 ? "imagen" : "imágenes"}
+                  </span>
                 </span>
-                <span className="t-meta opacity-45">
-                  {p.imagenes} {p.imagenes === 1 ? "imagen" : "imágenes"} ·{" "}
-                  {p.publicado ? "Visible" : "Borrador"}
+
+                <span
+                  className={`t-meta a-pastilla ${
+                    p.publicado ? "a-pastilla--vivo" : "opacity-45"
+                  }`}
+                >
+                  {p.publicado ? "En la web" : "Borrador"}
                 </span>
               </Link>
             </li>

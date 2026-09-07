@@ -548,3 +548,89 @@ body {
     backdrop-filter: blur(18px);
   }
 }
+
+/* ---------------------------------------------------------------
+   Panel de administración.
+
+   Comparte tipografía, colores y tema con el sitio: es la misma marca por
+   dentro. Lo que cambia es la densidad —aquí se trabaja, no se contempla—
+   y que los controles tienen que verse como controles.
+----------------------------------------------------------------*/
+
+/* Campos de texto, áreas y desplegables: un mismo objeto. */
+.a-campo {
+  width: 100%;
+  border: 1px solid var(--c-line);
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--c-fg) 3%, transparent);
+  padding: 0.85rem 1rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: inherit;
+  transition:
+    border-color 0.25s var(--ease),
+    background-color 0.25s var(--ease);
+}
+.a-campo:hover { border-color: color-mix(in srgb, var(--c-fg) 28%, transparent); }
+.a-campo:focus {
+  outline: none;
+  border-color: var(--c-fg);
+  background: color-mix(in srgb, var(--c-fg) 5%, transparent);
+}
+textarea.a-campo { resize: vertical; }
+
+/* Acción principal. */
+.a-boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 2px;
+  background: var(--c-inv);
+  color: var(--c-inv-fg);
+  padding: 0.9rem 1.6rem;
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.a-boton:hover { opacity: 0.85; }
+.a-boton:active { transform: translateY(1px); }
+.a-boton:disabled { opacity: 0.35; }
+
+/* Acción secundaria: mismo tamaño, sin peso. */
+.a-boton--linea {
+  background: transparent;
+  color: inherit;
+  border: 1px solid var(--c-line);
+}
+.a-boton--linea:hover {
+  border-color: var(--c-fg);
+  opacity: 1;
+}
+
+/* Bloque agrupado: da estructura sin dibujar una tarjeta pesada. */
+.a-bloque {
+  border: 1px solid var(--c-line);
+  border-radius: 3px;
+  padding: 1.6rem;
+  background: color-mix(in srgb, var(--c-fg) 2%, transparent);
+}
+
+/* Fila de listado con realce al pasar. */
+.a-fila {
+  border-radius: 2px;
+  transition: background-color 0.3s var(--ease);
+}
+.a-fila:hover { background: color-mix(in srgb, var(--c-fg) 4%, transparent); }
+
+/* Etiqueta de estado. */
+.a-pastilla {
+  display: inline-block;
+  border-radius: 999px;
+  border: 1px solid var(--c-line);
+  padding: 0.3rem 0.7rem;
+  white-space: nowrap;
+}
+.a-pastilla--vivo {
+  border-color: transparent;
+  background: color-mix(in srgb, var(--c-fg) 88%, transparent);
+  color: var(--c-bg);
+}

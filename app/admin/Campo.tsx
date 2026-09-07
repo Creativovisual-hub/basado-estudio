@@ -14,13 +14,7 @@ export default function Campo({
   return (
     <label className="flex flex-col gap-2">
       <span className="t-meta opacity-55">{etiqueta}</span>
-      <input
-        name={nombre}
-        type={tipo}
-        required
-        autoComplete={auto}
-        className="border border-line bg-transparent px-4 py-3 text-[1rem] outline-none focus:border-fg"
-      />
+      <input name={nombre} type={tipo} required autoComplete={auto} className="a-campo" />
       {pista && <span className="t-meta leading-relaxed opacity-40">{pista}</span>}
     </label>
   );

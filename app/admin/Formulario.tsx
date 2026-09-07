@@ -17,7 +17,7 @@ function Boton({ children }: { children: React.ReactNode }) {
     <button
       type="submit"
       disabled={pending}
-      className="t-meta mt-2 w-full bg-inv px-6 py-4 text-inv-fg transition-opacity duration-300 disabled:opacity-40"
+      className="t-meta a-boton mt-2 w-full"
     >
       {pending ? "Un momento…" : children}
     </button>

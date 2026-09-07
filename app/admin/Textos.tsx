@@ -49,7 +49,7 @@ export default function Textos({
       ) : (
         <ul className="flex flex-col gap-10">
           {textos.map((t, i) => (
-            <li key={t.id} className="border-t border-line pt-6">
+            <li key={t.id} className="a-bloque">
               <form action={guardarBloque.bind(null, t.id)} className="flex flex-col gap-4">
                 <div className="flex flex-wrap items-end justify-between gap-4">
                   <label className="flex flex-col gap-2">
@@ -62,7 +62,7 @@ export default function Textos({
                       min={0}
                       max={Math.max(totalImagenes, 1)}
                       defaultValue={t.posicion}
-                      className="w-24 border border-line bg-transparent px-4 py-3 text-[1rem] outline-none focus:border-fg"
+                      className="a-campo w-24"
                     />
                   </label>
                   <span className="t-meta max-w-[26ch] leading-relaxed opacity-40">
@@ -78,7 +78,7 @@ export default function Textos({
                       name="texto_es"
                       rows={5}
                       defaultValue={t.texto_es}
-                      className="resize-y border border-line bg-transparent px-4 py-3 text-[1rem] leading-relaxed outline-none focus:border-fg"
+                      className="a-campo"
                     />
                   </label>
                   <label className="flex flex-col gap-2">
@@ -87,7 +87,7 @@ export default function Textos({
                       name="texto_en"
                       rows={5}
                       defaultValue={t.texto_en}
-                      className="resize-y border border-line bg-transparent px-4 py-3 text-[1rem] leading-relaxed outline-none focus:border-fg"
+                      className="a-campo"
                     />
                   </label>
                 </div>
@@ -97,7 +97,7 @@ export default function Textos({
                 </span>
 
                 <div className="flex items-center gap-6">
-                  <button type="submit" className="t-meta bg-inv px-6 py-3 text-inv-fg">
+                  <button type="submit" className="t-meta a-boton">
                     Guardar bloque
                   </button>
                 </div>

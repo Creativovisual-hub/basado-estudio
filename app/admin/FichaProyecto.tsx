@@ -32,7 +32,7 @@ function Texto({
       <input
         name={nombre}
         defaultValue={valor ?? ""}
-        className="border border-line bg-transparent px-4 py-3 text-[1rem] outline-none focus:border-fg"
+        className="a-campo"
       />
       {pista && <span className="t-meta leading-relaxed opacity-40">{pista}</span>}
     </label>
@@ -59,7 +59,7 @@ function Area({
         name={nombre}
         rows={filas}
         defaultValue={valor ?? ""}
-        className="resize-y border border-line bg-transparent px-4 py-3 text-[1rem] leading-relaxed outline-none focus:border-fg"
+        className="a-campo"
       />
       {pista && <span className="t-meta leading-relaxed opacity-40">{pista}</span>}
     </label>
@@ -72,7 +72,7 @@ function Guardar() {
     <button
       type="submit"
       disabled={pending}
-      className="t-meta bg-inv px-8 py-4 text-inv-fg transition-opacity duration-300 disabled:opacity-40"
+      className="t-meta a-boton"
     >
       {pending ? "Guardando…" : "Guardar cambios"}
     </button>
@@ -110,7 +110,7 @@ export default function FichaProyecto({ p }: { p: ProyectoFila }) {
           <select
             name="formato"
             defaultValue={p.formato || "16:9"}
-            className="border border-line bg-transparent px-4 py-3 text-[1rem] outline-none focus:border-fg"
+            className="a-campo"
           >
             <option value="16:9">16:9 — apaisado, como Latin Wok</option>
             <option value="3:2">3:2 — apaisado, algo más alto</option>
