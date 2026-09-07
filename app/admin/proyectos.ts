@@ -107,11 +107,47 @@ export async function guardar(id: string, _previo: string | null, datos: FormDat
   return undefined;
 }
 
+/**
+ * Borra el proyecto y, después, sus archivos.
+ *
+ * Este orden importa: si se cayera a mitad, quedarían archivos huérfanos en
+ * el almacén —molesto, ocupan espacio— pero nunca una ficha apuntando a
+ * imágenes que ya no existen, que es lo que se vería roto en la web.
+ *
+ * Sin este borrado, cada proyecto eliminado dejaba sus fotos en el almacén
+ * para siempre y el contador de espacio subía sin motivo.
+ */
+async function borrarConSusArchivos(id: string) {
+  const { obtenerProyecto } = await import("@/lib/proyectos-db");
+  const proyecto = await obtenerProyecto(id);
+  const urls = proyecto?.imagenes.map((i) => i.url) ?? [];
+
+  await borrarProyecto(id);
+
+  for (const url of urls) {
+    try {
+      await borrarArchivo(url);
+    } catch {
+      // Un archivo que no se deja borrar no puede impedir el resto.
+    }
+  }
+}
+
 export async function eliminar(id: string) {
   await exigirSesion();
-  await borrarProyecto(id);
+  await borrarConSusArchivos(id);
   refrescarWeb();
   redirect("/admin");
+}
+
+/** Igual, pero sin salir de la página: se usa desde el listado de orden. */
+export async function eliminarDesdeLista(id: string) {
+  await exigirSesion();
+  await borrarConSusArchivos(id);
+  revalidatePath("/admin");
+  revalidatePath("/admin/orden");
+  revalidatePath("/admin/analitica");
+  refrescarWeb();
 }
 
 /* -------------------------------- imágenes ------------------------------ */

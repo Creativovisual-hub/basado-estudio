@@ -19,6 +19,7 @@ export default async function Orden() {
         Arrastra los proyectos para cambiar el orden en que se ven en la
         portada y en Work. Se guarda solo, no hay que confirmar nada. Con
         teclado: tabulador para llegar a una fila y Alt + flecha para moverla.
+        El icono de la papelera borra el proyecto, preguntando antes.
       </p>
 
       {visibles.length === 0 ? (
@@ -34,6 +35,7 @@ export default async function Orden() {
             id: p.id,
             nombre: p.nombre,
             slug: p.slug,
+            imagenes: p.imagenes,
             miniatura: p.miniatura,
           }))}
         />
