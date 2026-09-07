@@ -21,11 +21,13 @@ const ICONO = {
   proyectos: "M3 6h18M3 12h18M3 18h10",
   orden: "M8 4v16M8 4L4 8M8 4l4 4M16 20V4M16 20l-4-4M16 20l4-4",
   cuenta: "M20 21a8 8 0 1 0-16 0M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8",
+  traer: "M12 3v12M12 15l-4-4M12 15l4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2",
 } as const;
 
 const ENLACES = [
   { href: "/admin", texto: "Proyectos", icono: ICONO.proyectos },
   { href: "/admin/orden", texto: "Orden en la portada", icono: ICONO.orden },
+  { href: "/admin/migrar", texto: "Traer de Adobe", icono: ICONO.traer },
   { href: "/admin/cuenta", texto: "Mi cuenta", icono: ICONO.cuenta },
 ];
 
