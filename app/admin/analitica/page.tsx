@@ -29,7 +29,7 @@ export default async function Analitica() {
         </div>
       ) : (
         <>
-          <section className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+          <section data-guia="espacio" className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
             <Tarjeta
               titulo="Espacio usado"
               cifra={enTexto(espacio.usado)}

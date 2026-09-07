@@ -27,6 +27,7 @@ const ICONO = {
   orden: "M8 4v16M8 4L4 8M8 4l4 4M16 20V4M16 20l-4-4M16 20l4-4",
   analitica: "M4 20V10M10 20V4M16 20v-7M22 20H2",
   cuenta: "M20 21a8 8 0 1 0-16 0M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8",
+  guia: "M12 17h.01M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18",
 } as const;
 
 const ENLACES = [
@@ -137,6 +138,18 @@ export default function Barra({
         </nav>
 
         <div className="flex flex-wrap items-center gap-2 md:flex-col md:items-stretch">
+          {/* Relanza la guía. No es una sección: por eso va con las acciones
+              del final, no en la navegación. */}
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new Event("abrir-guia"))}
+            title={plegada ? "Ver la guía" : undefined}
+            className={`t-meta a-nav w-full text-left ${centrar}`}
+          >
+            <Trazo d={ICONO.guia} />
+            <span className={etiqueta}>Ver la guía</span>
+          </button>
+
           <a
             href="/es"
             target="_blank"

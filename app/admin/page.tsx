@@ -26,7 +26,7 @@ export default async function Panel() {
           <p className="a-nota mt-2">Contenido de basadoestudio.com</p>
         </div>
 
-        <form action={nuevoProyecto}>
+        <form action={nuevoProyecto} data-guia="nuevo">
           <button type="submit" className="a-etiqueta a-boton">
             <span aria-hidden="true" className="text-[1.1em] leading-none">
               +
@@ -36,14 +36,14 @@ export default async function Panel() {
         </form>
       </header>
 
-      <section className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <section data-guia="resumen" className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
         <Tarjeta titulo="Proyectos" cifra={proyectos.length} nota="Creados en el panel" />
         <Tarjeta titulo="En la web" cifra={visibles} nota="Visibles para el público" acento />
         <Tarjeta titulo="Borradores" cifra={proyectos.length - visibles} nota="Sin publicar" />
         <Tarjeta titulo="Imágenes" cifra={imagenes} nota="En tu almacén" />
       </section>
 
-      <section className="a-panel p-5 md:p-6">
+      <section data-guia="lista" className="a-panel p-5 md:p-6">
         <div className="mb-5 flex flex-wrap items-baseline justify-between gap-4">
           <h2 className="text-[1.15rem] font-semibold tracking-[-0.03em]">
             Tus proyectos

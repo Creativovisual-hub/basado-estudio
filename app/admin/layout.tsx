@@ -6,6 +6,7 @@ import { salir } from "./acciones";
 import Barra from "./Barra";
 import LogoBasado from "@/components/LogoBasado";
 import ScrollPanel from "./ScrollPanel";
+import Guia from "./Guia";
 
 /*
  * El panel no lleva la cabecera ni el pie del sitio: es una herramienta de
@@ -48,6 +49,7 @@ export default async function AdminLayout({
         va sobre la foto.
       */}
       {dentro && <ScrollPanel />}
+      {dentro && <Guia abrirAlEntrar />}
       {dentro && <div className="a-filete" aria-hidden="true" />}
       <div className="md:flex">
         {dentro && <Barra salir={salir} logo={<LogoBasado alto={24} />} />}

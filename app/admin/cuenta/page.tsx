@@ -32,7 +32,7 @@ export default async function Cuenta() {
 
       <h2 className="a-etiqueta mb-5 opacity-45">Cambiar la contraseña</h2>
 
-      <div className="a-panel max-w-[34rem] p-5 md:p-6">
+      <div data-guia="cuenta" className="a-panel max-w-[34rem] p-5 md:p-6">
       <Formulario accion={cambiarContrasena} envio="Cambiar contraseña">
         <Campo
           nombre="actual"

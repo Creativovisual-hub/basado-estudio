@@ -100,7 +100,7 @@ export default function Arrastrable({ inicial }: { inicial: Fila[] }) {
         </p>
       )}
 
-      <ul className="a-panel flex flex-col gap-1 p-4 md:p-5">
+      <ul data-guia="lista-orden" className="a-panel flex flex-col gap-1 p-4 md:p-5">
         {lista.map((p, i) => (
           <li
             key={p.id}
