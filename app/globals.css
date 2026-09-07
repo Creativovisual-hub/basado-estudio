@@ -148,6 +148,18 @@ body {
   text-wrap: balance;
 }
 
+/*
+ * Titular que convive con una fotografía detrás (bloque de la roca).
+ *
+ * A tamaño completo la primera línea llegaba al 64% del ancho, ya sobre la
+ * parte iluminada de la piedra, donde el velo oscuro casi no cubre y el
+ * texto se montaba sobre la imagen. Un escalón menos lo mantiene sobre el
+ * lado en penumbra sin tocar la fotografía.
+ */
+.t-head.is-quiet {
+  font-size: clamp(2rem, 5.1vw, 4.75rem);
+}
+
 /* Nombre de proyecto sobre la imagen (referencia: 90px @1440) */
 .t-project {
   font-size: clamp(2rem, 6.2vw, 5.625rem);
@@ -406,7 +418,20 @@ body {
   color: var(--c-inv-fg);
 }
 
-/* Marquesina continua del pie de home */
+/*
+ * Marquesina continua del pie de home.
+ *
+ * La pista son dos mitades idénticas y la animación la desplaza justo el
+ * ancho de una: al terminar, la segunda ocupa el sitio de la primera y el
+ * salto no se ve. Para que eso funcione, cada mitad tiene que ser MÁS ANCHA
+ * QUE LA PANTALLA; si no, al desplazarse deja hueco negro a la derecha y el
+ * bucle se nota. Por eso cada mitad repite la lista varias veces (ver
+ * app/[lang]/page.tsx): con cinco servicios, una sola pasada medía 707 px
+ * frente a los 1425 del contenedor.
+ *
+ * La duración va con el ancho: al multiplicar las repeticiones hay que
+ * multiplicar el tiempo, o la velocidad se dispara.
+ */
 @keyframes marquee {
   from { transform: translate3d(0, 0, 0); }
   to   { transform: translate3d(-50%, 0, 0); }
@@ -414,7 +439,7 @@ body {
 .marquee-track {
   display: flex;
   width: max-content;
-  animation: marquee 38s linear infinite;
+  animation: marquee 152s linear infinite;
 }
 .marquee:hover .marquee-track { animation-play-state: paused; }
 

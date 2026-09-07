@@ -110,18 +110,25 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
           className="marquee overflow-hidden border-t border-inv-fg/15 py-6"
           aria-hidden="true"
         >
+          {/*
+            Dos mitades, y dentro de cada una la lista repetida cuatro veces:
+            una sola pasada de los cinco servicios no llega a cubrir la
+            pantalla, y entonces la marquesina deja un hueco negro al girar.
+          */}
           <div className="marquee-track">
-            {[0, 1].map((k) => (
-              <div key={k} className="flex shrink-0">
-                {t.services.items.map((s) => (
-                  <span
-                    key={s.name}
-                    className="t-meta px-8 opacity-60"
-                    style={{ letterSpacing: "0.12em" }}
-                  >
-                    {s.name} ·
-                  </span>
-                ))}
+            {[0, 1].map((mitad) => (
+              <div key={mitad} className="flex shrink-0">
+                {[0, 1, 2, 3].map((pasada) =>
+                  t.services.items.map((s) => (
+                    <span
+                      key={`${pasada}-${s.name}`}
+                      className="t-meta px-8 opacity-60"
+                      style={{ letterSpacing: "0.12em" }}
+                    >
+                      {s.name} ·
+                    </span>
+                  ))
+                )}
               </div>
             ))}
           </div>

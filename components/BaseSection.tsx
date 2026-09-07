@@ -50,7 +50,7 @@ export default function BaseSection({ locale }: { locale: Locale }) {
         <div>
           {/* Medida holgada: a 15ch la primera línea partía y dejaba la
               última palabra sola ("Your brand needs / more"). */}
-          <h2 className="t-head max-w-[22ch]">
+          <h2 className="t-head is-quiet max-w-[22ch]">
             <RevealLines lines={[t.base.line1]} stagger={0.09} />
             <span className="rv-line">
               <span>
